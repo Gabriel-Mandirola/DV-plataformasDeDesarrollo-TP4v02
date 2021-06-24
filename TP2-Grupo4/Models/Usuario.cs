@@ -15,7 +15,7 @@ namespace TP2_Grupo4.Models
         public bool IsAdmin { get; set; }
         public bool Bloqueado { get; set; }
 
-        public Usuario(int dni, String nombre, String email,String password, bool isAdmin, bool bloqueado)
+        public Usuario(int dni, String nombre, String email, String password, bool isAdmin, bool bloqueado)
         {
             this.setDni(dni);
             this.SetNombre(nombre);
@@ -24,8 +24,8 @@ namespace TP2_Grupo4.Models
             this.setIsAdmin(isAdmin);
             this.SetBloqueado(bloqueado);
         }
-        
-        
+
+
         /* METODOS ESTATICOS */
         public static Usuario Deserializar(String UsuarioSerializado)
         {

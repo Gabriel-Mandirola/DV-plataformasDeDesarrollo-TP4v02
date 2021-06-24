@@ -26,6 +26,9 @@ namespace TP2_Grupo4.Models
                 usuario.HasIndex(u => u.Email).IsUnique();
                 usuario.Property(u => u.Password).HasColumnType("varchar(200)").IsRequired(true);
             });
+        //    modelBuilder.Entity<Usuario>().HasData(new Usuario[]{
+        //        new Usuario { Dni=1234, Nombre="Pedro", Email="pedro@gmail.com", Password="1234", IsAdmin=true, Bloqueado=false },
+        //  });
         }
     }
 }
