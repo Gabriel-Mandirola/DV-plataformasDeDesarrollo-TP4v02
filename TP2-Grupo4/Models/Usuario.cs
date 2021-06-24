@@ -7,12 +7,13 @@ namespace TP2_Grupo4.Models
 {
     public class Usuario
     {
-        private int dni;
-        private String nombre;
-        private String email;
-        private String password;
-        private bool isAdmin;
-        private bool bloqueado;
+        public int Id { get; set; }
+        public int Dni { get; set; }
+        public String Nombre { get; set; }
+        public String Email { get; set; }
+        public String Password { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool Bloqueado { get; set; }
 
         public Usuario(int dni, String nombre, String email,String password, bool isAdmin, bool bloqueado)
         {
@@ -62,19 +63,19 @@ namespace TP2_Grupo4.Models
         }
 
         #region GETTERS Y SETTERS
-        public int GetDni(){ return this.dni; }
-        public String GetNombre() { return this.nombre; }
-        public String GetEmail() { return this.email; }
-        public String GetPassword() { return this.password; }
-        public bool GetIsAdmin() { return this.isAdmin; }
-        public bool GetBloqueado() { return this.bloqueado; }
+        public int GetDni(){ return this.Dni; }
+        public String GetNombre() { return this.Nombre; }
+        public String GetEmail() { return this.Email; }
+        public String GetPassword() { return this.Password; }
+        public bool GetIsAdmin() { return this.IsAdmin; }
+        public bool GetBloqueado() { return this.Bloqueado; }
 
-        private void setDni(int dni) { this.dni = dni; }
-        public void SetNombre(String nombre) { this.nombre = nombre; }
-        public void SetEmail(String email) { this.email = email; }
-        public void SetPassword(String password) { this.password = password; }
-        private void setIsAdmin(bool isAdmin) { this.isAdmin = isAdmin; }
-        public void SetBloqueado(bool bloqueado) { this.bloqueado = bloqueado; }
+        private void setDni(int dni) { this.Dni = dni; }
+        public void SetNombre(String nombre) { this.Nombre = nombre; }
+        public void SetEmail(String email) { this.Email = email; }
+        public void SetPassword(String password) { this.Password = password; }
+        private void setIsAdmin(bool isAdmin) { this.IsAdmin = isAdmin; }
+        public void SetBloqueado(bool bloqueado) { this.Bloqueado = bloqueado; }
         #endregion
     
     }
