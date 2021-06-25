@@ -9,10 +9,11 @@ namespace TP2_Grupo4.Models
     class Context : DbContext
     {
 		public DbSet<Usuario> Usuarios { get; set; }
-		public DbSet<Hotel> Hotel { get; set; }
-		public DbSet<Cabania> Cabania { get; set; }
+		public DbSet<Hotel> Hoteles { get; set; }
+		public DbSet<Cabania> Cabanias { get; set; }
 		public DbSet<Reserva> Reservas { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		public DbSet<Alojamiento> Alojamientos { get; set; }
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql("server=localhost;user=root;database=inicio-proyecto;port=3306;password=", new MySqlServerVersion(new Version(8, 0, 11)));
         }
@@ -39,8 +40,9 @@ namespace TP2_Grupo4.Models
 
 				reserva.Property(r => r.fechaDesde).HasColumnType("date").IsRequired(true);
 				reserva.Property(r => r.fechaHasta).HasColumnType("date").IsRequired(true);
-				reserva.Property(r => (r.alojamiento).ToString()).HasColumnType("varchar(50)").IsRequired(true);
-				reserva.Property(r => (r.usuario).ToString()).HasColumnType("varchar(50)").IsRequired(true);
+				reserva.Property(r => r.hotel).IsRequired(false);
+				reserva.Property(r => r.cabania).IsRequired(false);
+				reserva.Property(r => r.usuario).IsRequired(true);
 				reserva.Property(r => r.precio).HasColumnType("int").IsRequired(true);
 			});
 

@@ -10,20 +10,30 @@ namespace TP2_Grupo4.Models
         public String id { get; set; }
         public DateTime fechaDesde { get; set; }
         public DateTime fechaHasta { get; set; }
-        public Alojamiento alojamiento { get; set; }
+        public Hotel hotel { get; set; }
+        public Cabania cabania { get; set; }
         public Usuario usuario { get; set; }
         public double precio { get; set; }
 
-        public Reserva(String id, DateTime fechaDesde, DateTime fechaHasta, Alojamiento alojamiento, Usuario usuario, double precio)
+        public Reserva(String id, DateTime fechaDesde, DateTime fechaHasta, Hotel hotel, Usuario usuario, double precio)
         {
             this.setId(id);
             this.SetFechaDesde(fechaDesde);
             this.SetFechaHasta(fechaHasta);
-            this.SetAlojamiento(alojamiento);
+            this.SetHotel(hotel);
             this.SetUsuario(usuario);
             this.SetPrecio(precio);
         }
-        
+        public Reserva(String id, DateTime fechaDesde, DateTime fechaHasta, Cabania cabania, Usuario usuario, double precio)
+        {
+            this.setId(id);
+            this.SetFechaDesde(fechaDesde);
+            this.SetFechaHasta(fechaHasta);
+            this.SetCabania(cabania);
+            this.SetUsuario(usuario);
+            this.SetPrecio(precio);
+        }
+
 
         /* METODOS ESTATICOS */
         /*public static bool GuardarCambiosEnElArchivo(List<Reserva> reservas)
