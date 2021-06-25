@@ -26,7 +26,7 @@ namespace TP2_Grupo4.Models
         
 
         /* METODOS ESTATICOS */
-        public static bool GuardarCambiosEnElArchivo(List<Reserva> reservas)
+        /*public static bool GuardarCambiosEnElArchivo(List<Reserva> reservas)
         {
             List<String> reservasSerializadas = new List<string>(){};
             foreach(Reserva reserva in reservas)
@@ -34,7 +34,7 @@ namespace TP2_Grupo4.Models
                 reservasSerializadas.Add(reserva.ToString());
             }
             return Utils.WriteInFile(Config.PATH_FILE_RESERVAS, reservasSerializadas);
-        }
+        }*/
 
         /* ToString */
         public override string ToString()

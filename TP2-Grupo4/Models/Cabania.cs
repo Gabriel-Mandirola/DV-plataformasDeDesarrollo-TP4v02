@@ -8,9 +8,9 @@ namespace TP2_Grupo4.Models
     {
         public const int CANTIDAD_DE_ATRIBUTOS = 9;
 
-        private double precioPorDia;
-        private int habitaciones;
-        private int banios;
+        public double precioPorDia { get; set; }
+        public int habitaciones { get; set; }
+        public int banios { get; set; }
 
         public Cabania(int codigo, string ciudad, string barrio, int estrellas, int cantidadDePersonas, bool tv, double precioPorDia, int habitaciones, int banios) : 
             base(codigo, ciudad, barrio, estrellas, cantidadDePersonas, tv)
