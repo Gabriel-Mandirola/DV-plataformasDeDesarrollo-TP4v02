@@ -7,12 +7,12 @@ namespace TP2_Grupo4.Models
 {
     public class Reserva
     {
-        private String id;
-        private DateTime fechaDesde;
-        private DateTime fechaHasta;
-        private Alojamiento alojamiento;
-        private Usuario usuario;
-        private double precio;
+        public String id { get; set; }
+        public DateTime fechaDesde { get; set; }
+        public DateTime fechaHasta { get; set; }
+        public Alojamiento alojamiento { get; set; }
+        public Usuario usuario { get; set; }
+        public double precio { get; set; }
 
         public Reserva(String id, DateTime fechaDesde, DateTime fechaHasta, Alojamiento alojamiento, Usuario usuario, double precio)
         {

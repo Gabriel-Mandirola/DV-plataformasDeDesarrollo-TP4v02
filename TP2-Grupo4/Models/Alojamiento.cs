@@ -7,12 +7,12 @@ namespace TP2_Grupo4.Models
         public const int MAXIMO_NUMERO_DE_ESTRELLAS = 5;
         public const int MINIMO_NUMERO_DE_ESTRELLAS = 1;
 
-        private int codigo;
-        private String ciudad;
-        private String barrio;
-        private int estrellas;
-        private int cantidadDePersonas;
-        private bool tv;
+        public int codigo { get; set; }
+        public String ciudad { get; set; }
+        public String barrio { get; set; }
+        public int estrellas { get; set; }
+        public int cantidadDePersonas { get; set; }
+        public bool tv { get; set; }
 
         public Alojamiento(int codigo, String ciudad, String barrio, int estrellas, int cantidadDePersonas, bool tv )
         {
