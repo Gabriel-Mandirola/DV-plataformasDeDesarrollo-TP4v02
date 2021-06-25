@@ -33,7 +33,7 @@ namespace TP2_Grupo4.Models
 
 			modelBuilder.Entity<Reserva>(reserva =>
 			{
-				reserva.Property(r => r.id).HasColumnType("int").IsRequired(true);
+				reserva.Property(r => r.id).HasColumnType("varchar(20)").IsRequired(true);
 				reserva.HasIndex(r => r.id).IsUnique();
 
 				reserva.Property(r => r.fechaDesde).HasColumnType("date").IsRequired(true);
