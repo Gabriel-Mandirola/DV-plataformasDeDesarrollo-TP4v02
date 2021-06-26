@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TP2_Grupo4.Models;
 
 namespace TP2_Grupo4.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210626212600_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,6 @@ namespace TP2_Grupo4.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("alojamientoid")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("fechaDesde")
                         .HasColumnType("date");
 
@@ -86,17 +85,10 @@ namespace TP2_Grupo4.Migrations
                     b.Property<int>("precio")
                         .HasColumnType("int");
 
-                    b.Property<int?>("usuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("id");
-
-                    b.HasIndex("alojamientoid");
 
                     b.HasIndex("id")
                         .IsUnique();
-
-                    b.HasIndex("usuarioId");
 
                     b.ToTable("Reservas");
                 });
@@ -138,21 +130,6 @@ namespace TP2_Grupo4.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("TP2_Grupo4.Models.Reserva", b =>
-                {
-                    b.HasOne("TP2_Grupo4.Models.Alojamiento", "alojamiento")
-                        .WithMany()
-                        .HasForeignKey("alojamientoid");
-
-                    b.HasOne("TP2_Grupo4.Models.Usuario", "usuario")
-                        .WithMany()
-                        .HasForeignKey("usuarioId");
-
-                    b.Navigation("alojamiento");
-
-                    b.Navigation("usuario");
                 });
 #pragma warning restore 612, 618
         }

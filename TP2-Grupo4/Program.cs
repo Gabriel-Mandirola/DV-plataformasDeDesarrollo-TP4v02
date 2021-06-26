@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TP2_Grupo4.Views;
+
 
 namespace TP2_Grupo4
 {
@@ -15,10 +15,10 @@ namespace TP2_Grupo4
         [STAThread]
         static void Main()
         {
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VistaLogin());
+            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new VistaLogin());
         }
     }
 }
