@@ -111,7 +111,7 @@ namespace TP2_Grupo4.Views
                     if (!this.agencia.ExisteEmail(txtMail.Text))
                     {
                         agencia.AgregarUsuario(int.Parse(txtUsuario.Text), txtNombre.Text, txtMail.Text, txtContrasena.Text, checkAdmin.Checked, false);
-                        agencia.GuardarCambiosDeLosUsuarios();
+                        //agencia.GuardarCambiosDeLosUsuarios();
                         txtUsuario.Text = "DNI";
                         txtUsuario.ForeColor = Color.DimGray;
                         txtNombre.Text = "NOMBRE";

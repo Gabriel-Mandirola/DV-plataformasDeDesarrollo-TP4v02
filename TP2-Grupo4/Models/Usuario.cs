@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 using TP2_Grupo4.Helpers;
 
 namespace TP2_Grupo4.Models
@@ -25,7 +26,6 @@ namespace TP2_Grupo4.Models
             this.SetBloqueado(bloqueado);
         }
 
-
         /* METODOS ESTATICOS */
         public static Usuario Deserializar(String UsuarioSerializado)
         {
@@ -39,7 +39,7 @@ namespace TP2_Grupo4.Models
                 bool.Parse(usuarioArray[5])
                 );
         }
-        public static bool GuardarCambiosEnElArchivo(List<Usuario> usuarios)
+        /*public static bool GuardarCambiosEnElArchivo(List<Usuario> usuarios)
         {
             List<String> usuariosEnListaDeString = new List<string>();
             foreach (Usuario usuario in usuarios)
@@ -47,7 +47,7 @@ namespace TP2_Grupo4.Models
                 usuariosEnListaDeString.Add(usuario.ToString());
             }
             return Utils.WriteInFile(Config.PATH_FILE_USUARIOS, usuariosEnListaDeString);
-        }
+        }*/
 
         /* ToString */
         public override string ToString()

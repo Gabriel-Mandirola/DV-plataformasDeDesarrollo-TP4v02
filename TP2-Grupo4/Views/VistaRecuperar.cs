@@ -118,7 +118,7 @@ namespace TP2_Grupo4.Views
                         string nombre = usuario.GetNombre();
                         string email = usuario.GetEmail();
                         this.agencia.ModificarUsuario(dni, nombre, email, contrasena);
-                        this.agencia.GuardarCambiosDeLosUsuarios();
+                        //this.agencia.GuardarCambiosDeLosUsuarios();
                         MessageBox.Show("Se ha modificado el usuario de manera exitosa.");
                     }
                     else

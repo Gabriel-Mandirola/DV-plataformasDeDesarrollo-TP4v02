@@ -112,10 +112,10 @@ namespace TP2_Grupo4.Views
                     // Borrado
                     dgvUsuarios.Rows.RemoveAt(rowIndex);
 
-                    if (this.agencia.EliminarUsuario(dni) && this.agencia.GuardarCambiosDeLosUsuarios() && this.agencia.GuardarCambiosDeLasReservas())
+                    /*if (this.agencia.EliminarUsuario(dni) && this.agencia.GuardarCambiosDeLosUsuarios() && this.agencia.GuardarCambiosDeLasReservas())
                     {
                         MessageBox.Show("Se ha eliminado el usuario y todas las reservas del mismo");
-                    }
+                    }*/
 
                     // Actualizar GridView
                     getUsuariosFromTextFile();
@@ -164,7 +164,7 @@ namespace TP2_Grupo4.Views
             }
 
 
-            this.agencia.GuardarCambiosDeLosUsuarios();
+            //this.agencia.GuardarCambiosDeLosUsuarios();
 
             clearAllControls();
             groupBoxHoteles.Enabled = false;

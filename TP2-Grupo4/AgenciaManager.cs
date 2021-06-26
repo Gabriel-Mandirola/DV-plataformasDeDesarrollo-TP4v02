@@ -9,6 +9,7 @@ namespace TP2_Grupo4
 {
     public class AgenciaManager
     {
+        private Context contexto;
         private Agencia agencia;
         private List<Usuario> usuarios;
         private List<Reserva> reservas;
@@ -22,10 +23,26 @@ namespace TP2_Grupo4
             this.reservas = new List<Reserva>();
             this.usuarioLogeado = null;
 
-            this.cargarDatosDeLosUsuarios();
+            //this.cargarDatosDeLosUsuarios();
             this.cargarDatosDeLasReservas();
+
+            inicializarAtributos();
         }
-        
+        private void inicializarAtributos()
+        {
+            try
+            {
+                //creo un contexto
+                contexto = new Context();
+
+                //cargo los usuarios
+                contexto.Usuarios.Load();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         #region METODOS PARA LOS ALOJAMIENTOS
         public bool AgregarHotel(int codigo, String ciudad, String barrio, int estrellas, int cantPersonas, bool tv, double precioPersonas)
         {
@@ -60,7 +77,7 @@ namespace TP2_Grupo4
 
             // Timestamp = Id
             String timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-            this.reservas.Add(new Reserva(timestamp, fechaDesde,fechaHasta,alojamiento,usuario, precio));
+            //this.reservas.Add(new Reserva(timestamp, fechaDesde,fechaHasta,alojamiento,usuario, precio));
             return true;
         }
         public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int codigoAlojamiento, int dniUsuario)
@@ -116,7 +133,7 @@ namespace TP2_Grupo4
                 if (alojamiento == null || usuario == null) 
                     continue;
 
-                this.reservas.Add(
+                /*this.reservas.Add(
                     new Reserva(
                         reservaArray[0],
                         DateTime.Parse(reservaArray[1]),
@@ -125,7 +142,7 @@ namespace TP2_Grupo4
                         usuario,
                         double.Parse(reservaArray[5])
                         )
-                );
+                );*/
             }
         }
         public bool GuardarCambiosDeLasReservas()
@@ -173,10 +190,46 @@ namespace TP2_Grupo4
         #region METODOS PARA LOS USUARIOS
         public bool AgregarUsuario(int dni, String nombre, String email, String password, bool isAdmin, bool bloqueado)
         {
+            try
+            {
+                Usuario nuevo = new Usuario(dni, nombre, email, password, isAdmin, bloqueado);
+                contexto.Usuarios.Add(nuevo);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /*public bool AgregarUsuario(int dni, String nombre, String email, String password, bool isAdmin, bool bloqueado)
+        {
             this.usuarios.Add(new Usuario(dni,nombre,email,Utils.Encriptar(password), isAdmin,bloqueado));
             return true;
-        }
+        }*/
         public bool ModificarUsuario(int dni, String nombre, String email, String password = "")
+        {
+            try
+            {
+                bool salida = false;
+                foreach (Usuario u in contexto.Usuarios)
+                    if (u.Dni == dni)
+                    {
+                        u.Nombre = nombre;
+                        u.Email = email;
+                        u.Password = password;
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /*public bool ModificarUsuario(int dni, String nombre, String email, String password = "")
         {
             int indexUser = this.findIndexUsuarioForDNIO(dni);
             if (indexUser == -1) return false; // Usuario no encontrado
@@ -188,8 +241,28 @@ namespace TP2_Grupo4
             this.usuarios[indexUser].SetPassword(Utils.Encriptar(password));
             
             return true;
-        }
+        }*/
         public bool EliminarUsuario(int dni)
+        {
+            try
+            {
+                bool salida = false;
+                foreach (Usuario u in contexto.Usuarios)
+                    if (u.Dni == dni)
+                    {
+                        contexto.Usuarios.Remove(u);
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /*public bool EliminarUsuario(int dni)
         {
             int indexUser = this.findIndexUsuarioForDNIO(dni);
             if (indexUser == -1) return false;
@@ -202,7 +275,7 @@ namespace TP2_Grupo4
 
             this.usuarios.RemoveAt(indexUser);
             return true;
-        }
+        }*/
         
         public bool autenticarUsuario(int dni, String password)
         {
@@ -243,16 +316,16 @@ namespace TP2_Grupo4
         {
             return this.usuarios.FindIndex(user => user.GetDni() == dni);
         }
-        private void cargarDatosDeLosUsuarios()
+        /*private void cargarDatosDeLosUsuarios()
         {
             List<String> usuariosSerializados = Utils.GetDataFile(Config.PATH_FILE_USUARIOS);
             foreach (String usuario in usuariosSerializados)
                 this.usuarios.Add(Usuario.Deserializar(usuario));
-        }
-        public bool GuardarCambiosDeLosUsuarios()
+        }*/
+        /*public bool GuardarCambiosDeLosUsuarios()
         {
             return Usuario.GuardarCambiosEnElArchivo(this.GetUsuarios());
-        }
+        }*/
         #endregion
 
 

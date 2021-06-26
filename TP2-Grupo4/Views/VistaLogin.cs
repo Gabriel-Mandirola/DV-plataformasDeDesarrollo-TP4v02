@@ -106,13 +106,13 @@ namespace TP2_Grupo4.Views
             
             if (this.contadorDeIntentos >= VistaLogin.MAXIMA_CANTIDAD_DE_INTENTOS_PARA_LOGEARSE)
             {
-                if (this.agencia.BloquearUsuario(dni) && this.agencia.GuardarCambiosDeLosUsuarios())
+                /*if (this.agencia.BloquearUsuario(dni) && this.agencia.GuardarCambiosDeLosUsuarios())
                 {
                     MessageBox.Show("Has exedido el maximo de intentos. Tu usuario a sido bloqueado, contacte con un administrador");
                     this.txtUsuario.Text = "";
                     this.txtContrasena.Text = "";
                     return true;
-                }
+                }*/
             }
             return false;
         }
