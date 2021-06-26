@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using TP2_Grupo4.Views;
 
 namespace TP2_Grupo4
 {

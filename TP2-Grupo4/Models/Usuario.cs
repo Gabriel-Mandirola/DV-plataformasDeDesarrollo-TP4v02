@@ -13,7 +13,7 @@ namespace TP2_Grupo4.Models
         public bool IsAdmin { get; set; }
         public bool Bloqueado { get; set; }
 
-    }
 
-   
+    }
+  
 }

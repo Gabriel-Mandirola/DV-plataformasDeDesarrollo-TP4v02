@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TP2_Grupo4.Models;
 
 namespace TP2_Grupo4.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210626222225_cuarto")]
+    partial class cuarto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,18 +109,19 @@ namespace TP2_Grupo4.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Bloqueado")
-                        .HasColumnType("int");
+                    b.Property<bool>("Bloqueado")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Dni")
-                        .HasColumnType("int");
+                    b.Property<string>("Dni")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(30)");
 
-                    b.Property<int>("IsAdmin")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()

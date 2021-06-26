@@ -140,19 +140,21 @@ namespace TP2_Grupo4.Views
 
             if(this.agencia.autenticarUsuario(dni, password))
             {
-                if (this.agencia.GetUsuarioLogeado().GetIsAdmin())
+                Console.WriteLine("Es admin");
+                if (this.agencia.GetUsuarioLogeado().IsAdmin)
                 {
                     // ADMIN
-                    VistaDashboardAdmin admin = new VistaDashboardAdmin(this.agencia);
-                    admin.Show();
-                    this.Hide();
+                    
+                    //VistaDashboardAdmin admin = new VistaDashboardAdmin(this.agencia);
+                    //admin.Show();
+                    //this.Hide();
                 }
                 else
                 {
                     // USUARIO CLIENTE
-                    VistaDashboardCliente cliente = new VistaDashboardCliente(this.agencia);
-                    cliente.Show();
-                    this.Hide();
+                    //VistaDashboardCliente cliente = new VistaDashboardCliente(this.agencia);
+                    //cliente.Show();
+                    //this.Hide();
                 }
             }
             else
@@ -196,9 +198,9 @@ namespace TP2_Grupo4.Views
 
         private void lblRecuperar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            VistaRecuperar recuperar = new VistaRecuperar();
-            recuperar.Show();
-            this.Hide();
+            //VistaRecuperar recuperar = new VistaRecuperar();
+            //recuperar.Show();
+            //this.Hide();
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)

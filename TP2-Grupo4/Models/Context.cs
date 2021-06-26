@@ -17,13 +17,13 @@ namespace TP2_Grupo4.Models
             modelBuilder.Entity<Usuario>(usuario =>
             {
                 usuario.Property(u => u.Nombre).HasColumnType("varchar(80)").IsRequired(true);
-                usuario.Property(u => u.Dni).HasColumnType("varchar(10)").IsRequired(true);
+                usuario.Property(u => u.Dni).HasColumnType("int").IsRequired(true);
                 usuario.HasIndex(u => u.Dni).IsUnique();
                 usuario.Property(u => u.Email).HasColumnType("varchar(30)").IsRequired(true);
                 usuario.HasIndex(u => u.Email).IsUnique();
                 usuario.Property(u => u.Password).HasColumnType("varchar(200)").IsRequired(true);
-                usuario.Property(u => u.IsAdmin).HasColumnType("bit").IsRequired(true);
-                usuario.Property(u => u.Bloqueado).HasColumnType("bit").IsRequired(true);
+                usuario.Property(u => u.IsAdmin).HasColumnType("int").IsRequired(true);
+                usuario.Property(u => u.Bloqueado).HasColumnType("int").IsRequired(true);
             });
             modelBuilder.Entity<Alojamiento>(alojamiento =>
             {
