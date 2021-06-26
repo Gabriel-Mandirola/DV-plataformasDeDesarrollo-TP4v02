@@ -38,8 +38,7 @@ namespace TP2_Grupo4.Models
 
 				reserva.Property(r => r.fechaDesde).HasColumnType("date").IsRequired(true);
 				reserva.Property(r => r.fechaHasta).HasColumnType("date").IsRequired(true);
-				reserva.Property(r => r.hotel).IsRequired(false);
-				reserva.Property(r => r.cabania).IsRequired(false);
+				reserva.Property(r => r.alojamiento).IsRequired(true);
 				reserva.Property(r => r.usuario).IsRequired(true);
 				reserva.Property(r => r.precio).HasColumnType("int").IsRequired(true);
 			});
@@ -54,10 +53,10 @@ namespace TP2_Grupo4.Models
 				alojamiento.Property(a => a.estrellas).HasColumnType("int").IsRequired(true);
 				alojamiento.Property(a => a.cantidadDePersonas).HasColumnType("int").IsRequired(true);
 				alojamiento.Property(a => a.tv).HasColumnType("bit").IsRequired(true);
-				alojamiento.Property(a => a.precioPorPersona).HasColumnType("double").IsRequired(true);
-				alojamiento.Property(a => a.precioPorDia).HasColumnType("double").IsRequired(true);
-				alojamiento.Property(a => a.habitaciones).HasColumnType("int").IsRequired(true);
-				alojamiento.Property(a => a.banios).HasColumnType("int").IsRequired(true);
+				alojamiento.Property(a => a.precioPorPersona).HasColumnType("double").IsRequired(false);
+				alojamiento.Property(a => a.precioPorDia).HasColumnType("double").IsRequired(false);
+				alojamiento.Property(a => a.habitaciones).HasColumnType("int").IsRequired(false);
+				alojamiento.Property(a => a.banios).HasColumnType("int").IsRequired(false);
 			});
 
 			//    modelBuilder.Entity<Usuario>().HasData(new Usuario[]{

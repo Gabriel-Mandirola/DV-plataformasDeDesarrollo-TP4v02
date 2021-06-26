@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 
 using TP2_Grupo4.Models;
 using TP2_Grupo4.Helpers;
@@ -172,7 +174,7 @@ namespace TP2_Grupo4
                 foreach (Reserva reserva in reservasDelUsuario)
                 {
                     reservas.Add(new List<String>(){
-                        reserva.GetAlojamiento() is Hotel ? "hotel" : "cabaña",
+                        //reserva.GetAlojamiento() is Hotel ? "hotel" : "cabaña",
                         reserva.GetFechaDesde().ToString(),
                         reserva.GetFechaHasta().ToString(),
                         reserva.GetPrecio().ToString(),
@@ -340,10 +342,10 @@ namespace TP2_Grupo4
                     alojamientosFiltrados = this.agencia.GetAllAlojamientos();
                     break;
                 case "hotel":
-                    alojamientosFiltrados = this.agencia.GetHoteles();
+                    //alojamientosFiltrados = this.agencia.GetHoteles();
                     break;
                 case "cabaña":
-                    alojamientosFiltrados = this.agencia.GetCabanias();
+                    //alojamientosFiltrados = this.agencia.GetCabanias();
                     break;
             }
             if (alojamientosFiltrados == null) return null;

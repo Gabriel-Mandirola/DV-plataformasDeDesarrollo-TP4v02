@@ -1,7 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 
 using TP2_Grupo4.Helpers;
 
