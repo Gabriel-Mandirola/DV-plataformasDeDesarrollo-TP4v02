@@ -30,9 +30,8 @@ namespace TP2_Grupo4.Models
                 //creo un contexto
                 contexto = new Context();
 
-                //cargo los hoteles y cabanias
-                contexto.Hoteles.Load();
-                contexto.Cabanias.Load();
+                //cargo los alojamientos
+                contexto.Alojamientos.Load();
             }
             catch (Exception)
             {
@@ -40,11 +39,11 @@ namespace TP2_Grupo4.Models
         }
 
         #region ABM de Alojamientos
-        public bool AgregarHotel(Hotel hotel)
+        public bool AgregarAlojamiento(Alojamiento alojamiento)
         {
             try
             {
-                contexto.Hoteles.Add(hotel);
+                contexto.Alojamientos.Add(alojamiento);
                 contexto.SaveChanges();
                 return true;
             }
@@ -53,39 +52,20 @@ namespace TP2_Grupo4.Models
                 return false;
             }
         }
-        public bool AgregarCabania(Cabania cabania)
-        {
-            try
-            {
-                contexto.Cabanias.Add(cabania);
-                contexto.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        /*public bool AgregarAlojamiento(Alojamiento alojamiento)
-        {
-            this.alojamientos.Add(alojamiento);
-            this.cantidadDeAlojamientos++;
-            return true;
-        }*/
 
-        public bool ModificarHotel(Hotel hotel)
+        public bool ModificarAlojamiento(Alojamiento alojamiento)
         {
             try
             {
                 bool salida = false;
-                foreach (Hotel a in contexto.Hoteles)
-                    if (a.codigo == hotel.codigo)
+                foreach (Alojamiento a in contexto.Alojamientos)
+                    if (a.codigo == alojamiento.codigo)
                     {
-                        a.ciudad = hotel.ciudad;
-                        a.barrio = hotel.barrio;
-                        a.estrellas = hotel.estrellas;
-                        a.cantidadDePersonas = hotel.cantidadDePersonas;
-                        a.tv = hotel.tv;
+                        a.ciudad = alojamiento.ciudad;
+                        a.barrio = alojamiento.barrio;
+                        a.estrellas = alojamiento.estrellas;
+                        a.cantidadDePersonas = alojamiento.cantidadDePersonas;
+                        a.tv = alojamiento.tv;
                         salida = true;
                     }
                 if (salida)
@@ -97,19 +77,16 @@ namespace TP2_Grupo4.Models
                 return false;
             }
         }
-        public bool ModificarCabania(Cabania cabania)
+
+        public bool EliminarAlojamiento(int codigoDelAlojamiento)
         {
             try
             {
                 bool salida = false;
-                foreach (Cabania a in contexto.Cabanias)
-                    if (a.codigo == cabania.codigo)
+                foreach (Alojamiento a in contexto.Alojamientos)
+                    if (a.codigo == codigoDelAlojamiento)
                     {
-                        a.ciudad = cabania.ciudad;
-                        a.barrio = cabania.barrio;
-                        a.estrellas = cabania.estrellas;
-                        a.cantidadDePersonas = cabania.cantidadDePersonas;
-                        a.tv = cabania.tv;
+                        contexto.Alojamientos.Remove(a);
                         salida = true;
                     }
                 if (salida)
@@ -121,69 +98,10 @@ namespace TP2_Grupo4.Models
                 return false;
             }
         }
-        /*public bool ModificarAlojamiento(Alojamiento alojamiento)
-        {
-            int indexAlojamiento = this.alojamientos.FindIndex(al => al.IgualCodigo(alojamiento));
-            if (indexAlojamiento == -1) return false;
-
-            this.alojamientos[indexAlojamiento] = alojamiento;
-            return true;
-        }*/
-
-        public bool EliminarHotel(int codigo)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Hotel a in contexto.Hoteles)
-                    if (a.codigo == codigo)
-                    {
-                        contexto.Hoteles.Remove(a);
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool EliminarCabania(int codigo)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Cabania a in contexto.Cabanias)
-                    if (a.codigo == codigo)
-                    {
-                        contexto.Cabanias.Remove(a);
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        /*public bool EliminarAlojamiento(int codigoDelAlojamiento)
-        {
-            int indexAlojamiento = this.alojamientos.FindIndex(al => al.GetCodigo() == codigoDelAlojamiento);
-            if (indexAlojamiento == -1) return false;
-
-            // Elimino el alojamiento de la lista
-            this.alojamientos.RemoveAt(indexAlojamiento);
-            this.cantidadDeAlojamientos--;
-            return true;
-        }*/
         #endregion
 
         #region METODOS PARA FILTRAR ALOJAMIENTOS
-        public Agencia GetHoteles()
+        /*public Agencia GetHoteles()
         {
             List<Alojamiento> alojamientos = this.alojamientos.FindAll(alojamiento => alojamiento is Hotel);
             return this.alojamientosToAgencia(alojamientos);
@@ -192,7 +110,7 @@ namespace TP2_Grupo4.Models
         {
             List<Alojamiento> alojamientos = this.alojamientos.FindAll( alojamiento => alojamiento is Cabania);
             return this.alojamientosToAgencia(alojamientos);
-        }
+        }*/
         public Agencia GetAlojamientosPorCantidadDePersonas(int cantidadDePersonas)
         {
             List<Alojamiento> alojamientos = this.alojamientos.FindAll( al => al.GetCantidadDePersonas() == cantidadDePersonas);
@@ -265,7 +183,7 @@ namespace TP2_Grupo4.Models
                 foreach (Alojamiento alojamiento in this.alojamientos)
                 {
                     alojamientos.Add(new List<String>(){
-                        alojamiento is Hotel ? "hotel" : "cabaña", // Tipo de alojamiento
+                        //alojamiento is Hotel ? "hotel" : "cabaña", // Tipo de alojamiento
                         alojamiento.GetCiudad(),
                         alojamiento.GetBarrio(),
                         alojamiento.GetEstrellas().ToString(),
@@ -279,10 +197,10 @@ namespace TP2_Grupo4.Models
             
             return alojamientos;
         }
-        public List<List<String>> DatosDeHotelesParaLasVistas()
+        /*public List<List<String>> DatosDeHotelesParaLasVistas()
         {
             List<List<String>> alojamientos = new List<List<string>>();
-            List<Alojamiento> hoteles = this.GetHoteles().GetAlojamientos();
+            //List<Alojamiento> hoteles = this.GetHoteles().GetAlojamientos();
             if (hoteles.Count == 0) return alojamientos;
 
             foreach (Alojamiento alojamiento in hoteles)
@@ -300,7 +218,7 @@ namespace TP2_Grupo4.Models
                 alojamientos.Add(Utils.StringToArray(alojamiento.ToString()).ToList());
 
             return alojamientos;
-        }
+        }*/
         private Agencia alojamientosToAgencia(List<Alojamiento> alojamientos)
         {
             if (alojamientos.Count == 0) return null;
@@ -328,14 +246,14 @@ namespace TP2_Grupo4.Models
             foreach (String alojamiento in contenidoDelArchivo)
             {
                 int cantidadDeAtributosDelAlojamiento = Utils.StringToArray(alojamiento).Length;
-                if (cantidadDeAtributosDelAlojamiento == Hotel.CANTIDAD_DE_ATRIBUTOS)
+                /*if (cantidadDeAtributosDelAlojamiento == Hotel.CANTIDAD_DE_ATRIBUTOS)
                 {
                     this.AgregarAlojamiento(Hotel.Deserializar(alojamiento));
                 }
                 else if(cantidadDeAtributosDelAlojamiento == Cabania.CANTIDAD_DE_ATRIBUTOS)
                 {
                     this.AgregarAlojamiento(Cabania.Deserializar(alojamiento));
-                }
+                }*/
             }
         }
         public bool GuardarCambiosEnElArchivo()
