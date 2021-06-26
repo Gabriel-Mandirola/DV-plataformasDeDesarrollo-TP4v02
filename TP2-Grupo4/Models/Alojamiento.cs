@@ -45,8 +45,14 @@ namespace TP2_Grupo4.Models
         //public abstract double PrecioTotalDelAlojamiento();
         public double PrecioTotalDelAlojamiento()
         {
-            //return this.GetPrecioPorPersona() * this.GetCantidadDePersonas();
-            return this.GetPrecioPorDia(); 
+            if (cantidadDePersonas > 0)
+            {
+                return this.GetPrecioPorPersona() * this.GetCantidadDePersonas();
+            }
+            else
+            {
+                return this.GetPrecioPorDia();
+            }
         }
 
 

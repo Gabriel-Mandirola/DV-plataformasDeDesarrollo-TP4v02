@@ -141,13 +141,13 @@ namespace TP2_Grupo4
                 );*/
             }
         }
-        public bool GuardarCambiosDeLasReservas()
+        /*public bool GuardarCambiosDeLasReservas()
         {
             List<String> reservas = new List<string>();
             foreach (Reserva reserva in this.GetReservas())
                 reservas.Add(reserva.ToString());
             return Utils.WriteInFile(Config.PATH_FILE_RESERVAS, reservas);
-        }
+        }*/
         public List<List<String>> DatosDeReservasParaLasVistas(String tipoDeUsuario = "admin")
         {
             List<List<String>> reservas = new List<List<string>>();
