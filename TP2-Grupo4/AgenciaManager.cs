@@ -306,6 +306,22 @@ namespace TP2_Grupo4
             return this.Reservas.FindAll(reserva => reserva.GetUsuario().GetDni() == dni);
         }
         #endregion
+
+        public bool EliminarReserva(int id)
+        {
+            try
+            {
+                var reserva = this.Reservas.ToList().Find(r => r.Id == id);
+                contexto.Reservas.Remove(reserva);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public List<Reserva> GetAllReservasForUsuario(int dni)
         {
             return this.Reservas.ToList().FindAll(reserva => reserva.Usuario.Dni == dni);

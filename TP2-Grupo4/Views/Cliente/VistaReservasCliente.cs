@@ -79,7 +79,7 @@ namespace TP2_Grupo4.Views
                     int rowIndex = dgvReservaciones.CurrentCell.RowIndex;
 
                     // Codigo de la reserva
-                    String codigoDeReserva = this.reservasDelUsuario[rowIndex].Id.ToString();
+                    int codigoDeReserva = this.reservasDelUsuario[rowIndex].Id;
 
                     // Eliminar reserva
                     this.agencia.EliminarReserva(codigoDeReserva);
