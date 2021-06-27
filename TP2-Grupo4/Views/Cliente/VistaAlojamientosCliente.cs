@@ -267,13 +267,13 @@ namespace TP2_Grupo4.Views
                 {
                     // TODO: AGREGAR METODO EN LA CLASE RESERVA
                     // Agregar reserva
-                    //this.agencia.AgregarReserva(
-                    //    this.inputDateFechaIda.Value,
-                    //    this.inputDateFechaVuelta.Value,
-                    //    codigoDelAlojamiento,
-                    //    this.agencia.GetUsuarioLogeado().Dni,
-                    //    precioDeLaReserva
-                    //    );
+                    this.agencia.AgregarReserva(
+                        this.inputDateFechaIda.Value,
+                        this.inputDateFechaVuelta.Value,
+                        agencia.GetAgencia().FindAlojamientoForCodigo(int.Parse(codigoDelAlojamiento)),
+                        agencia.FindUserForDNI(agencia.GetUsuarioLogeado().Dni), //this.agencia.GetUsuarioLogeado().Dni,
+                        precioDeLaReserva
+                        );
                     MessageBox.Show("Reserva realizada correctamente");
 
                     // llenar DataGridView
