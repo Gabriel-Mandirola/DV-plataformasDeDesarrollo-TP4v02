@@ -53,8 +53,8 @@ namespace TP2_Grupo4
                     /*this.Alojamientos.Add(alojamiento);
                     this.contexto.SaveChanges();
                     return true;*/
-                    Reserva reservas = new Reserva(fechaDesde, fechaHasta, codigoAlojamiento, dniUsuario, precio);
 
+                    var reservas = new Reserva { FechaDesde = fechaDesde, FechaHasta = fechaHasta, Alojamiento = codigoAlojamiento, Usuario = dniUsuario, Precio = precio };
 
                     this.Reservas.Add(reservas);
                     contexto.SaveChanges();
