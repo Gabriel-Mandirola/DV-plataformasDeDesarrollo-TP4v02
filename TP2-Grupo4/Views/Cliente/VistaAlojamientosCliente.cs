@@ -252,11 +252,11 @@ namespace TP2_Grupo4.Views
 
                 // TODO: AGREGAR METODO PARA VER DISPONIBILIDAD DEL ALOJAMIENTO EN LA CLASE AgenciaManager
                 // Validar que el alojamiento este disponible
-                //if(!this.agencia.ElAlojamientoEstaDisponible(codigoDelAlojamiento, this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
-                //{
-                //    MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
-                //    return;
-                //}
+                if(!this.agencia.ElAlojamientoEstaDisponible(int.Parse(codigoDelAlojamiento), this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
+                {
+                    MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
+                    return;
+                }
 
                 // Mensaje
                 String textMessage = $"El precio de la reserva que vas a realizar es de ${precioDeLaReserva}";
