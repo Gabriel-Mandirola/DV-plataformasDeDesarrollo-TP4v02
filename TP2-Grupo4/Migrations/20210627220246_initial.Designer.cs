@@ -9,7 +9,7 @@ using TP2_Grupo4.Models;
 namespace TP2_Grupo4.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210627210814_initial")]
+    [Migration("20210627220246_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
