@@ -56,6 +56,10 @@ namespace TP2_Grupo4.Models
                 alojamientoEncontrado.Estrellas = alojamiento.Estrellas;
                 alojamientoEncontrado.CantidadDePersonas = alojamiento.CantidadDePersonas;
                 alojamientoEncontrado.Tv = alojamiento.Tv;
+                alojamientoEncontrado.PrecioPorPersona = alojamiento.PrecioPorPersona;
+                alojamientoEncontrado.PrecioPorDia = alojamiento.PrecioPorDia;
+                alojamientoEncontrado.Habitaciones = alojamiento.Habitaciones;
+                alojamientoEncontrado.Banios = alojamiento.Banios;
                 contexto.SaveChanges();
                 return true;
             }
