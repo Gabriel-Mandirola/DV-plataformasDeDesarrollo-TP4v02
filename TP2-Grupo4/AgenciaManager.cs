@@ -330,7 +330,22 @@ namespace TP2_Grupo4
         {
             return this.Reservas.ToList().FindAll(reserva => reserva.Usuario.Dni == dni);
         }
-
+        private List<Reserva> getAllReservasForAlojamiento(int codigo)
+        {
+            return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo.ToString());
+        }
+        public bool ElAlojamientoEstaDisponible(int codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            bool alojamientoDisponible = true;
+            foreach (Reserva reserva in this.getAllReservasForAlojamiento(codigoDeAlojamiento))
+            {
+                bool validarFechaDesde = DateTime.Compare(reserva.FechaDesde, fechaDesde) == 1 && DateTime.Compare(reserva.FechaDesde, fechaHasta) == 1;
+                bool validarFechaHasta = DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1 && DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1;
+                if (!validarFechaDesde && !validarFechaHasta)
+                    alojamientoDisponible = false;
+            }
+            return alojamientoDisponible;
+        }
 
         public List<List<String>> DatosDeReservasParaLasVistas(String tipoDeUsuario = "admin")
         {

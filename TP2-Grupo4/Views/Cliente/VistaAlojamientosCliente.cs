@@ -240,7 +240,7 @@ namespace TP2_Grupo4.Views
                 // Index del Row
                 int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
                 // Codigo del Alojamiento
-                int codigoDelAlojamiento = this.alojamientosDelDataGridView.GetAlojamientos()[rowIndex].Codigo;
+                int codigoDelAlojamiento = this.alojamientosDelDataGridView.Alojamientos()[rowIndex].Codigo;
                 // Cantidad de personas
                 int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
                 // Precio del alojamiento
