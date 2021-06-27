@@ -148,7 +148,7 @@ namespace TP2_Grupo4.Models
                 listaDeAlojamientos.Add(
                     new List<string>()
                     {
-                        al.Id.ToString(),
+                        al.Codigo,
                         al.Tipo,
                         al.Ciudad,
                         al.Barrio,

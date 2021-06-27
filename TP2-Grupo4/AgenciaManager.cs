@@ -41,81 +41,6 @@ namespace TP2_Grupo4
             }
         }
 
-        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, Alojamiento codigoAlojamiento, Usuario dniUsuario, double precio)
-        {
-            try
-            {
-                //Reservas pide un id pero nosotros nunca lo asignamos, se pone solo, hay que ver como hacer eso
-                //codigoAlojamiento y dniUsuario dice que vienen de otras clases, hay que ver como arreglar eso
-                //Reserva reservas = new Reserva(id, fechaDesde, fechaHasta, codigoAlojamiento, dniUsuario, precio);
-                try
-                {
-                    /*this.Alojamientos.Add(alojamiento);
-                    this.contexto.SaveChanges();
-                    return true;*/
-
-                    var reservas = new Reserva { FechaDesde = fechaDesde, FechaHasta = fechaHasta, Alojamiento = codigoAlojamiento, Usuario = dniUsuario, Precio = precio };
-
-                    this.Reservas.Add(reservas);
-                    contexto.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int precio, Alojamiento alojamiento_id, Usuario usuario_id)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Reserva r in contexto.Reservas)
-                    if (r.Id == int.Parse(id))
-                    {
-                        r.FechaDesde = fechaDesde;
-                        r.FechaHasta = fechaHasta;
-                        r.Precio = precio;
-                        //estos errores son iguales al de arriba
-                        r.Alojamiento = alojamiento_id;
-                        r.Usuario = usuario_id;
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool EliminarReserva(String id)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Reserva r in contexto.Reservas)
-                    if (r.Id == int.Parse(id))
-                    {
-                        contexto.Reservas.Remove(r);
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         #region USUARIO
         public bool IsUsuarioBloqueado(int dni)
         {
@@ -342,11 +267,78 @@ namespace TP2_Grupo4
 
 
         #region Reservas
+        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, String codigoAlojamiento, int dniUsuario, double precio)
+        {
+            var alojamiento = this.contexto.Alojamientos.FirstOrDefault(a => a.Codigo == codigoAlojamiento);
+            var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dniUsuario);
+            try
+            {
+                var reservas = new Reserva { 
+                    FechaDesde = fechaDesde,
+                    FechaHasta = fechaHasta, 
+                    Alojamiento = alojamiento, 
+                    Usuario = usuario, 
+                    Precio = precio };
+
+                this.Reservas.Add(reservas);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int precio, Alojamiento alojamiento_id, Usuario usuario_id)
+        {
+            try
+            {
+                bool salida = false;
+                foreach (Reserva r in contexto.Reservas)
+                    if (r.Id == int.Parse(id))
+                    {
+                        r.FechaDesde = fechaDesde;
+                        r.FechaHasta = fechaHasta;
+                        r.Precio = precio;
+                        //estos errores son iguales al de arriba
+                        r.Alojamiento = alojamiento_id;
+                        r.Usuario = usuario_id;
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool EliminarReserva(String id)
+        {
+            try
+            {
+                bool salida = false;
+                foreach (Reserva r in contexto.Reservas)
+                    if (r.Id == int.Parse(id))
+                    {
+                        contexto.Reservas.Remove(r);
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public bool EliminarReserva(int id)
         {
             try
             {
-                var reserva = this.Reservas.ToList().Find(r => r.Id == id);
+                var reserva = this.Reservas.FirstOrDefault(r => r.Id == id);
                 contexto.Reservas.Remove(reserva);
                 contexto.SaveChanges();
                 return true;
@@ -363,7 +355,7 @@ namespace TP2_Grupo4
         }
         private List<Reserva> getAllReservasForAlojamiento(int codigo)
         {
-            return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo.ToString());
+            return this.Reservas.Where(reserva => reserva.Alojamiento.Codigo == codigo.ToString()).ToList();
         }
         public bool ElAlojamientoEstaDisponible(int codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
         {
