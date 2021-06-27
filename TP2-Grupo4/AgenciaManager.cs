@@ -202,6 +202,11 @@ namespace TP2_Grupo4
             return true;
         }
 
+
+        public void CerrarSession()
+        {
+            this.usuarioLogeado = null;
+        }
         #endregion
 
         #region INFO PARA LAS VISTAS
@@ -307,6 +312,9 @@ namespace TP2_Grupo4
         }
         #endregion
 
+
+
+        #region Reservas
         public bool EliminarReserva(int id)
         {
             try
@@ -363,6 +371,10 @@ namespace TP2_Grupo4
             }
             return reservas;
         }
+
+        #endregion
+
+
 
 
         /* GETTERS */

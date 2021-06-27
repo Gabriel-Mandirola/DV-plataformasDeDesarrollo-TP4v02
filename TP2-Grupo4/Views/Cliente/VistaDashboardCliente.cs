@@ -31,8 +31,8 @@ namespace TP2_Grupo4.Views
             panelMenu.Controls.Add(leftBorderBtn);
 
             // HEADER 
-            this.lblDNIUser.Text = agenciaManager.GetUsuarioLogeado().GetDni().ToString();
-            this.lblNameUser.Text = agenciaManager.GetUsuarioLogeado().GetNombre();
+            this.lblDNIUser.Text = agenciaManager.GetUsuarioLogeado().Dni.ToString();
+            this.lblNameUser.Text = agenciaManager.GetUsuarioLogeado().Nombre;
 
             //FORM
             this.Text = string.Empty;
