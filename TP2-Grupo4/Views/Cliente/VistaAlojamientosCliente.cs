@@ -170,9 +170,11 @@ namespace TP2_Grupo4.Views
             dgvAlojamiento.Columns.Add("CantidadDePersonas", "Cantidad de Personas");
             dgvAlojamiento.Columns.Add("Tv", "TV");
             dgvAlojamiento.Columns.Add("Precio", "Precio");
+            dgvAlojamiento.Columns.Add("Id", "Id");
             dgvAlojamiento.Columns["Id"].Visible = false; // Oculto la columna de Id
             dgvAlojamiento.Columns.Add(btnReservar);
             dgvAlojamiento.ReadOnly = false;
+            
 
             // Cargar DataGridView
             var agencia = this.agencia.GetAgencia();
@@ -241,7 +243,6 @@ namespace TP2_Grupo4.Views
                 int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
                 // Codigo del Alojamiento
                 String codigoDelAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Id"].Value.ToString(); // PROBAR!!!
-                System.Diagnostics.Debug.WriteLine(codigoDelAlojamiento);
                 // Cantidad de personas
                 int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
                 // Precio del alojamiento
