@@ -140,13 +140,15 @@ namespace TP2_Grupo4.Models
         public List<List<String>> AlojamientosToLista(List<Alojamiento> alojamientos = null)
         {
             List<List<String>> listaDeAlojamientos = new List<List<string>>();
-            if (alojamientos != null) return listaDeAlojamientos;
 
-            foreach (Alojamiento al in alojamientos == null ? this.Alojamientos.ToList() : alojamientos)
+            var alojamientosAIterar = alojamientos == null ? this.Alojamientos.ToList() : alojamientos;
+
+            foreach (Alojamiento al in alojamientosAIterar)
             {
                 listaDeAlojamientos.Add(
                     new List<string>()
                     {
+                        al.Id.ToString(),
                         al.Tipo,
                         al.Ciudad,
                         al.Barrio,

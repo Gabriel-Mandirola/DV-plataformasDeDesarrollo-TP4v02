@@ -162,7 +162,7 @@ namespace TP2_Grupo4.Views
             };
             btnReservar.DefaultCellStyle.BackColor = Color.Green;
 
-            dgvAlojamiento.Columns.Add("Id", "Id") ;
+            dgvAlojamiento.Columns.Add("Id", "Id");
             dgvAlojamiento.Columns.Add("Tipo", "Tipo");
             dgvAlojamiento.Columns.Add("Ciudad", "Ciudad");
             dgvAlojamiento.Columns.Add("Barrio", "Barrio");
@@ -241,6 +241,7 @@ namespace TP2_Grupo4.Views
                 int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
                 // Codigo del Alojamiento
                 String codigoDelAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Id"].Value.ToString(); // PROBAR!!!
+                System.Diagnostics.Debug.WriteLine(codigoDelAlojamiento);
                 // Cantidad de personas
                 int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
                 // Precio del alojamiento
