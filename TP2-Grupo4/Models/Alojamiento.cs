@@ -5,17 +5,19 @@ namespace TP2_Grupo4.Models
     public class Alojamiento
     {
 
-        public int id { get; set; }
-        public String codigo { get; set; }
-        public String ciudad { get; set; }
-        public String barrio { get; set; }
-        public int estrellas { get; set; }
-        public int cantidadDePersonas { get; set; }
-        public bool tv { get; set; }
-        public String tipo { get; set; }
-        public double precioPorPersona { get; set; }
-        public double precioPorDia { get; set; }
-        public int habitaciones { get; set; }
-        public int banios { get; set; }
+        public int Id { get; set; }
+        public String Codigo { get; set; }
+        public String Ciudad { get; set; }
+        public String Barrio { get; set; }
+        public int Estrellas { get; set; }
+        public int CantidadDePersonas { get; set; }
+        public bool Tv { get; set; }
+        public String Tipo { get; set; }
+        /* HOTEL */
+        public double PrecioPorPersona { get; set; }
+        /* CABAÑA */
+        public double PrecioPorDia { get; set; }
+        public int HabPtaciones { get; set; }
+        public int Banios { get; set; }
     }
 }

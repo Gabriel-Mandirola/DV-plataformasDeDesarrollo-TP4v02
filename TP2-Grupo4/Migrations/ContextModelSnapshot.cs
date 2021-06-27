@@ -19,84 +19,98 @@ namespace TP2_Grupo4.Migrations
 
             modelBuilder.Entity("TP2_Grupo4.Models.Alojamiento", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("banios")
+                    b.Property<int>("Banios")
                         .HasColumnType("int");
 
-                    b.Property<string>("barrio")
+                    b.Property<string>("Barrio")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("cantidadDePersonas")
+                    b.Property<int>("CantidadDePersonas")
                         .HasColumnType("int");
 
-                    b.Property<string>("ciudad")
+                    b.Property<string>("Ciudad")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("codigo")
+                    b.Property<string>("Codigo")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("estrellas")
+                    b.Property<int>("Estrellas")
                         .HasColumnType("int");
 
-                    b.Property<int>("habitaciones")
+                    b.Property<int>("HabPtaciones")
                         .HasColumnType("int");
 
-                    b.Property<double>("precioPorDia")
+                    b.Property<double>("PrecioPorDia")
                         .HasColumnType("double");
 
-                    b.Property<double>("precioPorPersona")
+                    b.Property<double>("PrecioPorPersona")
                         .HasColumnType("double");
 
-                    b.Property<string>("tipo")
+                    b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("varchar(10)");
 
-                    b.Property<ulong>("tv")
-                        .HasColumnType("bit");
+                    b.Property<bool>("Tv")
+                        .HasColumnType("tinyint(1)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("codigo")
+                    b.HasIndex("Codigo")
                         .IsUnique();
 
                     b.ToTable("Alojamientos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Banios = 0,
+                            Barrio = "Recoleta",
+                            CantidadDePersonas = 2,
+                            Ciudad = "Buenos Aires",
+                            Codigo = "123456",
+                            Estrellas = 3,
+                            HabPtaciones = 0,
+                            PrecioPorDia = 0.0,
+                            PrecioPorPersona = 2400.0,
+                            Tipo = "hotel",
+                            Tv = true
+                        });
                 });
 
             modelBuilder.Entity("TP2_Grupo4.Models.Reserva", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("alojamientoid")
+                    b.Property<int?>("AlojamientoId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("fechaDesde")
+                    b.Property<DateTime>("FechaDesde")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("fechaHasta")
+                    b.Property<DateTime>("FechaHasta")
                         .HasColumnType("date");
 
-                    b.Property<int>("precio")
+                    b.Property<double>("Precio")
+                        .HasColumnType("double");
+
+                    b.Property<int?>("UsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("usuarioId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
+                    b.HasIndex("AlojamientoId");
 
-                    b.HasIndex("alojamientoid");
-
-                    b.HasIndex("id")
-                        .IsUnique();
-
-                    b.HasIndex("usuarioId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Reservas");
                 });
@@ -107,8 +121,8 @@ namespace TP2_Grupo4.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Bloqueado")
-                        .HasColumnType("int");
+                    b.Property<bool>("Bloqueado")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Dni")
                         .HasColumnType("int");
@@ -117,8 +131,8 @@ namespace TP2_Grupo4.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(30)");
 
-                    b.Property<int>("IsAdmin")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -137,21 +151,43 @@ namespace TP2_Grupo4.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Bloqueado = false,
+                            Dni = 11111111,
+                            Email = "admin@admin.com",
+                            IsAdmin = true,
+                            Nombre = "admin",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Bloqueado = false,
+                            Dni = 12312312,
+                            Email = "prueba1@gmail.com",
+                            IsAdmin = false,
+                            Nombre = "prueba1",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        });
                 });
 
             modelBuilder.Entity("TP2_Grupo4.Models.Reserva", b =>
                 {
-                    b.HasOne("TP2_Grupo4.Models.Alojamiento", "alojamiento")
+                    b.HasOne("TP2_Grupo4.Models.Alojamiento", "Alojamiento")
                         .WithMany()
-                        .HasForeignKey("alojamientoid");
+                        .HasForeignKey("AlojamientoId");
 
-                    b.HasOne("TP2_Grupo4.Models.Usuario", "usuario")
+                    b.HasOne("TP2_Grupo4.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("usuarioId");
+                        .HasForeignKey("UsuarioId");
 
-                    b.Navigation("alojamiento");
+                    b.Navigation("Alojamiento");
 
-                    b.Navigation("usuario");
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

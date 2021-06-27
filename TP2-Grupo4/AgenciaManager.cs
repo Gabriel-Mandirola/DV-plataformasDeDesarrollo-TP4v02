@@ -27,41 +27,32 @@ namespace TP2_Grupo4
         {
             try
             {
-
                 //creo un contexto
                 contexto = new Context();
 
                 //cargo los usuarios
                 contexto.Usuarios.Load();
                 contexto.Reservas.Load();
+                this.Usuarios = contexto.Usuarios;
+                this.Reservas = contexto.Reservas;
             }
             catch (Exception)
             {
             }
         }
-        public Agencia GetAgencia()
-        {
-            return this.agencia;
-        }
+        
 
+        #region USUARIO
         public bool IsUsuarioBloqueado(int dni)
         {
-            Usuario user = this.Usuarios.Where(user => user.Dni == dni && user.Bloqueado == true).First();
+            Usuario user = this.Usuarios.ToList().Find(user => user.Dni == dni && user.Bloqueado == true);
             return user == null ? false : true;
         }
 
         public Usuario FindUserForDNI(int dni)
         {
-            try {
             return this.Usuarios.ToList().Find(user => user.Dni == dni);
-
-            }
-            catch { 
-            return null;
-            }
-           
         }
-
         public bool autenticarUsuario(int dni, String password)
         {
             Usuario usuarioEncontrado = this.FindUserForDNI(dni);
@@ -70,9 +61,6 @@ namespace TP2_Grupo4
             this.usuarioLogeado = usuarioEncontrado;
             return true;
         }
-
-        public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
-
         public bool ExisteEmail(string email)
         {
             try
@@ -82,10 +70,7 @@ namespace TP2_Grupo4
             {
                 return false;
             }
-            
-
         }
-
         public bool AgregarUsuario(int dni, String nombre, String email, String password, bool isAdmin, bool bloqueado)
         {
             try
@@ -94,7 +79,7 @@ namespace TP2_Grupo4
                     Dni = dni,
                     Nombre = nombre,
                     Email = email,
-                    Password = password,
+                    Password = Utils.Encriptar(password),
                     IsAdmin = isAdmin,
                     Bloqueado = bloqueado
                 };
@@ -107,5 +92,48 @@ namespace TP2_Grupo4
                 return false;
             }
         }
+        public bool ModificarUsuario(int dni, String nombre, String email, String password = "")
+        {
+            try
+            {
+                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+                usuario.Nombre = nombre;
+                usuario.Email = email;
+                usuario.Password = Utils.Encriptar(password);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool EliminarUsuario(int dni)
+        {
+            try
+            {
+                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+                contexto.Usuarios.Remove(usuario);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool BloquearUsuario(int dni)
+        {
+            Usuario usuario = this.Usuarios.AsNoTracking().ToList().Find(u => u.Dni == dni);
+            if (usuario == null) return false;
+            usuario.Bloqueado = true;
+            return true;
+        }
+
+        #endregion
+
+        /* GETTERS */
+        public Agencia GetAgencia(){ return this.agencia; }
+        public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
     }
 }

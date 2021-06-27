@@ -12,24 +12,40 @@ namespace TP2_Grupo4.Views
     public partial class VistaRegistrar : Form
     {
         private AgenciaManager agencia;
+
         public VistaRegistrar()
         {
             InitializeComponent();
             this.agencia = new AgenciaManager();
+            if (VistaLogin.idioma == "English")
+            {
+                cambiarIdioma.Text = "Español";
+                button1.Text = "Login";
+                btnRegistrar.Text = "Register";
+                txtUsuario.Text = "DNI";
+                txtContrasena.Text = "PASSWORD";
+                txtNombre.Text = "NAME";
+                txtMail.Text = "EMAIL";
+                checkAdmin.Text = "Is Admin?";
+                button2.Text = "Register";
+                label2.Text = "Register";
+            }
+            else if (VistaLogin.idioma == "Español")
+            {
+                cambiarIdioma.Text = "English";
+                button1.Text = "Ingresar";
+                btnRegistrar.Text = "Registrar";
+                txtUsuario.Text = "DNI";
+                txtContrasena.Text = "CONTRASEÑA";
+                txtNombre.Text = "NOMBRE";
+                txtMail.Text = "MAIL";
+                checkAdmin.Text = "¿Es Admin?";
+                button2.Text = "Registrarse";
+                label2.Text = "Registrarse";
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            VistaLogin cambiarFormulario = new VistaLogin();
-            cambiarFormulario.Show();
-            this.Hide();
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
+        #region Key Pressed
         private void txtUsuario_Enter(object sender, EventArgs e)
         {
             if (txtUsuario.Text == "DNI")
@@ -50,7 +66,7 @@ namespace TP2_Grupo4.Views
 
         private void txtContrasena_Enter(object sender, EventArgs e)
         {
-            if (txtContrasena.Text == "CONTRASEÑA")
+            if (txtContrasena.Text == "CONTRASEÑA" || txtContrasena.Text == "PASSWORD")
             {
                 txtContrasena.Text = "";
                 txtContrasena.ForeColor = Color.LightGray;
@@ -59,16 +75,21 @@ namespace TP2_Grupo4.Views
 
         private void txtContrasena_Leave(object sender, EventArgs e)
         {
-            if (txtContrasena.Text == "")
+            if (txtContrasena.Text == "" && cambiarIdioma.Text == "English")
             {
                 txtContrasena.Text = "CONTRASEÑA";
+                txtContrasena.ForeColor = Color.DimGray;
+            }
+            else if (txtContrasena.Text == "" && cambiarIdioma.Text == "Español")
+            {
+                txtContrasena.Text = "PASSWORD";
                 txtContrasena.ForeColor = Color.DimGray;
             }
         }
 
         private void textBox2_Enter(object sender, EventArgs e)
         {
-            if (txtNombre.Text == "NOMBRE")
+            if (txtNombre.Text == "NOMBRE" || txtNombre.Text == "NAME")
             {
                 txtNombre.Text = "";
                 txtNombre.ForeColor = Color.LightGray;
@@ -77,16 +98,21 @@ namespace TP2_Grupo4.Views
 
         private void textBox2_Leave(object sender, EventArgs e)
         {
-            if (txtNombre.Text == "")
+            if (txtNombre.Text == "" && cambiarIdioma.Text == "English")
             {
                 txtNombre.Text = "NOMBRE";
+                txtNombre.ForeColor = Color.DimGray;
+            }
+            else if (txtNombre.Text == "" && cambiarIdioma.Text == "Español")
+            {
+                txtNombre.Text = "NAME";
                 txtNombre.ForeColor = Color.DimGray;
             }
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            if (txtMail.Text == "EMAIL")
+            if (txtMail.Text == "EMAIL" || txtMail.Text == "MAIL")
             {
                 txtMail.Text = "";
                 txtMail.ForeColor = Color.LightGray;
@@ -95,11 +121,52 @@ namespace TP2_Grupo4.Views
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-            if (txtMail.Text == "")
+            if (txtMail.Text == "" && cambiarIdioma.Text == "English")
+            {
+                txtMail.Text = "MAIL";
+                txtMail.ForeColor = Color.DimGray;
+            }
+            else if (txtMail.Text == "" && cambiarIdioma.Text == "Español")
             {
                 txtMail.Text = "EMAIL";
                 txtMail.ForeColor = Color.DimGray;
             }
+        }
+        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                e.Handled = true;
+                return;
+            }
+        }
+        #endregion
+
+        #region Helpers
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        private void panel4_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
+        #endregion
+
+        #region On Click
+        private void button1_Click(object sender, EventArgs e)
+        {
+            VistaLogin cambiarFormulario = new VistaLogin();
+            cambiarFormulario.Show();
+            this.Hide();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void btnRegistrar_Click(object sender, EventArgs e)
@@ -111,7 +178,6 @@ namespace TP2_Grupo4.Views
                     if (!this.agencia.ExisteEmail(txtMail.Text))
                     {
                         agencia.AgregarUsuario(int.Parse(txtUsuario.Text), txtNombre.Text, txtMail.Text, txtContrasena.Text, checkAdmin.Checked, false);
-                        //agencia.GuardarCambiosDeLosUsuarios();
                         txtUsuario.Text = "DNI";
                         txtUsuario.ForeColor = Color.DimGray;
                         txtNombre.Text = "NOMBRE";
@@ -138,28 +204,6 @@ namespace TP2_Grupo4.Views
                 MessageBox.Show("Error en el registro, por favor intentelo nuevamente.");
             }
         }
-
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
-        private void panel4_MouseDown(object sender, MouseEventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
-        }
-
-        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
-            {
-                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                e.Handled = true;
-                return;
-            }
-        }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             pictureBox2.Visible = false;
@@ -173,5 +217,38 @@ namespace TP2_Grupo4.Views
             pictureBox3.Visible = false;
             txtContrasena.UseSystemPasswordChar = true;
         }
+
+        private void cambiarIdioma_Click(object sender, EventArgs e)
+        {
+            if (VistaLogin.idioma == "Español")
+            {
+                cambiarIdioma.Text = "English";
+                button1.Text = "Login";
+                btnRegistrar.Text = "Register";
+                txtUsuario.Text = "DNI";
+                txtContrasena.Text = "PASSWORD";
+                txtNombre.Text = "NAME";
+                txtMail.Text = "EMAIL";
+                checkAdmin.Text = "Is Admin?";
+                button2.Text = "Register";
+                label2.Text = "Register";
+                VistaLogin.idioma = "English";
+            }
+            else if (VistaLogin.idioma == "English")
+            {
+                cambiarIdioma.Text = "Español";
+                button1.Text = "Ingresar";
+                btnRegistrar.Text = "Registrar";
+                txtUsuario.Text = "DNI";
+                txtContrasena.Text = "CONTRASEÑA";
+                txtNombre.Text = "NOMBRE";
+                txtMail.Text = "MAIL";
+                checkAdmin.Text = "¿Es Admin?";
+                button2.Text = "Registrarse";
+                label2.Text = "Registrarse";
+                VistaLogin.idioma = "Español";
+            }
+        }
+        #endregion
     }
 }

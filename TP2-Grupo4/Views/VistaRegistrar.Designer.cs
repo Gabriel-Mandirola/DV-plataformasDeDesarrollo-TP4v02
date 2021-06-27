@@ -48,6 +48,7 @@ namespace TP2_Grupo4.Views
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.cambiarIdioma = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -119,7 +120,7 @@ namespace TP2_Grupo4.Views
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(181, 60);
             this.btnRegistrar.TabIndex = 6;
-            this.btnRegistrar.Text = "Registrar";
+            this.btnRegistrar.Text = "Registrarse";
             this.btnRegistrar.UseVisualStyleBackColor = false;
             this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
             // 
@@ -131,7 +132,7 @@ namespace TP2_Grupo4.Views
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(377, 84);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(333, 68);
+            this.label2.Size = new System.Drawing.Size(0, 68);
             this.label2.TabIndex = 0;
             this.label2.Text = "Registrarse";
             // 
@@ -166,7 +167,7 @@ namespace TP2_Grupo4.Views
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(175, 16);
             this.txtUsuario.TabIndex = 1;
-            this.txtUsuario.Text = "DNI";
+            this.txtUsuario.Text = "USUARIO";
             this.txtUsuario.Enter += new System.EventHandler(this.txtUsuario_Enter);
             this.txtUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsuario_KeyPress);
             this.txtUsuario.Leave += new System.EventHandler(this.txtUsuario_Leave);
@@ -196,7 +197,7 @@ namespace TP2_Grupo4.Views
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(175, 16);
             this.txtMail.TabIndex = 4;
-            this.txtMail.Text = "EMAIL";
+            this.txtMail.Text = "MAIL";
             this.txtMail.Enter += new System.EventHandler(this.textBox1_Enter);
             this.txtMail.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
@@ -219,7 +220,7 @@ namespace TP2_Grupo4.Views
             this.checkAdmin.ForeColor = System.Drawing.Color.DimGray;
             this.checkAdmin.Location = new System.Drawing.Point(641, 296);
             this.checkAdmin.Name = "checkAdmin";
-            this.checkAdmin.Size = new System.Drawing.Size(86, 19);
+            this.checkAdmin.Size = new System.Drawing.Size(15, 14);
             this.checkAdmin.TabIndex = 5;
             this.checkAdmin.Text = "¿Es Admin?";
             this.checkAdmin.UseVisualStyleBackColor = true;
@@ -281,12 +282,28 @@ namespace TP2_Grupo4.Views
             this.pictureBox3.Visible = false;
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
+            // cambiarIdioma
+            // 
+            this.cambiarIdioma.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.cambiarIdioma.FlatAppearance.BorderSize = 0;
+            this.cambiarIdioma.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cambiarIdioma.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cambiarIdioma.ForeColor = System.Drawing.SystemColors.Info;
+            this.cambiarIdioma.Location = new System.Drawing.Point(678, 380);
+            this.cambiarIdioma.Name = "cambiarIdioma";
+            this.cambiarIdioma.Size = new System.Drawing.Size(111, 41);
+            this.cambiarIdioma.TabIndex = 0;
+            this.cambiarIdioma.Text = "English";
+            this.cambiarIdioma.UseVisualStyleBackColor = false;
+            this.cambiarIdioma.Click += new System.EventHandler(this.cambiarIdioma_Click);
+            // 
             // VistaRegistrar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cambiarIdioma);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
@@ -338,5 +355,6 @@ namespace TP2_Grupo4.Views
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button cambiarIdioma;
     }
 }
