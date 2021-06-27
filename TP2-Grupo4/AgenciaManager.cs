@@ -41,40 +41,77 @@ namespace TP2_Grupo4
             }
         }
 
-        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, int codigoAlojamiento, int dniUsuario, double precio)
+        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, Alojamiento codigoAlojamiento, Usuario dniUsuario, double precio)
         {
-            Alojamiento alojamiento = this.GetAgencia().FindAlojamientoForCodigo(codigoAlojamiento);
-            Usuario usuario = this.FindUserForDNI(dniUsuario);
-            if (alojamiento == null || usuario == null) return false;
-
-            // Timestamp = Id
-            String timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-            //this.reservas.Add(new Reserva(timestamp, fechaDesde,fechaHasta,alojamiento,usuario, precio));
-            return true;
+            try
+            {
+                //Reservas pide un id pero nosotros nunca lo asignamos, se pone solo, hay que ver como hacer eso
+                //codigoAlojamiento y dniUsuario dice que vienen de otras clases, hay que ver como arreglar eso
+                //Reserva reservas = new Reserva(id, fechaDesde, fechaHasta, codigoAlojamiento, dniUsuario, precio);
+                try
+                {
+                    /*this.Alojamientos.Add(alojamiento);
+                    this.contexto.SaveChanges();
+                    return true;*/
+                    Reserva reservas = new Reserva(fechaDesde, fechaHasta, codigoAlojamiento, dniUsuario, precio);
+                    this.Reservas.Add(reservas);
+                    contexto.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int codigoAlojamiento, int dniUsuario)
+        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int precio, Alojamiento alojamiento_id, Usuario usuario_id)
         {
-            int indexReserva = this.findIndexReservaPorId(id);
-            if (indexReserva == -1) return false;
-
-            Alojamiento alojamiento = this.agencia.FindAlojamientoForCodigo(codigoAlojamiento);
-            Usuario usuario = this.FindUserForDNI(dniUsuario);
-            if (alojamiento == null || usuario == null) return false;
-
-            this.reservas[indexReserva].SetFechaDesde(fechaDesde);
-            this.reservas[indexReserva].SetFechaHasta(fechaHasta);
-            this.reservas[indexReserva].SetAlojamiento(alojamiento);
-            this.reservas[indexReserva].SetUsuario(usuario);
-            this.reservas[indexReserva].SetPrecio(alojamiento.PrecioTotalDelAlojamiento());
-            return true;
+            try
+            {
+                bool salida = false;
+                foreach (Reserva r in contexto.Reservas)
+                    if (r.Id == int.Parse(id))
+                    {
+                        r.FechaDesde = fechaDesde;
+                        r.FechaHasta = fechaHasta;
+                        r.Precio = precio;
+                        //estos errores son iguales al de arriba
+                        r.Alojamiento = alojamiento_id;
+                        r.Usuario = usuario_id;
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         public bool EliminarReserva(String id)
         {
-            int indexReserva = this.findIndexReservaPorId(id);
-            if (indexReserva == -1) return false;
-
-            this.reservas.RemoveAt(indexReserva);
-            return true;
+            try
+            {
+                bool salida = false;
+                foreach (Reserva r in contexto.Reservas)
+                    if (r.Id == int.Parse(id))
+                    {
+                        contexto.Reservas.Remove(r);
+                        salida = true;
+                    }
+                if (salida)
+                    contexto.SaveChanges();
+                return salida;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         #region USUARIO

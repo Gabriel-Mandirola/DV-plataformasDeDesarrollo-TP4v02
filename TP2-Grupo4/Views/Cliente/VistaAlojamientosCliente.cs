@@ -240,7 +240,7 @@ namespace TP2_Grupo4.Views
                 // Index del Row
                 int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
                 // Codigo del Alojamiento
-                int codigoDelAlojamiento = this.alojamientosDelDataGridView.GetAlojamientos()[rowIndex].GetCodigo();
+                int codigoDelAlojamiento = this.alojamientosDelDataGridView.GetAlojamientos()[rowIndex].Codigo;
                 // Cantidad de personas
                 int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
                 // Precio del alojamiento
@@ -269,7 +269,7 @@ namespace TP2_Grupo4.Views
                         this.inputDateFechaIda.Value,
                         this.inputDateFechaVuelta.Value,
                         codigoDelAlojamiento,
-                        this.agencia.GetUsuarioLogeado().GetDni(),
+                        this.agencia.GetUsuarioLogeado().Dni,
                         precioDeLaReserva
                         );
                     MessageBox.Show("Reserva realizada correctamente");
