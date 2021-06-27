@@ -258,6 +258,7 @@ namespace TP2_Grupo4.Views
                     Barrio = barrio,
                     Estrellas = estrellas,
                     CantidadDePersonas = cantPersonas,
+                    Tipo = "cabaña",
                     Tv = tv,
                     PrecioPorPersona = 0,
                     PrecioPorDia = precioPorDia,

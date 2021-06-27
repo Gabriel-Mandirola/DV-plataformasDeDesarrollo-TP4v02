@@ -245,6 +245,7 @@ namespace TP2_Grupo4.Views
                 Barrio = barrio,
                 Estrellas = estrellas,
                 CantidadDePersonas = cantPersonas,
+                Tipo = "hotel",
                 Tv = tv,
                 PrecioPorPersona = precioPersonas,
                 PrecioPorDia = 0,
@@ -298,12 +299,24 @@ namespace TP2_Grupo4.Views
             }
 
             //REVISAR
-            var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = precioPersonas, PrecioPorDia = 0, Habitaciones = 0, Banios = 0 };
-            if (!this.agencia.ExisteAlojamiento(codigo) && this.agencia.GetAgencia().AgregarAlojamiento(asd))
+            var newAlojamiento = new Alojamiento { 
+                Codigo = codigo.ToString(), 
+                Ciudad = ciudad, 
+                Barrio = barrio, 
+                Estrellas = estrellas, 
+                CantidadDePersonas = cantPersonas, 
+                Tv = tv, 
+                Tipo = "hotel",
+                PrecioPorPersona = precioPersonas, 
+                PrecioPorDia = 0, 
+                Habitaciones = 0, 
+                Banios = 0 
+            };
+            if (!this.agencia.ExisteAlojamiento(codigo) && this.agencia.GetAgencia().AgregarAlojamiento(newAlojamiento))
             {
                 MessageBox.Show("El Hotel fue agregado correctamente.");
             }
-            else if (!huboError)
+            else if (huboError)
             {
                 MessageBox.Show("Ya existe el código de alojamiento, ingresa un código inexistente");
             }

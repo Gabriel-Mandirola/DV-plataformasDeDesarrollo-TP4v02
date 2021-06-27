@@ -36,8 +36,8 @@ namespace TP2_Grupo4.Models
         {
             try
             {
-                this.Alojamientos.Add(alojamiento);
-                this.contexto.SaveChanges();
+                contexto.Alojamientos.Add(alojamiento);
+                contexto.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -45,6 +45,7 @@ namespace TP2_Grupo4.Models
                 return false;
             }
         }
+
         public bool ModificarAlojamiento(Alojamiento alojamiento)
         {
             try
