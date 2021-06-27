@@ -140,7 +140,7 @@ namespace TP2_Grupo4.Models
         public List<List<String>> AlojamientosToLista(List<Alojamiento> alojamientos = null)
         {
             List<List<String>> listaDeAlojamientos =  new List<List<string>>();
-            if (alojamientos.Count == 0) return listaDeAlojamientos;
+            if (alojamientos != null) return listaDeAlojamientos;
 
             foreach (Alojamiento al in alojamientos == null ? this.Alojamientos.ToList() : alojamientos)
             {
@@ -155,7 +155,7 @@ namespace TP2_Grupo4.Models
                         al.Tv ? "si" : "no",
                         al.Tipo == "hotel" ? al.PrecioPorPersona.ToString() : al.PrecioPorDia.ToString()
                     }
-                    );
+                );
             }
             //dgvAlojamiento.Columns.Add("Tipo", "Tipo");
             //dgvAlojamiento.Columns.Add("Ciudad", "Ciudad");

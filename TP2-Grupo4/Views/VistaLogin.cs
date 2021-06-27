@@ -169,19 +169,19 @@ namespace TP2_Grupo4.Views
             {
                 if (this.agencia.GetUsuarioLogeado().IsAdmin)
                 {
-                    MessageBox.Show("ADMIN");
+                    //MessageBox.Show("ADMIN");
                     // ADMIN
-                    //VistaDashboardAdmin admin = new VistaDashboardAdmin(this.agencia);
-                    //admin.Show();
-                    //this.Hide();
+                    VistaDashboardAdmin admin = new VistaDashboardAdmin(this.agencia);
+                    admin.Show();
+                    this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("USUARIO");
+                    //MessageBox.Show("USUARIO");
                     // USUARIO CLIENTE
-                    //VistaDashboardCliente cliente = new VistaDashboardCliente(this.agencia);
-                    //cliente.Show();
-                    //this.Hide();
+                    VistaDashboardCliente cliente = new VistaDashboardCliente(this.agencia);
+                    cliente.Show();
+                    this.Hide();
                 }
             }
             else
