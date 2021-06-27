@@ -15,13 +15,11 @@ namespace TP2_Grupo4.Views
     {
         private AgenciaManager agencia = new AgenciaManager();
 
-        private Agencia alojamientosDelDataGridView;
 
         public VistaAlojamientosCliente(AgenciaManager agenciaManager, string idioma)
         {
             InitializeComponent();
             this.agencia = agenciaManager;
-            this.alojamientosDelDataGridView = agenciaManager.GetAgencia();
 
             this.llenarSelects();
 
@@ -135,16 +133,16 @@ namespace TP2_Grupo4.Views
             switch (this.selectOrdenamiento.Text)
             {
                 case "fecha de creacion":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorCodigo());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorCodigo());
                     break;
                 case "estrellas":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorEstrellas());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorEstrellas());
                     break;
                 case "personas":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorPersonas());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorPersonas());
                     break;
                 default:
-                    this.llenarDataGridView(this.alojamientosDelDataGridView);
+                    this.llenarDataGridView(this.agencia.GetAgencia().AlojamientosToLista());
                     break;
             }
         }
@@ -199,8 +197,8 @@ namespace TP2_Grupo4.Views
                 return;
             }
 
-            Agencia alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
-            if (alojamientosFiltrados == null)
+            List<List<String>> alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
+            if (alojamientosFiltrados.Count == 0)
             {
                 MessageBox.Show("No hay alojamientos disponibles para esa busqueda");
                 return;

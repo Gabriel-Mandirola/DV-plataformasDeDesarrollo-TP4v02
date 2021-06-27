@@ -172,80 +172,61 @@ namespace TP2_Grupo4
         #endregion
 
         #region FILTRAR
-        public List<List<String>> FiltrarAlojamientos(
-            String tipoAlojamiento, 
-            String ciudad, 
-            String barrio, 
-            double precioMin, 
-            double precioMax, 
-            String estrellas, 
-            String personas)
+        public List<List<String>> FiltrarAlojamientos(String tipoAlojamiento, String ciudad, String barrio, double precioMin, double precioMax, String estrellas, String personas)
         {
             List<List<String>> alojamientosFiltrados = new List<List<string>>();
-            switch (tipoAlojamiento)
-            {
-                case "todos":
-                    alojamientosFiltrados = this.agencia.AlojamientosToLista();
-                    break;
-                case "hotel":
-                    //alojamientosFiltrados = this.agencia.GetHoteles();
-                    break;
-                case "cabaña":
-                    //alojamientosFiltrados = this.agencia.GetCabanias();
-                    break;
-            }
-            
+
             var alojamientos = from alojamiento in this.contexto.Alojamientos
-                               where alojamiento.Tipo == tipoAlojamiento
                                select alojamiento;
+            
+            if (tipoAlojamiento != "todos")
+                alojamientos = from alojamiento in this.contexto.Alojamientos 
+                               where alojamiento.Tipo == tipoAlojamiento 
+                               select alojamiento;
+
             if (ciudad != "todas")
                 alojamientos = from alojamiento in this.contexto.Alojamientos
                            where alojamiento.Ciudad == ciudad
                                select alojamiento;
 
             if(barrio!= "todos")
-                alojamientos = alojamientos.Where(a => a.Barrio == barrio);
+                alojamientos = from alojamiento in this.contexto.Alojamientos
+                               where alojamiento.Barrio == barrio
+                               select alojamiento;
+
             if(estrellas != "todas")
-                alojamientos = alojamientos.Where(a => a.Estrellas == int.Parse(estrellas));
-            if(personas != "todas")
-                alojamientos = alojamientos.Where(a => a.CantidadDePersonas == int.Parse(personas));
+                alojamientos = from alojamiento in this.contexto.Alojamientos
+                               where alojamiento.Estrellas == int.Parse(estrellas)
+                               select alojamiento;
+
+            if (personas != "todas")
+                alojamientos = from alojamiento in this.contexto.Alojamientos
+                               where alojamiento.CantidadDePersonas == int.Parse(personas)
+                               select alojamiento;
+
             if (precioMin - precioMax != 0)
+                alojamientos = from alojamiento in this.contexto.Alojamientos
+                                where 
+                                // HOTEL
+                                (alojamiento.Banios == 0 && precioMin < alojamiento.PrecioPorPersona && precioMax > alojamiento.PrecioPorPersona) ||
+                                // CABAÑA
+                                (alojamiento.Banios != 0 && precioMin < alojamiento.PrecioPorDia && precioMax > alojamiento.PrecioPorDia)
+                                select alojamiento;
+            
+            foreach(var al in alojamientos)
             {
-                var alojamientos = from alojamiento in this.contexto.Alojamientos
-                                        where alojamiento.Id >= 5
-                                        orderby alojamiento.Id
-                                        select alojamiento;
+                alojamientosFiltrados.Add(new List<string>()
+                {
+                    al.Tipo,
+                    al.Ciudad,
+                    al.Barrio,
+                    al.Estrellas.ToString(),
+                    al.CantidadDePersonas.ToString(),
+                    al.Tv ? "si" : "no",
+                    al.Tipo == "hotel" ? al.PrecioPorPersona.ToString() : al.PrecioPorDia.ToString()
+                });
             }
 
-            //if (ciudad != "todas")
-            //{
-            //    alojamientosFiltrados = alojamientosFiltrados.GetAlojamientosPorCiudad(ciudad);
-            //    if (alojamientosFiltrados == null) return null;
-
-            //}
-
-            //if (barrio != "todos")
-            //{
-            //    alojamientosFiltrados = alojamientosFiltrados.GetAlojamientosPorBarrio(barrio);
-            //    if (alojamientosFiltrados == null) return null;
-            //}
-
-            //if (precioMin - precioMax != 0)
-            //{
-            //    alojamientosFiltrados = alojamientosFiltrados.GetAllAlojamientos(precioMin, precioMax);
-            //    if (alojamientosFiltrados == null) return null;
-            //}
-            //if (estrellas != "todas")
-            //{
-            //    alojamientosFiltrados = alojamientosFiltrados.GetAllAlojamientos(int.Parse(estrellas));
-            //    if (alojamientosFiltrados == null) return null;
-            //}
-
-            //if (personas != "todas")
-            //{
-            //    alojamientosFiltrados = alojamientosFiltrados.GetAlojamientosPorCantidadDePersonas(int.Parse(personas));
-            //    if (alojamientosFiltrados == null) return null;
-            //}
             return alojamientosFiltrados;
         }
         #endregion
