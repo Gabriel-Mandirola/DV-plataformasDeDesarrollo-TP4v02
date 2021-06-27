@@ -442,6 +442,6 @@ namespace TP2_Grupo4
         /* GETTERS */
         public Agencia GetAgencia(){ return this.agencia; }
         public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
-        public List<Usuario> GetUsuarios() { return this.Usuarios; }
+        public List<Usuario> GetUsuarios() { return this.Usuarios.ToList(); }
     }
 }
