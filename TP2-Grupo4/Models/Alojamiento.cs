@@ -20,7 +20,7 @@ namespace TP2_Grupo4.Models
         public int Habitaciones { get; set; }
         public int Banios { get; set; }
 
-        public Alojamiento(String codigo, String ciudad, String barrio, int estrellas, int cantPersonas, bool tv, double PrecioPorPersona, double precioPorDia, int habitaciones, int banios)
+        /*public Alojamiento(String codigo, String ciudad, String barrio, int estrellas, int cantPersonas, bool tv, double PrecioPorPersona, double precioPorDia, int habitaciones, int banios)
         {
             this.Codigo = codigo;
             this.Ciudad = ciudad;
@@ -32,7 +32,7 @@ namespace TP2_Grupo4.Models
             this.PrecioPorDia = precioPorDia;
             this.Habitaciones = habitaciones;
             this.Banios = banios;
-        }
+        }*/
 
         //public double PrecioTotalDelAlojamiento()
         //{

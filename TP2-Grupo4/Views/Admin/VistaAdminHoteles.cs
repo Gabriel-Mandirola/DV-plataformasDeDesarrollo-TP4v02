@@ -226,7 +226,7 @@ namespace TP2_Grupo4.Views
             }
 
             //REVISAR
-            var asd = new Alojamiento(codigo.ToString(), ciudad, barrio, estrellas, cantPersonas, tv, precioPersonas, 0, 0, 0);
+            var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = precioPersonas, PrecioPorDia = 0, Habitaciones = 0, Banios = 0 };
             if (this.agencia.GetAgencia().ModificarAlojamiento(asd))
             {
                 MessageBox.Show("Hotel modificado correctamente");
@@ -272,7 +272,7 @@ namespace TP2_Grupo4.Views
             }
 
             //REVISAR
-            var asd = new Alojamiento(codigo.ToString(), ciudad, barrio, estrellas, cantPersonas, tv, precioPersonas, 0, 0, 0);
+            var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = precioPersonas, PrecioPorDia = 0, Habitaciones = 0, Banios = 0 };
             if ( !this.agencia.ExisteAlojamiento(codigo) && this.agencia.GetAgencia().AgregarAlojamiento(asd) )
             {
                 MessageBox.Show("El Hotel fue agregado correctamente.");

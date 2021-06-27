@@ -233,7 +233,7 @@ namespace TP2_Grupo4.Views
             if ( !this.agencia.ExisteAlojamiento(codigo) )
             {
                 // REVISAR
-                var asd = new Alojamiento( codigo.ToString(), ciudad, barrio, estrellas, cantPersonas, tv, 0, precioPorDia, habitaciones, banios );
+                var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = 0, PrecioPorDia = precioPorDia, Habitaciones = habitaciones, Banios = banios };
                 if (this.agencia.GetAgencia().AgregarAlojamiento(asd))
                 {
                     MessageBox.Show("Cabaña agregada correctamente");
@@ -283,7 +283,8 @@ namespace TP2_Grupo4.Views
             int habitaciones = Int32.Parse(comboBoxHabitaciones.Text);
             int banios = Int32.Parse(comboBoxBanios.Text);
 
-            if(this.agencia.GetAgencia().ModificarAlojamiento(new Alojamiento(codigo.ToString(), ciudad, barrio, estrellas, cantPersonas, tv, 0, precioDia, habitaciones, banios)))
+            var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = 0, PrecioPorDia = precioDia, Habitaciones = habitaciones, Banios = banios };
+            if (this.agencia.GetAgencia().ModificarAlojamiento(asd))
             {
                 MessageBox.Show("Cabaña modificada correctamente");
             }

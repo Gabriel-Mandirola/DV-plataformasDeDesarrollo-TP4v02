@@ -34,7 +34,13 @@ namespace TP2_Grupo4.Models
                 alojamiento.HasIndex(a => a.Codigo).IsUnique();
                 alojamiento.Property(a => a.Ciudad).HasColumnType("varchar(50)").IsRequired(true);
                 alojamiento.Property(a => a.Barrio).HasColumnType("varchar(50)").IsRequired(true);
+                //alojamiento.Property(a => a.CantidadDePersonas).HasColumnType("int").IsRequired(true);
+                //alojamiento.Property(a => a.Tv).HasColumnType("tinyint").IsRequired(true);
                 alojamiento.Property(a => a.Tipo).HasColumnType("varchar(10)").IsRequired(true);
+                /*alojamiento.Property(a => a.PrecioPorPersona).HasColumnType("double");
+                alojamiento.Property(a => a.PrecioPorDia).HasColumnType("double");
+                alojamiento.Property(a => a.Habitaciones).HasColumnType("int");
+                alojamiento.Property(a => a.Banios).HasColumnType("int");*/
             });
             modelBuilder.Entity<Reserva>(reserva =>
             {
