@@ -433,11 +433,15 @@ namespace TP2_Grupo4
         {
             return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo);
         }
+        public bool ExisteAlojamiento(int codigo)
+        {
+            return this.agencia.FindAlojamientoForCodigo(codigo) != null ? true : false;
+        }
         #endregion
-
 
         /* GETTERS */
         public Agencia GetAgencia(){ return this.agencia; }
         public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
+        public List<Usuario> GetUsuarios() { return this.Usuarios; }
     }
 }
