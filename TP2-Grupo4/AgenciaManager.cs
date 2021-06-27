@@ -130,6 +130,11 @@ namespace TP2_Grupo4
             return true;
         }
 
+
+        public void CerrarSession()
+        {
+            this.usuarioLogeado = null;
+        }
         #endregion
 
         #region INFO PARA LAS VISTAS
@@ -230,6 +235,71 @@ namespace TP2_Grupo4
             return alojamientosFiltrados;
         }
         #endregion
+
+
+
+        #region Reservas
+        public bool EliminarReserva(int id)
+        {
+            try
+            {
+                var reserva = this.Reservas.ToList().Find(r => r.Id == id);
+                contexto.Reservas.Remove(reserva);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public List<Reserva> GetAllReservasForUsuario(int dni)
+        {
+            return this.Reservas.ToList().FindAll(reserva => reserva.Usuario.Dni == dni);
+        }
+
+
+        public List<List<String>> DatosDeReservasParaLasVistas(String tipoDeUsuario = "admin")
+        {
+            List<List<String>> reservas = new List<List<string>>();
+        
+            if (tipoDeUsuario == "admin")
+            {
+                foreach (Reserva reserva in this.Reservas)
+                {
+                    reservas.Add(new List<String>(){
+                        reserva.Id.ToString(),
+                        reserva.FechaDesde.ToString(),
+                        reserva.FechaHasta.ToString(),
+                        reserva.Alojamiento.Codigo.ToString(),
+                        reserva.Usuario.Dni.ToString(),
+                        reserva.Precio.ToString(),
+                    });
+                }
+            }
+            else if (tipoDeUsuario == "user")
+            {
+                // Reservas del usuario
+                List<Reserva> reservasDelUsuario = this.GetAllReservasForUsuario(this.usuarioLogeado.Dni);
+
+                foreach (Reserva reserva in reservasDelUsuario)
+                {
+                    reservas.Add(new List<String>(){
+                        reserva.Alojamiento.Tipo is "Hotel" ? "hotel" : "cabaña",
+                        reserva.FechaDesde.ToString(),
+                        reserva.FechaHasta.ToString(),
+                        reserva.Precio.ToString(),
+                    });
+                }
+            }
+            return reservas;
+        }
+
+        #endregion
+
+
+
 
         /* GETTERS */
         public Agencia GetAgencia(){ return this.agencia; }
