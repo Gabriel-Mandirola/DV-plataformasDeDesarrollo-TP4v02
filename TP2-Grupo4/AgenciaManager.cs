@@ -271,6 +271,8 @@ namespace TP2_Grupo4
             }
             return reservas;
         }
+
+
         /* GETTERS */
         public Agencia GetAgencia(){ return this.agencia; }
         public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }

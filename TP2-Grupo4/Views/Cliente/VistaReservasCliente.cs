@@ -18,7 +18,7 @@ namespace TP2_Grupo4.Views
         {
             InitializeComponent();
             this.agencia = agenciaManager;
-            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().GetDni());
+            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().Dni);
 
             if (idioma == "Español")
             {
