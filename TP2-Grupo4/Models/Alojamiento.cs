@@ -19,5 +19,19 @@ namespace TP2_Grupo4.Models
         public double PrecioPorDia { get; set; }
         public int HabPtaciones { get; set; }
         public int Banios { get; set; }
+
+
+        //public double PrecioTotalDelAlojamiento()
+        //{
+        //    if (cantidadDePersonas > 0)
+        //    {
+        //        return this.GetPrecioPorPersona() * this.GetCantidadDePersonas();
+        //    }
+        //    else
+        //    {
+        //        return this.GetPrecioPorDia();
+        //    }
+        //}
+
     }
 }
