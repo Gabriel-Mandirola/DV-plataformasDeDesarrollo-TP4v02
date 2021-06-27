@@ -79,7 +79,7 @@ namespace TP2_Grupo4.Views.Cliente
             // Codigo del Alojamiento
             int codigoDelAlojamiento = int.Parse(this.dataGridViewAlojamientos.Rows[rowIndex].Cells["codigo"].Value.ToString());
             // DNI usuario
-            int dni = this.agencia.GetUsuarioLogeado().GetDni();
+            int dni = this.agencia.GetUsuarioLogeado().Dni;
             // Precio total del alojamiento
             double precioDeLaReserva = tipoAlojamiento == "hotel" ? cantidadDeDias * cantidadDePersonas * precioDelAlojamiento : cantidadDeDias * precioDelAlojamiento;
 
