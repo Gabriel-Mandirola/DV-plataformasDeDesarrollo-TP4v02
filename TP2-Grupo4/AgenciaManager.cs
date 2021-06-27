@@ -306,10 +306,6 @@ namespace TP2_Grupo4
 
             return alojamientosFiltrados;
         }
-        public List<Reserva> GetAllReservasForUsuario(int dni)
-        {
-            return this.Reservas.FindAll(reserva => reserva.GetUsuario().GetDni() == dni);
-        }
         #endregion
 
 
