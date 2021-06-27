@@ -82,6 +82,21 @@ namespace TP2_Grupo4.Migrations
                             PrecioPorPersona = 2400.0,
                             Tipo = "hotel",
                             Tv = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Banios = 2,
+                            Barrio = "Sur",
+                            CantidadDePersonas = 2,
+                            Ciudad = "Neuquen",
+                            Codigo = "111111",
+                            Estrellas = 4,
+                            Habitaciones = 4,
+                            PrecioPorDia = 1200.0,
+                            PrecioPorPersona = 2400.0,
+                            Tipo = "cabaña",
+                            Tv = true
                         });
                 });
 

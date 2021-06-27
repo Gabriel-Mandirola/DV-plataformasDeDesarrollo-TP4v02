@@ -9,8 +9,8 @@ using TP2_Grupo4.Models;
 namespace TP2_Grupo4.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210627193750_inicial")]
-    partial class inicial
+    [Migration("20210627210814_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,6 +83,21 @@ namespace TP2_Grupo4.Migrations
                             PrecioPorDia = 0.0,
                             PrecioPorPersona = 2400.0,
                             Tipo = "hotel",
+                            Tv = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Banios = 2,
+                            Barrio = "Sur",
+                            CantidadDePersonas = 2,
+                            Ciudad = "Neuquen",
+                            Codigo = "111111",
+                            Estrellas = 4,
+                            Habitaciones = 4,
+                            PrecioPorDia = 1200.0,
+                            PrecioPorPersona = 2400.0,
+                            Tipo = "cabaña",
                             Tv = true
                         });
                 });

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TP2_Grupo4.Migrations
 {
-    public partial class inicial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -94,17 +94,20 @@ namespace TP2_Grupo4.Migrations
             migrationBuilder.InsertData(
                 table: "Alojamientos",
                 columns: new[] { "Id", "Banios", "Barrio", "CantidadDePersonas", "Ciudad", "Codigo", "Estrellas", "Habitaciones", "PrecioPorDia", "PrecioPorPersona", "Tipo", "Tv" },
-                values: new object[] { 1, 0, "Recoleta", 2, "Buenos Aires", "123456", 3, 0, 0.0, 2400.0, "hotel", true });
+                values: new object[,]
+                {
+                    { 1, 0, "Recoleta", 2, "Buenos Aires", "123456", 3, 0, 0.0, 2400.0, "hotel", true },
+                    { 2, 2, "Sur", 2, "Neuquen", "111111", 4, 4, 1200.0, 2400.0, "cabaña", true }
+                });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "Id", "Bloqueado", "Dni", "Email", "IsAdmin", "Nombre", "Password" },
-                values: new object[] { 1, false, 11111111, "admin@admin.com", true, "admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" });
-
-            migrationBuilder.InsertData(
-                table: "Usuarios",
-                columns: new[] { "Id", "Bloqueado", "Dni", "Email", "IsAdmin", "Nombre", "Password" },
-                values: new object[] { 2, false, 12312312, "prueba1@gmail.com", false, "prueba1", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" });
+                values: new object[,]
+                {
+                    { 1, false, 11111111, "admin@admin.com", true, "admin", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" },
+                    { 2, false, 12312312, "prueba1@gmail.com", false, "prueba1", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alojamientos_Codigo",

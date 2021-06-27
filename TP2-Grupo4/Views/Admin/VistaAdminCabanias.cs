@@ -105,10 +105,27 @@ namespace TP2_Grupo4.Views
         {
             // Limpiamos el GridView
             dgvCabanias.Rows.Clear();
+            var alojamientos = this.agencia.GetAgencia().GetAlojamientos();
 
-            List<List<String>> cabanias = this.agencia.GetAgencia().DatosDeAlojamientosParaLasVistasAdmin();
-            foreach (List<String> cabania in cabanias)
-                this.dgvCabanias.Rows.Add(cabania.ToArray());
+            // Limpiamos el GridView
+            dgvCabanias.Rows.Clear();
+
+            foreach (Alojamiento alojamiento in alojamientos)
+                if (alojamiento.Tipo == "cabaña")
+                {
+                    this.dgvCabanias.Rows.Add(
+                    alojamiento.Codigo,
+                    alojamiento.Ciudad,
+                    alojamiento.Barrio,
+                    alojamiento.Estrellas,
+                    alojamiento.CantidadDePersonas,
+                    alojamiento.Tv,
+                    alojamiento.PrecioPorDia,
+                    alojamiento.Habitaciones,
+                    alojamiento.Banios
+                    );
+
+                }
 
             // Update y Regresheo de Grid
             dgvCabanias.Update();
@@ -174,10 +191,11 @@ namespace TP2_Grupo4.Views
 
                     // Borrado
                     dgvCabanias.Rows.RemoveAt(rowIndex);
-                    if(this.agencia.GetAgencia().EliminarAlojamiento(codigo))
+                    if (this.agencia.GetAgencia().EliminarAlojamiento(codigo))
                     {
                         MessageBox.Show("Cabaña elimina junto con todas sus reservas");
-                    } else
+                    }
+                    else
                     {
                         MessageBox.Show("No se pudo eliminar la Cabaña. Intente nuevamente");
                     }
@@ -230,11 +248,23 @@ namespace TP2_Grupo4.Views
 
             int habitaciones = Int32.Parse(comboBoxHabitaciones.Text);
             int banios = Int32.Parse(comboBoxBanios.Text);
-            if ( !this.agencia.ExisteAlojamiento(codigo) )
+            if (!this.agencia.ExisteAlojamiento(codigo))
             {
                 // REVISAR
-                var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = 0, PrecioPorDia = precioPorDia, Habitaciones = habitaciones, Banios = banios };
-                if (this.agencia.GetAgencia().AgregarAlojamiento(asd))
+                var newAlojamiento = new Alojamiento
+                {
+                    Codigo = codigo.ToString(),
+                    Ciudad = ciudad,
+                    Barrio = barrio,
+                    Estrellas = estrellas,
+                    CantidadDePersonas = cantPersonas,
+                    Tv = tv,
+                    PrecioPorPersona = 0,
+                    PrecioPorDia = precioPorDia,
+                    Habitaciones = habitaciones,
+                    Banios = banios
+                };
+                if (this.agencia.GetAgencia().AgregarAlojamiento(newAlojamiento))
                 {
                     MessageBox.Show("Cabaña agregada correctamente");
                 }

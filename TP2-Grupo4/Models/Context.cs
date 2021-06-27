@@ -53,7 +53,31 @@ namespace TP2_Grupo4.Models
                 new Usuario{Id=2, Dni = 12312312, Nombre = "prueba1", Email = "prueba1@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
             }); ;
             modelBuilder.Entity<Alojamiento>().HasData(new Alojamiento[] {
-                new Alojamiento{Id=1, Codigo="123456", Ciudad="Buenos Aires", Barrio="Recoleta", Estrellas=3, Tv = true, Tipo="hotel" , CantidadDePersonas=2, PrecioPorPersona=2400 },
+                new Alojamiento{
+                    Id=1, 
+                    Codigo="123456", 
+                    Ciudad="Buenos Aires", 
+                    Barrio="Recoleta", 
+                    Estrellas=3, 
+                    Tv = true, 
+                    Tipo="hotel" , 
+                    CantidadDePersonas=2, 
+                    PrecioPorPersona=2400 
+                },
+                new Alojamiento{
+                    Id=2, 
+                    Codigo="111111", 
+                    Ciudad="Neuquen", 
+                    Barrio="Sur", 
+                    Estrellas=4, 
+                    Tv = true, 
+                    Tipo="cabaña" , 
+                    CantidadDePersonas=2, 
+                    PrecioPorPersona=2400, 
+                    PrecioPorDia = 1200,
+                    Habitaciones = 4, 
+                    Banios = 2
+                },
             });
 
         }
