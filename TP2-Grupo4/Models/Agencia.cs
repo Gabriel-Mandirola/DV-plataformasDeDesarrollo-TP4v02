@@ -78,7 +78,10 @@ namespace TP2_Grupo4.Models
             }
         }
         #endregion
-
+        public Alojamiento FindAlojamientoForCodigo(int codigoAlojamiento)
+        {
+            return this.Alojamientos.Find(al => al.Codigo == codigoAlojamiento);
+        }
 
 
 

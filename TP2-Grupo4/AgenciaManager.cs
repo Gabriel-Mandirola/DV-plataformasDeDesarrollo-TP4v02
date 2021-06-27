@@ -40,7 +40,42 @@ namespace TP2_Grupo4
             {
             }
         }
-        
+
+        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, int codigoAlojamiento, int dniUsuario, double precio)
+        {
+            Alojamiento alojamiento = this.GetAgencia().FindAlojamientoForCodigo(codigoAlojamiento);
+            Usuario usuario = this.FindUserForDNI(dniUsuario);
+            if (alojamiento == null || usuario == null) return false;
+
+            // Timestamp = Id
+            String timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            //this.reservas.Add(new Reserva(timestamp, fechaDesde,fechaHasta,alojamiento,usuario, precio));
+            return true;
+        }
+        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int codigoAlojamiento, int dniUsuario)
+        {
+            int indexReserva = this.findIndexReservaPorId(id);
+            if (indexReserva == -1) return false;
+
+            Alojamiento alojamiento = this.agencia.FindAlojamientoForCodigo(codigoAlojamiento);
+            Usuario usuario = this.FindUserForDNI(dniUsuario);
+            if (alojamiento == null || usuario == null) return false;
+
+            this.reservas[indexReserva].SetFechaDesde(fechaDesde);
+            this.reservas[indexReserva].SetFechaHasta(fechaHasta);
+            this.reservas[indexReserva].SetAlojamiento(alojamiento);
+            this.reservas[indexReserva].SetUsuario(usuario);
+            this.reservas[indexReserva].SetPrecio(alojamiento.PrecioTotalDelAlojamiento());
+            return true;
+        }
+        public bool EliminarReserva(String id)
+        {
+            int indexReserva = this.findIndexReservaPorId(id);
+            if (indexReserva == -1) return false;
+
+            this.reservas.RemoveAt(indexReserva);
+            return true;
+        }
 
         #region USUARIO
         public bool IsUsuarioBloqueado(int dni)
@@ -247,6 +282,10 @@ namespace TP2_Grupo4
             //    if (alojamientosFiltrados == null) return null;
             //}
             return alojamientosFiltrados;
+        }
+        public List<Reserva> GetAllReservasForUsuario(int dni)
+        {
+            return this.Reservas.FindAll(reserva => reserva.GetUsuario().GetDni() == dni);
         }
         #endregion
 

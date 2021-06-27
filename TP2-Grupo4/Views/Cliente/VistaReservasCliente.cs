@@ -18,7 +18,7 @@ namespace TP2_Grupo4.Views
         {
             InitializeComponent();
             this.agencia = agenciaManager;
-            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().GetDni());
+            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().Dni);
 
             if (idioma == "Español")
             {
@@ -79,7 +79,7 @@ namespace TP2_Grupo4.Views
                     int rowIndex = dgvReservaciones.CurrentCell.RowIndex;
 
                     // Codigo de la reserva
-                    String codigoDeReserva = this.reservasDelUsuario[rowIndex].GetId();
+                    String codigoDeReserva = this.reservasDelUsuario[rowIndex].Id.ToString();
 
                     // Eliminar reserva
                     this.agencia.EliminarReserva(codigoDeReserva);
