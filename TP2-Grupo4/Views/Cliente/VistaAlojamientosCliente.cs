@@ -15,7 +15,6 @@ namespace TP2_Grupo4.Views
     {
         private AgenciaManager agencia = new AgenciaManager();
 
-
         public VistaAlojamientosCliente(AgenciaManager agenciaManager, string idioma)
         {
             InitializeComponent();
@@ -163,6 +162,7 @@ namespace TP2_Grupo4.Views
             };
             btnReservar.DefaultCellStyle.BackColor = Color.Green;
 
+            dgvAlojamiento.Columns.Add("Id", "Id") ;
             dgvAlojamiento.Columns.Add("Tipo", "Tipo");
             dgvAlojamiento.Columns.Add("Ciudad", "Ciudad");
             dgvAlojamiento.Columns.Add("Barrio", "Barrio");
@@ -170,7 +170,7 @@ namespace TP2_Grupo4.Views
             dgvAlojamiento.Columns.Add("CantidadDePersonas", "Cantidad de Personas");
             dgvAlojamiento.Columns.Add("Tv", "TV");
             dgvAlojamiento.Columns.Add("Precio", "Precio");
-
+            dgvAlojamiento.Columns["Id"].Visible = false; // Oculto la columna de Id
             dgvAlojamiento.Columns.Add(btnReservar);
             dgvAlojamiento.ReadOnly = false;
 
@@ -240,7 +240,7 @@ namespace TP2_Grupo4.Views
                 // Index del Row
                 int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
                 // Codigo del Alojamiento
-                int codigoDelAlojamiento = this.alojamientosDelDataGridView.Alojamientos()[rowIndex].Codigo;
+                String codigoDelAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Id"].Value.ToString(); // PROBAR!!!
                 // Cantidad de personas
                 int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
                 // Precio del alojamiento
@@ -250,12 +250,13 @@ namespace TP2_Grupo4.Views
                 // Calcular precio total
                 double precioDeLaReserva = tipoAlojamiento == "hotel" ? diasTotalesDeLaReserva * cantidadDePersonas * precioDelAlojamiento : diasTotalesDeLaReserva * precioDelAlojamiento;
 
+                // TODO: AGREGAR METODO PARA VER DISPONIBILIDAD DEL ALOJAMIENTO EN LA CLASE AgenciaManager
                 // Validar que el alojamiento este disponible
-                if(!this.agencia.ElAlojamientoEstaDisponible(codigoDelAlojamiento, this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
-                {
-                    MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
-                    return;
-                }
+                //if(!this.agencia.ElAlojamientoEstaDisponible(codigoDelAlojamiento, this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
+                //{
+                //    MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
+                //    return;
+                //}
 
                 // Mensaje
                 String textMessage = $"El precio de la reserva que vas a realizar es de ${precioDeLaReserva}";
@@ -264,19 +265,20 @@ namespace TP2_Grupo4.Views
                 // Confirmacion del usuario
                 if (MessageBox.Show(textMessage , "Confirmacion de la reserva", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    // TODO: AGREGAR METODO EN LA CLASE RESERVA
                     // Agregar reserva
-                    this.agencia.AgregarReserva(
-                        this.inputDateFechaIda.Value,
-                        this.inputDateFechaVuelta.Value,
-                        codigoDelAlojamiento,
-                        this.agencia.GetUsuarioLogeado().Dni,
-                        precioDeLaReserva
-                        );
+                    //this.agencia.AgregarReserva(
+                    //    this.inputDateFechaIda.Value,
+                    //    this.inputDateFechaVuelta.Value,
+                    //    codigoDelAlojamiento,
+                    //    this.agencia.GetUsuarioLogeado().Dni,
+                    //    precioDeLaReserva
+                    //    );
                     MessageBox.Show("Reserva realizada correctamente");
 
                     // llenar DataGridView
                     this.limpiarDataGridView();
-                    this.llenarDataGridView();
+                    this.llenarDataGridView(this.agencia.GetAgencia().AlojamientosToLista());
                 }
             }
         }
