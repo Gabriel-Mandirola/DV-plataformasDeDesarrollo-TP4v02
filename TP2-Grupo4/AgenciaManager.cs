@@ -54,6 +54,8 @@ namespace TP2_Grupo4
                     this.contexto.SaveChanges();
                     return true;*/
                     Reserva reservas = new Reserva(fechaDesde, fechaHasta, codigoAlojamiento, dniUsuario, precio);
+
+
                     this.Reservas.Add(reservas);
                     contexto.SaveChanges();
                     return true;

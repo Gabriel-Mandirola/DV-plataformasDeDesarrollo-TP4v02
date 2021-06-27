@@ -90,7 +90,7 @@ namespace TP2_Grupo4.Views.Cliente
             // Pedir confirmacion al usuario
             if (MessageBox.Show(message, "Confirmacion de la reserva", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if(this.agencia.AgregarReserva(this.fechaDesde, this.fechaHasta, codigoDelAlojamiento, dni, precioDeLaReserva))
+                if(this.agencia.AgregarReserva(this.fechaDesde, this.fechaHasta, agencia.GetAgencia().FindAlojamientoForCodigo(codigoDelAlojamiento), agencia.FindUserForDNI(dni), precioDeLaReserva))
                     MessageBox.Show("Su reserva fue realizada con exito");
                 else
                     MessageBox.Show("No se pudo realizar la reserva, vuelva a intentarlo mas tarde");

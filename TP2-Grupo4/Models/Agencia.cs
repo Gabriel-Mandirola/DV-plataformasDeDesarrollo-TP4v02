@@ -80,9 +80,8 @@ namespace TP2_Grupo4.Models
         #endregion
         public Alojamiento FindAlojamientoForCodigo(int codigoAlojamiento)
         {
-            return this.Alojamientos.Find(al => al.Codigo == codigoAlojamiento);
+            return this.Alojamientos.ToList().Find(al => al.Codigo == codigoAlojamiento.ToString());
         }
-
 
 
         #region METODOS COMPLEMENTARIOS
