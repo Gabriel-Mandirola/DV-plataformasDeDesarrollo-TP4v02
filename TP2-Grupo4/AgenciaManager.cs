@@ -246,6 +246,35 @@ namespace TP2_Grupo4
         {
             return new List<String>() { "fecha de creacion", "personas", "estrellas" };
         }
+
+        public List<List<String>> BuscarDeAlojamientosPorCiudadYFechas(String ciudad, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            List<List<String>> alojamientos = new List<List<string>>();
+            List<Alojamiento> alojamientosFiltrados = new List<Alojamiento>();
+
+            foreach (var alojamiento in this.GetAgencia().Alojamientos.ToList().FindAll(al => al.Ciudad.Contains(ciudad)))
+            {
+                if (this.ElAlojamientoEstaDisponible(alojamiento.Codigo, fechaDesde, fechaHasta))
+                    alojamientosFiltrados.Add(alojamiento);
+            }
+
+            foreach (Alojamiento alojamiento in alojamientosFiltrados)
+            {
+                alojamientos.Add(new List<string>()
+                {
+                    alojamiento.Codigo.ToString(),
+                    alojamiento.Tipo is "Hotel" ? "hotel" : "cabaña",
+                    alojamiento.Ciudad,
+                    alojamiento.Barrio,
+                    alojamiento.Estrellas.ToString(),
+                    alojamiento.CantidadDePersonas.ToString(),
+                    alojamiento.Tv.ToString(),
+                    alojamiento.Tipo is "Hotel" ? (alojamiento).PrecioPorPersona.ToString() : (alojamiento).PrecioPorDia.ToString()                    
+                });
+            }
+
+            return alojamientos;
+        }
         #endregion
 
         #region FILTRAR
@@ -383,9 +412,26 @@ namespace TP2_Grupo4
             return reservas;
         }
 
+        public bool ElAlojamientoEstaDisponible(String codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            bool alojamientoDisponible = true;
+            foreach (Reserva reserva in this.getAllReservasForAlojamiento(codigoDeAlojamiento))
+            {
+                bool validarFechaDesde = DateTime.Compare(reserva.FechaDesde, fechaDesde) == 1 && DateTime.Compare(reserva.FechaDesde, fechaHasta) == 1;
+                bool validarFechaHasta = DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1 && DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1;
+                if (!validarFechaDesde && !validarFechaHasta)
+                    alojamientoDisponible = false;
+            }
+            return alojamientoDisponible;
+        }
         #endregion
 
-
+        #region metodos para los alojamientos
+        private List<Reserva> getAllReservasForAlojamiento(String codigo)
+        {
+            return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo);
+        }
+        #endregion
 
 
         /* GETTERS */
