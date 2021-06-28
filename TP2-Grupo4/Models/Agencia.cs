@@ -108,21 +108,37 @@ namespace TP2_Grupo4.Models
             }
             return alojamientos;
         }
-        public List<List<String>> DatosDeAlojamientosParaLasVistasAdmin()
+        public List<List<String>> DatosDeAlojamientosParaLasVistasAdmin(String tipoAloj)
         {
             List<List<String>> alojamientos = new List<List<string>>();
             foreach (Alojamiento alojamiento in this.Alojamientos)
             {
-                double precio = alojamiento.Tipo == "hotel" ? alojamiento.PrecioPorPersona : alojamiento.PrecioPorDia;
-                alojamientos.Add(new List<String>(){
+                if (tipoAloj == "todo")
+                {
+                    double precio = alojamiento.Tipo == "hotel" ? alojamiento.PrecioPorPersona : alojamiento.PrecioPorDia;
+                    alojamientos.Add(new List<String>(){
                     alojamiento.Codigo.ToString(),
                     alojamiento.Ciudad,
                     alojamiento.Barrio,
                     alojamiento.Estrellas.ToString(),
                     alojamiento.CantidadDePersonas.ToString(),
                     alojamiento.Tv ? "si" : "no",
-                    precio.ToString()
+                    precio.ToString(),
+                    });
+                }
+                else if (alojamiento.Tipo == tipoAloj)
+                {
+                    double precio = alojamiento.Tipo == "hotel" ? alojamiento.PrecioPorPersona : alojamiento.PrecioPorDia;
+                    alojamientos.Add(new List<String>(){
+                    alojamiento.Codigo.ToString(),
+                    alojamiento.Ciudad,
+                    alojamiento.Barrio,
+                    alojamiento.Estrellas.ToString(),
+                    alojamiento.CantidadDePersonas.ToString(),
+                    alojamiento.Tv ? "si" : "no",
+                    precio.ToString(),
                 });
+                }
             }
             return alojamientos;
         }
