@@ -150,10 +150,7 @@ namespace TP2_Grupo4.Views
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            // admin
-            // dni: 40393222
-            // pass: admin1234
-            int dni = int.Parse(txtUsuario.Text); // Validado con el metodo InputDNI
+            int dni = int.Parse(txtUsuario.Text);
             String password = txtContrasena.Text;
 
             if (this.agencia.FindUserForDNI(dni) == null)
@@ -169,7 +166,6 @@ namespace TP2_Grupo4.Views
             {
                 if (this.agencia.GetUsuarioLogeado().IsAdmin)
                 {
-                    //MessageBox.Show("ADMIN");
                     // ADMIN
                     VistaDashboardAdmin admin = new VistaDashboardAdmin(this.agencia);
                     admin.Show();
@@ -177,7 +173,6 @@ namespace TP2_Grupo4.Views
                 }
                 else
                 {
-                    //MessageBox.Show("USUARIO");
                     // USUARIO CLIENTE
                     VistaDashboardCliente cliente = new VistaDashboardCliente(this.agencia);
                     cliente.Show();

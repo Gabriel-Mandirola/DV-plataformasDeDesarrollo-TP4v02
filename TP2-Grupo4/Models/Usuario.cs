@@ -4,7 +4,6 @@ namespace TP2_Grupo4.Models
 {
     public class Usuario
     {
-
         public int Id { get; set; }
         public int Dni { get; set; }
         public String Nombre { get; set; }
@@ -12,8 +11,6 @@ namespace TP2_Grupo4.Models
         public String Password { get; set; }
         public bool IsAdmin { get; set; }
         public bool Bloqueado { get; set; }
-
-
     }
-  
+
 }

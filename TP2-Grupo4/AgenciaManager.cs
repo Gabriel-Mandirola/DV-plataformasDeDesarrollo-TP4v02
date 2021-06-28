@@ -70,7 +70,8 @@ namespace TP2_Grupo4
             try
             {
                 return this.Usuarios.Where(user => user.Email == email).First() != null;
-            } catch
+            }
+            catch
             {
                 return false;
             }
@@ -79,7 +80,8 @@ namespace TP2_Grupo4
         {
             try
             {
-                Usuario nuevo = new Usuario {
+                Usuario nuevo = new Usuario
+                {
                     Dni = dni,
                     Nombre = nombre,
                     Email = email,
@@ -201,7 +203,7 @@ namespace TP2_Grupo4
                     alojamiento.Estrellas.ToString(),
                     alojamiento.CantidadDePersonas.ToString(),
                     alojamiento.Tv.ToString(),
-                    alojamiento.Tipo is "Hotel" ? (alojamiento).PrecioPorPersona.ToString() : (alojamiento).PrecioPorDia.ToString()                    
+                    alojamiento.Tipo is "Hotel" ? (alojamiento).PrecioPorPersona.ToString() : (alojamiento).PrecioPorDia.ToString()
                 });
             }
 
@@ -219,46 +221,46 @@ namespace TP2_Grupo4
 
             if (tipoAlojamiento != "todos")
                 alojamientos = alojamientos.Where(a => a.Tipo == tipoAlojamiento);
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos 
-                               where alojamiento.Tipo == tipoAlojamiento 
-                               select alojamiento;*/
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos 
+                           where alojamiento.Tipo == tipoAlojamiento 
+                           select alojamiento;*/
 
             if (ciudad != "todas")
                 alojamientos = alojamientos.Where(a => a.Ciudad == ciudad);
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                           where alojamiento.Ciudad == ciudad
-                               select alojamiento;*/
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos
+                       where alojamiento.Ciudad == ciudad
+                           select alojamiento;*/
 
-            if(barrio != "todos")
+            if (barrio != "todos")
                 alojamientos = alojamientos.Where(a => a.Barrio == barrio);
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                               where alojamiento.Barrio == barrio
-                               select alojamiento;*/
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos
+                           where alojamiento.Barrio == barrio
+                           select alojamiento;*/
 
-            if(estrellas != "todas")
+            if (estrellas != "todas")
                 alojamientos = alojamientos.Where(a => a.Estrellas == int.Parse(estrellas));
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                               where alojamiento.Estrellas == int.Parse(estrellas)
-                               select alojamiento;*/
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos
+                           where alojamiento.Estrellas == int.Parse(estrellas)
+                           select alojamiento;*/
 
             if (personas != "todas")
                 alojamientos = alojamientos.Where(a => a.CantidadDePersonas == int.Parse(personas));
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                               where alojamiento.CantidadDePersonas == int.Parse(personas)
-                               select alojamiento;*/
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos
+                           where alojamiento.CantidadDePersonas == int.Parse(personas)
+                           select alojamiento;*/
 
             if (precioMin - precioMax != 0)
-                alojamientos = alojamientos.Where(a => (a.Banios == 0 && precioMin < a.PrecioPorPersona && precioMax > a.PrecioPorPersona) || 
+                alojamientos = alojamientos.Where(a => (a.Banios == 0 && precioMin < a.PrecioPorPersona && precioMax > a.PrecioPorPersona) ||
                 (a.Banios != 0 && precioMin < a.PrecioPorDia && precioMax > a.PrecioPorDia));
-                /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                                where 
-                                // HOTEL
-                                (alojamiento.Banios == 0 && precioMin < alojamiento.PrecioPorPersona && precioMax > alojamiento.PrecioPorPersona) ||
-                                // CABAÑA
-                                (alojamiento.Banios != 0 && precioMin < alojamiento.PrecioPorDia && precioMax > alojamiento.PrecioPorDia)
-                                select alojamiento;*/
-            
-            foreach(var al in alojamientos)
+            /*alojamientos = from alojamiento in this.contexto.Alojamientos
+                            where 
+                            // HOTEL
+                            (alojamiento.Banios == 0 && precioMin < alojamiento.PrecioPorPersona && precioMax > alojamiento.PrecioPorPersona) ||
+                            // CABAÑA
+                            (alojamiento.Banios != 0 && precioMin < alojamiento.PrecioPorDia && precioMax > alojamiento.PrecioPorDia)
+                            select alojamiento;*/
+
+            foreach (var al in alojamientos)
             {
                 alojamientosFiltrados.Add(new List<string>()
                 {
@@ -270,7 +272,7 @@ namespace TP2_Grupo4
                     al.CantidadDePersonas.ToString(),
                     al.Tv ? "si" : "no",
                     al.Tipo == "hotel" ? al.PrecioPorPersona.ToString() : al.PrecioPorDia.ToString()
-                }) ;
+                });
             }
 
             return alojamientosFiltrados;
@@ -282,16 +284,18 @@ namespace TP2_Grupo4
         #region Reservas
         public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, String codigoAlojamiento, int dniUsuario, double precio)
         {
-            var alojamiento = this.contexto.Alojamientos.Where(a => a.Codigo.Equals(codigoAlojamiento)).FirstOrDefault();     //.FirstOrDefault(a => a.Codigo == codigoAlojamiento);
+            var alojamiento = this.contexto.Alojamientos.Where(a => a.Codigo.Equals(codigoAlojamiento)).FirstOrDefault();
             var usuario = this.Usuarios.Where(u => u.Dni == dniUsuario).FirstOrDefault();
             try
             {
-                var reservas = new Reserva { 
+                var reservas = new Reserva
+                {
                     FechaDesde = fechaDesde,
-                    FechaHasta = fechaHasta, 
-                    Alojamiento = alojamiento, 
-                    Usuario = usuario, 
-                    Precio = precio };
+                    FechaHasta = fechaHasta,
+                    Alojamiento = alojamiento,
+                    Usuario = usuario,
+                    Precio = precio
+                };
 
                 this.Reservas.Add(reservas);
                 contexto.SaveChanges();
@@ -313,7 +317,6 @@ namespace TP2_Grupo4
                         r.FechaDesde = fechaDesde;
                         r.FechaHasta = fechaHasta;
                         r.Precio = precio;
-                        //estos errores son iguales al de arriba
                         r.Alojamiento = alojamiento_id;
                         r.Usuario = usuario_id;
                         salida = true;
@@ -386,7 +389,7 @@ namespace TP2_Grupo4
         public List<List<String>> DatosDeReservasParaLasVistas(String tipoDeUsuario)
         {
             List<List<String>> reservas = new List<List<String>>();
-        
+
             if (tipoDeUsuario == "admin")
             {
                 foreach (Reserva reserva in this.Reservas)
@@ -445,7 +448,7 @@ namespace TP2_Grupo4
         #endregion
 
         /* GETTERS */
-        public Agencia GetAgencia(){ return this.agencia; }
+        public Agencia GetAgencia() { return this.agencia; }
         public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
         public List<Usuario> GetUsuarios() { return this.Usuarios.ToList(); }
     }

@@ -123,7 +123,7 @@ namespace TP2_Grupo4.Views
                     alojamiento.PrecioPorDia,
                     alojamiento.Habitaciones,
                     alojamiento.Banios,
-                    alojamiento.PrecioPorDia * alojamiento.CantidadDePersonas // chequear calculo => Total = PrecioXDia * CantDepersonas ???
+                    alojamiento.PrecioPorDia * alojamiento.CantidadDePersonas
                     ); ;
 
                 }

@@ -212,7 +212,6 @@ namespace TP2_Grupo4.Views
             this.indicarSelectPorDefecto();
             this.limpiarDataGridView();
             this.llenarDataGridView(alojamientosFiltrados);
-            //this.ordenarAlojamientos();
         }
 
         /* SELECT DE ORDENAMIENTO */
@@ -276,7 +275,7 @@ namespace TP2_Grupo4.Views
                         this.inputDateFechaIda.Value,
                         this.inputDateFechaVuelta.Value,
                         codigoDelAlojamiento,
-                        agencia.GetUsuarioLogeado().Dni, //this.agencia.GetUsuarioLogeado().Dni,
+                        agencia.GetUsuarioLogeado().Dni,
                         precioDeLaReserva
                     );
                     MessageBox.Show("Reserva realizada correctamente");
@@ -361,8 +360,6 @@ namespace TP2_Grupo4.Views
                 return;
             }
             this.lblTotalDeDias.Text = diasDeDiferencia.ToString();
-
-            //System.Diagnostics.Debug.WriteLine("Diferencia de dias: " + diasDeDiferencia);
         }
     }
 }

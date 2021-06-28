@@ -19,10 +19,10 @@ namespace TP2_Grupo4.Models
         {
             try
             {
-                //creo un contexto
+                // Creo Contexto
                 contexto = new Context();
 
-                //cargo los usuarios
+                // Cargo los alojamientos
                 contexto.Alojamientos.Load();
                 this.Alojamientos = contexto.Alojamientos;
             }

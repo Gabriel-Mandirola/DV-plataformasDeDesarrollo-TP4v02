@@ -54,28 +54,28 @@ namespace TP2_Grupo4.Models
             }); ;
             modelBuilder.Entity<Alojamiento>().HasData(new Alojamiento[] {
                 new Alojamiento{
-                    Id=1, 
-                    Codigo="123456", 
-                    Ciudad="Buenos Aires", 
-                    Barrio="Recoleta", 
-                    Estrellas=3, 
-                    Tv = true, 
-                    Tipo="hotel" , 
-                    CantidadDePersonas=2, 
-                    PrecioPorPersona=2400 
+                    Id=1,
+                    Codigo="123456",
+                    Ciudad="Buenos Aires",
+                    Barrio="Recoleta",
+                    Estrellas=3,
+                    Tv = true,
+                    Tipo="hotel" ,
+                    CantidadDePersonas=2,
+                    PrecioPorPersona=2400
                 },
                 new Alojamiento{
-                    Id=2, 
-                    Codigo="111111", 
-                    Ciudad="Neuquen", 
-                    Barrio="Sur", 
-                    Estrellas=4, 
-                    Tv = true, 
-                    Tipo="cabaña" , 
-                    CantidadDePersonas=2, 
-                    PrecioPorPersona=2400, 
+                    Id=2,
+                    Codigo="111111",
+                    Ciudad="Neuquen",
+                    Barrio="Sur",
+                    Estrellas=4,
+                    Tv = true,
+                    Tipo="cabaña" ,
+                    CantidadDePersonas=2,
+                    PrecioPorPersona=2400,
                     PrecioPorDia = 1200,
-                    Habitaciones = 4, 
+                    Habitaciones = 4,
                     Banios = 2
                 },
             });

@@ -61,18 +61,13 @@ namespace TP2_Grupo4.Views
         }
         private void txtContrasena_Enter(object sender, EventArgs e)
         {
-            if /*(txtContrasena.Text == "CONTRASEÑA NUEVA")*/ 
-                (txtContrasena.Text == "CONTRASEÑA NUEVA" || txtContrasena.Text == "NEW PASSWORD")
+            if (txtContrasena.Text == "CONTRASEÑA NUEVA" || txtContrasena.Text == "NEW PASSWORD")
             {
                 txtContrasena.Text = "";
             }
         }
         private void txtContrasena_Leave(object sender, EventArgs e)
         {
-            /*if (txtContrasena.Text == "")
-            {
-                txtContrasena.Text = "CONTRASEÑA NUEVA";
-            }*/
             if (txtContrasena.Text == "" && cambiarIdioma.Text == "English")
             {
                 txtContrasena.Text = "CONTRASEÑA NUEVA";
@@ -85,8 +80,7 @@ namespace TP2_Grupo4.Views
 
         private void txtContrasenaNueva_Enter(object sender, EventArgs e)
         {
-            if /*(txtRepetirContrasena.Text == "REPETIR CONTRASEÑA")*/
-                (txtRepetirContrasena.Text == "REPETIR CONTRASEÑA" || txtRepetirContrasena.Text == "REPEAT PASSWORD")
+            if (txtRepetirContrasena.Text == "REPETIR CONTRASEÑA" || txtRepetirContrasena.Text == "REPEAT PASSWORD")
             {
                 txtRepetirContrasena.Text = "";
             }
@@ -94,10 +88,6 @@ namespace TP2_Grupo4.Views
 
         private void txtContrasenaNueva_Leave(object sender, EventArgs e)
         {
-            /*if (txtRepetirContrasena.Text == "")
-            {
-                txtRepetirContrasena.Text = "REPETIR CONTRASEÑA";
-            }*/
             if (txtRepetirContrasena.Text == "" && cambiarIdioma.Text == "English")
             {
                 txtRepetirContrasena.Text = "REPETIR CONTRASEÑA";
@@ -167,7 +157,7 @@ namespace TP2_Grupo4.Views
                 }
                 else
                 {
-                    if (contrasena == repetirContrasena && this.agencia.ModificarUsuario(dni, "", "", contrasena) )
+                    if (contrasena == repetirContrasena && this.agencia.ModificarUsuario(dni, "", "", contrasena))
                     {
                         MessageBox.Show("Se ha modificado el usuario de manera exitosa.");
                     }
