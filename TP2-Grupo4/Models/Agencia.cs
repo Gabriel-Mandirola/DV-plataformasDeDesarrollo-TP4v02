@@ -103,7 +103,7 @@ namespace TP2_Grupo4.Models
                         alojamiento.Estrellas.ToString(),
                         alojamiento.CantidadDePersonas.ToString(),
                         alojamiento.Tv ? "si" : "no",
-                        precio.ToString(),
+                        precio.ToString()
                     });
             }
             return alojamientos;
@@ -121,7 +121,7 @@ namespace TP2_Grupo4.Models
                     alojamiento.Estrellas.ToString(),
                     alojamiento.CantidadDePersonas.ToString(),
                     alojamiento.Tv ? "si" : "no",
-                    precio.ToString(),
+                    precio.ToString()
                 });
             }
             return alojamientos;

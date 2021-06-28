@@ -199,7 +199,8 @@ namespace TP2_Grupo4.Views
                 return;
             }
 
-            List<List<String>> alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
+            List<List<String>> alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, 
+                inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
             if (alojamientosFiltrados.Count == 0)
             {
                 MessageBox.Show("No hay alojamientos disponibles para esa busqueda");
@@ -211,7 +212,7 @@ namespace TP2_Grupo4.Views
             this.indicarSelectPorDefecto();
             this.limpiarDataGridView();
             this.llenarDataGridView(alojamientosFiltrados);
-            this.ordenarAlojamientos();
+            //this.ordenarAlojamientos();
         }
 
         /* SELECT DE ORDENAMIENTO */
@@ -251,7 +252,8 @@ namespace TP2_Grupo4.Views
                 // Tipo de alojamiento
                 String tipoAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Tipo"].Value.ToString();
                 // Calcular precio total
-                double precioDeLaReserva = tipoAlojamiento == "hotel" ? diasTotalesDeLaReserva * cantidadDePersonas * precioDelAlojamiento : diasTotalesDeLaReserva * precioDelAlojamiento;
+                double precioDeLaReserva = tipoAlojamiento == "hotel" ? diasTotalesDeLaReserva * cantidadDePersonas * 
+                    precioDelAlojamiento : diasTotalesDeLaReserva * precioDelAlojamiento;
 
                 // TODO: AGREGAR METODO PARA VER DISPONIBILIDAD DEL ALOJAMIENTO EN LA CLASE AgenciaManager
                 // Validar que el alojamiento este disponible
@@ -276,7 +278,7 @@ namespace TP2_Grupo4.Views
                         codigoDelAlojamiento,
                         agencia.GetUsuarioLogeado().Dni, //this.agencia.GetUsuarioLogeado().Dni,
                         precioDeLaReserva
-                        );
+                    );
                     MessageBox.Show("Reserva realizada correctamente");
 
                     // llenar DataGridView
