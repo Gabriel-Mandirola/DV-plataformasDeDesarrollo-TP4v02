@@ -89,6 +89,7 @@ namespace TP2_Grupo4.Views
             this.dgvAlojamiento.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAlojamiento.Location = new System.Drawing.Point(58, 230);
             this.dgvAlojamiento.Name = "dgvAlojamiento";
+            this.dgvAlojamiento.RowHeadersVisible = false;
             this.dgvAlojamiento.RowTemplate.Height = 25;
             this.dgvAlojamiento.Size = new System.Drawing.Size(901, 320);
             this.dgvAlojamiento.TabIndex = 0;
@@ -127,7 +128,7 @@ namespace TP2_Grupo4.Views
             this.inputPrecioMax.MaxLength = 30000;
             this.inputPrecioMax.Name = "inputPrecioMax";
             this.inputPrecioMax.Size = new System.Drawing.Size(60, 23);
-            this.inputPrecioMax.TabIndex = 10;
+            this.inputPrecioMax.TabIndex = 5;
             this.inputPrecioMax.Text = "0";
             this.inputPrecioMax.TextChanged += new System.EventHandler(this.inputPrecioMax_TextChanged);
             // 
@@ -137,7 +138,7 @@ namespace TP2_Grupo4.Views
             this.lblPrecioMax.Location = new System.Drawing.Point(254, 64);
             this.lblPrecioMax.Name = "lblPrecioMax";
             this.lblPrecioMax.Size = new System.Drawing.Size(69, 15);
-            this.lblPrecioMax.TabIndex = 9;
+            this.lblPrecioMax.TabIndex = 0;
             this.lblPrecioMax.Text = "Precio Max:";
             // 
             // selectBarrio
@@ -146,7 +147,7 @@ namespace TP2_Grupo4.Views
             this.selectBarrio.Location = new System.Drawing.Point(540, 22);
             this.selectBarrio.Name = "selectBarrio";
             this.selectBarrio.Size = new System.Drawing.Size(100, 23);
-            this.selectBarrio.TabIndex = 8;
+            this.selectBarrio.TabIndex = 3;
             // 
             // selectCiudad
             // 
@@ -154,7 +155,7 @@ namespace TP2_Grupo4.Views
             this.selectCiudad.Location = new System.Drawing.Point(329, 22);
             this.selectCiudad.Name = "selectCiudad";
             this.selectCiudad.Size = new System.Drawing.Size(124, 23);
-            this.selectCiudad.TabIndex = 1;
+            this.selectCiudad.TabIndex = 2;
             // 
             // inputPrecioMin
             // 
@@ -162,7 +163,7 @@ namespace TP2_Grupo4.Views
             this.inputPrecioMin.MaxLength = 30000;
             this.inputPrecioMin.Name = "inputPrecioMin";
             this.inputPrecioMin.Size = new System.Drawing.Size(75, 23);
-            this.inputPrecioMin.TabIndex = 3;
+            this.inputPrecioMin.TabIndex = 4;
             this.inputPrecioMin.Text = "0";
             this.inputPrecioMin.TextChanged += new System.EventHandler(this.inputPrecioMin_TextChanged);
             // 
@@ -190,7 +191,7 @@ namespace TP2_Grupo4.Views
             this.selectCantPersonas.Location = new System.Drawing.Point(589, 61);
             this.selectCantPersonas.Name = "selectCantPersonas";
             this.selectCantPersonas.Size = new System.Drawing.Size(51, 23);
-            this.selectCantPersonas.TabIndex = 6;
+            this.selectCantPersonas.TabIndex = 7;
             // 
             // label2
             // 
@@ -237,7 +238,7 @@ namespace TP2_Grupo4.Views
             this.btnFiltrar.Location = new System.Drawing.Point(701, 18);
             this.btnFiltrar.Name = "btnFiltrar";
             this.btnFiltrar.Size = new System.Drawing.Size(146, 68);
-            this.btnFiltrar.TabIndex = 7;
+            this.btnFiltrar.TabIndex = 8;
             this.btnFiltrar.Text = "Filtrar";
             this.btnFiltrar.UseVisualStyleBackColor = false;
             this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
@@ -248,7 +249,7 @@ namespace TP2_Grupo4.Views
             this.selectEstrellas.Location = new System.Drawing.Point(459, 61);
             this.selectEstrellas.Name = "selectEstrellas";
             this.selectEstrellas.Size = new System.Drawing.Size(55, 23);
-            this.selectEstrellas.TabIndex = 4;
+            this.selectEstrellas.TabIndex = 6;
             // 
             // selectTipoAlojamiento
             // 
@@ -265,7 +266,7 @@ namespace TP2_Grupo4.Views
             this.groupBox2.Location = new System.Drawing.Point(634, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(325, 100);
-            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ordenar por:";
             // 
@@ -275,7 +276,7 @@ namespace TP2_Grupo4.Views
             this.selectOrdenamiento.Location = new System.Drawing.Point(126, 40);
             this.selectOrdenamiento.Name = "selectOrdenamiento";
             this.selectOrdenamiento.Size = new System.Drawing.Size(150, 23);
-            this.selectOrdenamiento.TabIndex = 1;
+            this.selectOrdenamiento.TabIndex = 11;
             this.selectOrdenamiento.SelectedIndexChanged += new System.EventHandler(this.selectOrdenamiento_SelectedIndexChanged);
             // 
             // label8
@@ -298,7 +299,7 @@ namespace TP2_Grupo4.Views
             this.groupBox3.Location = new System.Drawing.Point(59, 116);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(560, 100);
-            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Fechas:";
             // 
@@ -308,7 +309,7 @@ namespace TP2_Grupo4.Views
             this.lblTotalDeDias.Location = new System.Drawing.Point(479, 38);
             this.lblTotalDeDias.Name = "lblTotalDeDias";
             this.lblTotalDeDias.Size = new System.Drawing.Size(38, 37);
-            this.lblTotalDeDias.TabIndex = 3;
+            this.lblTotalDeDias.TabIndex = 0;
             this.lblTotalDeDias.Text = "1";
             this.lblTotalDeDias.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -319,7 +320,7 @@ namespace TP2_Grupo4.Views
             this.lblDiasDeReservas.Location = new System.Drawing.Point(412, 40);
             this.lblDiasDeReservas.Name = "lblDiasDeReservas";
             this.lblDiasDeReservas.Size = new System.Drawing.Size(66, 32);
-            this.lblDiasDeReservas.TabIndex = 2;
+            this.lblDiasDeReservas.TabIndex = 0;
             this.lblDiasDeReservas.Text = "Dias:";
             this.lblDiasDeReservas.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -329,7 +330,7 @@ namespace TP2_Grupo4.Views
             this.label7.Location = new System.Drawing.Point(56, 70);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 15);
-            this.label7.TabIndex = 1;
+            this.label7.TabIndex = 0;
             this.label7.Text = "Fecha de vuelta:";
             // 
             // inputDateFechaVuelta
@@ -339,7 +340,7 @@ namespace TP2_Grupo4.Views
             this.inputDateFechaVuelta.MinDate = new System.DateTime(2021, 5, 15, 0, 0, 0, 0);
             this.inputDateFechaVuelta.Name = "inputDateFechaVuelta";
             this.inputDateFechaVuelta.Size = new System.Drawing.Size(214, 23);
-            this.inputDateFechaVuelta.TabIndex = 1;
+            this.inputDateFechaVuelta.TabIndex = 10;
             this.inputDateFechaVuelta.Value = new System.DateTime(2021, 5, 15, 0, 0, 0, 0);
             this.inputDateFechaVuelta.ValueChanged += new System.EventHandler(this.inputDateFechaVuelta_ValueChanged);
             // 
@@ -359,7 +360,7 @@ namespace TP2_Grupo4.Views
             this.inputDateFechaIda.MinDate = new System.DateTime(2021, 5, 14, 0, 0, 0, 0);
             this.inputDateFechaIda.Name = "inputDateFechaIda";
             this.inputDateFechaIda.Size = new System.Drawing.Size(214, 23);
-            this.inputDateFechaIda.TabIndex = 0;
+            this.inputDateFechaIda.TabIndex = 9;
             this.inputDateFechaIda.Value = new System.DateTime(2021, 5, 14, 0, 0, 0, 0);
             this.inputDateFechaIda.ValueChanged += new System.EventHandler(this.inputDateFechaIda_ValueChanged);
             // 

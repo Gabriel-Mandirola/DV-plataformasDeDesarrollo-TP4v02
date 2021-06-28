@@ -12,11 +12,36 @@ namespace TP2_Grupo4.Views
     public partial class VistaAdminReservas : Form
     {
         AgenciaManager agencia = new AgenciaManager();
-        public VistaAdminReservas()
+        public VistaAdminReservas(string idioma)
         {
             InitializeComponent();
             dateTimeHasta.MinDate = DateTime.Now;
             dateTimeDesde.MinDate = DateTime.Now;
+
+            if (idioma == "Español")
+            {
+                lblReservas.Text = "Reservas";
+                label1.Text = "ID Alojamiento:";
+                Localidad.Text = "DNI:";
+                TBDesde.Text = "Desde:";
+                Estrellas.Text = "Hasta:";
+                Precio.Text = "Precio:";
+                ID.Text = "ID Reserva:";
+                Modificar.Text = "Modificar";
+                groupBox1.Text = "Ordenamiento";
+            }
+            else if (idioma == "English")
+            {
+                lblReservas.Text = "Reservations";
+                label1.Text = "Accommodation ID:";
+                Localidad.Text = "DNI:";
+                TBDesde.Text = "Since:";
+                Estrellas.Text = "Until:";
+                Precio.Text = "Price:";
+                ID.Text = "Reservation ID:";
+                Modificar.Text = "Modify";
+                groupBox1.Text = "Ordering";
+            }
         }
 
         private void VistaAdminReservas_Load(object sender, EventArgs e)
@@ -53,60 +78,40 @@ namespace TP2_Grupo4.Views
             dgvReservas.Columns.Add(btnModificar);
             dgvReservas.Columns.Add(btnBorrar);
             dgvReservas.ReadOnly = true;
-            getReservasFromTextFile();
+            llenarDataGridView();
         }
-        private void getReservasFromTextFile()
+
+        private void llenarDataGridView()
         {
-            // Limpiamos el GridView
+
             dgvReservas.Rows.Clear();
+            List<List<String>> reservas = this.agencia.DatosDeReservasParaLasVistas("admin");
+            foreach (List<String> reserva in reservas)
+                this.dgvReservas.Rows.Add(reserva.ToArray());
 
-            List<Reserva> reservas = this.agencia.GetReservas();
-
-
-            foreach (Reserva reserva in reservas)
-            {
-
-                this.dgvReservas.Rows.Add(
-                    reserva.GetId(),
-                    reserva.GetFechaDesde(),
-                    reserva.GetFechaHasta(),
-                    reserva.GetAlojamiento().GetCodigo(),
-                    reserva.GetUsuario().GetDni(),
-                    reserva.GetPrecio()
-                );
-            }
-
-            // Update y Regresheo de Grid
             dgvReservas.Update();
             dgvReservas.Refresh();
         }
 
-        #region Buttons Click
+        #region On Click
         private void Modificar_Click(object sender, EventArgs e)
         {
+           
             Modificar.Enabled = false;
             String id = textBoxID.Text;
             DateTime desde = DateTime.Parse(dateTimeDesde.Text);
             DateTime hasta = DateTime.Parse(dateTimeHasta.Text);
+            int precio = Int32.Parse(textBoxPrecio.Text);
             int idAloja = Int32.Parse(textBoxAloja.Text);
             int dni = Int32.Parse(textBoxUsuario.Text);
-            this.agencia.ModificarReserva(id, desde, hasta, idAloja, dni);
-            this.agencia.GuardarCambiosDeLasReservas();
+            agencia.ModificarReserva(id, desde, hasta, precio, agencia.GetAgencia().FindAlojamientoForCodigo(idAloja), agencia.FindUserForDNI(dni));
             dateTimeDesde.MinDate = DateTime.Now;
             dateTimeHasta.MinDate = DateTime.Now;
 
             clearAllControls();
-            getReservasFromTextFile();
-        }
-        private void ButtonBorrar_Click(object sender, EventArgs e)
-        {
-            String id = textBoxID.Text;
+            llenarDataGridView();
 
-            this.agencia.EliminarReserva(id);
-            clearAllControls();
         }
-        #endregion
-
         private void dgvReservas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Si hacemos click en Button BORRAR
@@ -122,11 +127,15 @@ namespace TP2_Grupo4.Views
                     // Borrado
                     dgvReservas.Rows.RemoveAt(rowIndex);
 
-                    this.agencia.EliminarReserva(codigo);
-                    this.agencia.GuardarCambiosDeLasReservas();
 
-                    // Actualizar GridView
-                    getReservasFromTextFile();
+                    if (this.agencia.EliminarReserva(codigo))
+                    {
+                        MessageBox.Show("Reserva eliminada con exito");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo eliminar la Reserva. Intente nuevamente");
+                    }
                 }
             }
 
@@ -135,7 +144,7 @@ namespace TP2_Grupo4.Views
                 if (MessageBox.Show("Estas seguro que quieres modificar esta reserva?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Modificar.Enabled = true;
-                   
+
                     dateTimeDesde.MinDate = Convert.ToDateTime(dgvReservas.CurrentRow.Cells[1].Value);
                     dateTimeHasta.MinDate = Convert.ToDateTime(dgvReservas.CurrentRow.Cells[2].Value);
                     rellenarDatos();
@@ -143,7 +152,7 @@ namespace TP2_Grupo4.Views
             }
 
         }
-        
+        #endregion
 
         #region Helpers
         private void rellenarDatos()
@@ -181,7 +190,6 @@ namespace TP2_Grupo4.Views
             }
         }
         #endregion
-
     }
 
 }

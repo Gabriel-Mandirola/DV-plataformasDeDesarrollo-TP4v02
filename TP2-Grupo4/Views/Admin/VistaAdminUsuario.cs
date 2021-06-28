@@ -13,12 +13,31 @@ namespace TP2_Grupo4.Views
     public partial class VistaAdminUsuario : Form
     {
         AgenciaManager agencia = new AgenciaManager();
-        public VistaAdminUsuario()
+        public VistaAdminUsuario(string idioma)
         {
             InitializeComponent();
+            if (idioma == "Español")
+            {
+                lblUsuarios.Text = "Usuarios";
+                lblDni.Text = "DNI";
+                lblNombre.Text = "Nombre";
+                lblBarrio.Text = "Email";
+                checkBoxAdmin.Text = "Admin";
+                checkBoxBloqueado.Text = "Bloqueado";
+                btnTopModificar.Text = "Modificar";
+            }
+            else if (idioma == "English")
+            {
+                lblUsuarios.Text = "User";
+                lblDni.Text = "DNI";
+                lblNombre.Text = "Name";
+                lblBarrio.Text = "Email";
+                checkBoxAdmin.Text = "Admin";
+                checkBoxBloqueado.Text = "Blocked";
+                btnTopModificar.Text = "Modify";
+            }
         }
 
-        // TODO: No mostrar Password
         private void VistaUsuario_Load(object sender, EventArgs e)
         {
             // Boton borrar
@@ -69,7 +88,6 @@ namespace TP2_Grupo4.Views
             dgvUsuarios.ReadOnly = true;
             groupBoxHoteles.Enabled = false;
 
-            // Get hoteles de usuarios.txt
             getUsuariosFromTextFile();
         }
 
@@ -83,11 +101,11 @@ namespace TP2_Grupo4.Views
             foreach (Usuario usuario in usuarios)
             {
                 this.dgvUsuarios.Rows.Add(
-                    usuario.GetDni(),
-                    usuario.GetNombre(),
-                    usuario.GetEmail(),
-                    usuario.GetIsAdmin(),
-                    usuario.GetBloqueado()
+                    usuario.Dni,
+                    usuario.Nombre,
+                    usuario.Email,
+                    usuario.IsAdmin,
+                    usuario.Bloqueado
                 );
             }
 
@@ -96,6 +114,7 @@ namespace TP2_Grupo4.Views
             dgvUsuarios.Refresh();
         }
 
+        #region On Click
         // BOTON DE BORRAR USUARIO
         private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -112,10 +131,13 @@ namespace TP2_Grupo4.Views
                     // Borrado
                     dgvUsuarios.Rows.RemoveAt(rowIndex);
 
-                    /*if (this.agencia.EliminarUsuario(dni) && this.agencia.GuardarCambiosDeLosUsuarios() && this.agencia.GuardarCambiosDeLasReservas())
+                    if (this.agencia.EliminarUsuario(dni))
                     {
                         MessageBox.Show("Se ha eliminado el usuario y todas las reservas del mismo");
-                    }*/
+                    } else
+                    {
+                        MessageBox.Show("No se pudo eliminar el Usuario. Intente nuevamente");
+                    }
 
                     // Actualizar GridView
                     getUsuariosFromTextFile();
@@ -151,25 +173,14 @@ namespace TP2_Grupo4.Views
             string email = txtEmail.Text;
             bool bloqueado = checkBoxBloqueado.Checked;
 
-
-            this.agencia.ModificarUsuario(dni, nombre, email,"");
-
-            if (!bloqueado)
-            {
-                this.agencia.DesbloquearUsuario(dni);
-            }
-            else
-            {
-                this.agencia.BloquearUsuario(dni);
-            }
-
-
-            //this.agencia.GuardarCambiosDeLosUsuarios();
+            if (this.agencia.ModificarUsuario(dni, nombre, email, "")) //, "", bloqueado.ToString()
+                MessageBox.Show("El usuario a sido modificado");
 
             clearAllControls();
             groupBoxHoteles.Enabled = false;
             getUsuariosFromTextFile();
         }
+        #endregion
 
         #region Helper
         private void rellenarDatos()

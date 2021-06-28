@@ -15,10 +15,20 @@ namespace TP2_Grupo4.Views
     {
         private AgenciaManager agencia;
 
-        public VistaAdminAlojamiento()
+        public VistaAdminAlojamiento(string idioma)
         {
             InitializeComponent();
             this.agencia = new AgenciaManager();
+            if (idioma == "Español")
+            {
+                lblAlojamiento.Text = "Alojamientos";
+                label1.Text = "Tipo:";
+            }
+            else if (idioma == "English")
+            {
+                lblAlojamiento.Text = "Lodgings";
+                label1.Text = "Type:";
+            }
         }
 
         private void FormAlojamiento_Load(object sender, EventArgs e)
@@ -37,19 +47,19 @@ namespace TP2_Grupo4.Views
 
         private void getTextAlojamientos()
         {
-            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeAlojamientosParaLasVistas())
+            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeAlojamientosParaLasVistasAdmin())
                 this.dgvAlojamiento.Rows.Add(alojamiento.ToArray());
         }
 
         private void getTextHoteles()
         {
-            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeHotelesParaLasVistas())
+            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeAlojamientosParaLasVistasAdmin())
                 this.dgvAlojamiento.Rows.Add(alojamiento.ToArray());
         }
 
         private void getTextCabanias()
         {
-            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeCabaniasParaLasVistas())
+            foreach (List<String> alojamiento in this.agencia.GetAgencia().DatosDeAlojamientosParaLasVistasAdmin())
                 this.dgvAlojamiento.Rows.Add(alojamiento.ToArray());
         }
 
@@ -69,6 +79,5 @@ namespace TP2_Grupo4.Views
                 getTextAlojamientos();
             }
         }
-
     }
 }

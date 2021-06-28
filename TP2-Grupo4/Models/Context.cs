@@ -2,82 +2,85 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+using TP2_Grupo4.Helpers;
 
 namespace TP2_Grupo4.Models
 {
     class Context : DbContext
     {
-		public DbSet<Usuario> Usuarios { get; set; }
-		public DbSet<Hotel> Hoteles { get; set; }
-		public DbSet<Cabania> Cabanias { get; set; }
-		public DbSet<Reserva> Reservas { get; set; }
-		public DbSet<Alojamiento> Alojamientos { get; set; }
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<Alojamiento> Alojamientos { get; set; }
+        public Context() { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;user=root;database=inicio-proyecto;port=3306;password=", new MySqlServerVersion(new Version(8, 0, 11)));
+            optionsBuilder.UseMySql(Credenciales.GetConnectionString(), new MySqlServerVersion(new Version(8, 0, 11)));
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>(usuario =>
             {
                 usuario.Property(u => u.Nombre).HasColumnType("varchar(80)").IsRequired(true);
-
-                usuario.Property(u => u.Dni).HasColumnType("varchar(10)").IsRequired(true);
+                usuario.Property(u => u.Dni).HasColumnType("int").IsRequired(true);
                 usuario.HasIndex(u => u.Dni).IsUnique();
-
                 usuario.Property(u => u.Email).HasColumnType("varchar(30)").IsRequired(true);
                 usuario.HasIndex(u => u.Email).IsUnique();
                 usuario.Property(u => u.Password).HasColumnType("varchar(200)").IsRequired(true);
-				usuario.Property(u => u.IsAdmin).HasColumnType("bit").IsRequired(true);
-				usuario.Property(u => u.Bloqueado).HasColumnType("bit").IsRequired(true);
-			});
+            });
+            modelBuilder.Entity<Alojamiento>(alojamiento =>
+            {
+                alojamiento.Property(a => a.Codigo).HasColumnType("varchar(50)").IsRequired(true);
+                alojamiento.HasIndex(a => a.Codigo).IsUnique();
+                alojamiento.Property(a => a.Ciudad).HasColumnType("varchar(50)").IsRequired(true);
+                alojamiento.Property(a => a.Barrio).HasColumnType("varchar(50)").IsRequired(true);
+                //alojamiento.Property(a => a.CantidadDePersonas).HasColumnType("int").IsRequired(true);
+                //alojamiento.Property(a => a.Tv).HasColumnType("tinyint").IsRequired(true);
+                alojamiento.Property(a => a.Tipo).HasColumnType("varchar(10)").IsRequired(true);
+                /*alojamiento.Property(a => a.PrecioPorPersona).HasColumnType("double");
+                alojamiento.Property(a => a.PrecioPorDia).HasColumnType("double");
+                alojamiento.Property(a => a.Habitaciones).HasColumnType("int");
+                alojamiento.Property(a => a.Banios).HasColumnType("int");*/
+            });
+            modelBuilder.Entity<Reserva>(reserva =>
+            {
+                reserva.Property(r => r.FechaDesde).HasColumnType("date").IsRequired(true);
+                reserva.Property(r => r.FechaHasta).HasColumnType("date").IsRequired(true);
+            });
 
-			modelBuilder.Entity<Reserva>(reserva =>
-			{
-				reserva.Property(r => r.id).HasColumnType("varchar(20)").IsRequired(true);
-				reserva.HasIndex(r => r.id).IsUnique();
+            modelBuilder.Entity<Usuario>().HasData(new Usuario[]{
+                new Usuario{Id=1, Dni = 11111111, Nombre = "admin", Email = "admin@admin.com", Password = Utils.Encriptar("1234"), IsAdmin=true, Bloqueado=false},
+                new Usuario{Id=2, Dni = 12312312, Nombre = "prueba1", Email = "prueba1@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
+            }); ;
+            modelBuilder.Entity<Alojamiento>().HasData(new Alojamiento[] {
+                new Alojamiento{
+                    Id=1, 
+                    Codigo="123456", 
+                    Ciudad="Buenos Aires", 
+                    Barrio="Recoleta", 
+                    Estrellas=3, 
+                    Tv = true, 
+                    Tipo="hotel" , 
+                    CantidadDePersonas=2, 
+                    PrecioPorPersona=2400 
+                },
+                new Alojamiento{
+                    Id=2, 
+                    Codigo="111111", 
+                    Ciudad="Neuquen", 
+                    Barrio="Sur", 
+                    Estrellas=4, 
+                    Tv = true, 
+                    Tipo="cabaña" , 
+                    CantidadDePersonas=2, 
+                    PrecioPorPersona=2400, 
+                    PrecioPorDia = 1200,
+                    Habitaciones = 4, 
+                    Banios = 2
+                },
+            });
 
-				reserva.Property(r => r.fechaDesde).HasColumnType("date").IsRequired(true);
-				reserva.Property(r => r.fechaHasta).HasColumnType("date").IsRequired(true);
-				reserva.Property(r => r.hotel).IsRequired(false);
-				reserva.Property(r => r.cabania).IsRequired(false);
-				reserva.Property(r => r.usuario).IsRequired(true);
-				reserva.Property(r => r.precio).HasColumnType("int").IsRequired(true);
-			});
+        }
 
-			modelBuilder.Entity<Hotel>(hotel =>
-			{
-				hotel.Property(h => h.codigo).HasColumnType("int").IsRequired(true);
-				hotel.HasIndex(h => h.codigo).IsUnique();
-
-				hotel.Property(h => h.ciudad).HasColumnType("varchar(50)").IsRequired(true);
-				hotel.Property(h => h.barrio).HasColumnType("varchar(50)").IsRequired(true);
-				hotel.Property(h => h.estrellas).HasColumnType("int").IsRequired(true);
-				hotel.Property(h => h.cantidadDePersonas).HasColumnType("int").IsRequired(true);
-				hotel.Property(h => h.tv).HasColumnType("bit").IsRequired(true);
-				hotel.Property(h => h.precioPorPersona).HasColumnType("double").IsRequired(true);
-			});
-			modelBuilder.Entity<Cabania>(cabania =>
-			{
-				cabania.Property(c => c.codigo).HasColumnType("int").IsRequired(true);
-				cabania.HasIndex(c => c.codigo).IsUnique();
-
-				cabania.Property(c => c.ciudad).HasColumnType("varchar(50)").IsRequired(true);
-				cabania.Property(c => c.barrio).HasColumnType("varchar(50)").IsRequired(true);
-				cabania.Property(c => c.estrellas).HasColumnType("int").IsRequired(true);
-				cabania.Property(c => c.cantidadDePersonas).HasColumnType("int").IsRequired(true);
-				cabania.Property(c => c.tv).HasColumnType("bit").IsRequired(true);
-				cabania.Property(c => c.precioPorDia).HasColumnType("double").IsRequired(true);
-				cabania.Property(c => c.habitaciones).HasColumnType("int").IsRequired(true);
-				cabania.Property(c => c.banios).HasColumnType("int").IsRequired(true);
-			});
-
-			//    modelBuilder.Entity<Usuario>().HasData(new Usuario[]{
-			//        new Usuario { Dni=1234, Nombre="Pedro", Email="pedro@gmail.com", Password="1234", IsAdmin=true, Bloqueado=false },
-			//  });
-
-			//
-		}
     }
 }

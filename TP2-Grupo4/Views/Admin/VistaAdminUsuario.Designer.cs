@@ -74,7 +74,7 @@ namespace TP2_Grupo4.Views
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.RowTemplate.Height = 25;
             this.dgvUsuarios.Size = new System.Drawing.Size(976, 297);
-            this.dgvUsuarios.TabIndex = 1;
+            this.dgvUsuarios.TabIndex = 0;
             this.dgvUsuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellContentClick);
             // 
             // groupBoxHoteles
@@ -93,7 +93,7 @@ namespace TP2_Grupo4.Views
             this.groupBoxHoteles.Location = new System.Drawing.Point(94, 90);
             this.groupBoxHoteles.Name = "groupBoxHoteles";
             this.groupBoxHoteles.Size = new System.Drawing.Size(809, 125);
-            this.groupBoxHoteles.TabIndex = 3;
+            this.groupBoxHoteles.TabIndex = 0;
             this.groupBoxHoteles.TabStop = false;
             // 
             // checkBoxBloqueado
@@ -102,7 +102,7 @@ namespace TP2_Grupo4.Views
             this.checkBoxBloqueado.Location = new System.Drawing.Point(526, 76);
             this.checkBoxBloqueado.Name = "checkBoxBloqueado";
             this.checkBoxBloqueado.Size = new System.Drawing.Size(83, 19);
-            this.checkBoxBloqueado.TabIndex = 17;
+            this.checkBoxBloqueado.TabIndex = 5;
             this.checkBoxBloqueado.Text = "Bloqueado";
             this.checkBoxBloqueado.UseVisualStyleBackColor = true;
             // 
@@ -111,14 +111,14 @@ namespace TP2_Grupo4.Views
             this.txtEmail.Location = new System.Drawing.Point(273, 39);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(175, 23);
-            this.txtEmail.TabIndex = 16;
+            this.txtEmail.TabIndex = 3;
             // 
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(64, 77);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(129, 23);
-            this.txtNombre.TabIndex = 15;
+            this.txtNombre.TabIndex = 2;
             // 
             // btnTopModificar
             // 
@@ -128,7 +128,7 @@ namespace TP2_Grupo4.Views
             this.btnTopModificar.Location = new System.Drawing.Point(676, 39);
             this.btnTopModificar.Name = "btnTopModificar";
             this.btnTopModificar.Size = new System.Drawing.Size(114, 61);
-            this.btnTopModificar.TabIndex = 14;
+            this.btnTopModificar.TabIndex = 6;
             this.btnTopModificar.Text = "Modificar";
             this.btnTopModificar.UseVisualStyleBackColor = false;
             this.btnTopModificar.Click += new System.EventHandler(this.btnTopModificar_Click);
@@ -139,7 +139,7 @@ namespace TP2_Grupo4.Views
             this.lblBarrio.Location = new System.Drawing.Point(210, 42);
             this.lblBarrio.Name = "lblBarrio";
             this.lblBarrio.Size = new System.Drawing.Size(36, 15);
-            this.lblBarrio.TabIndex = 9;
+            this.lblBarrio.TabIndex = 0;
             this.lblBarrio.Text = "Email";
             // 
             // lblNombre
@@ -148,7 +148,7 @@ namespace TP2_Grupo4.Views
             this.lblNombre.Location = new System.Drawing.Point(7, 80);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(51, 15);
-            this.lblNombre.TabIndex = 8;
+            this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre";
             // 
             // lblDni
@@ -157,7 +157,7 @@ namespace TP2_Grupo4.Views
             this.lblDni.Location = new System.Drawing.Point(12, 42);
             this.lblDni.Name = "lblDni";
             this.lblDni.Size = new System.Drawing.Size(27, 15);
-            this.lblDni.TabIndex = 7;
+            this.lblDni.TabIndex = 0;
             this.lblDni.Text = "DNI";
             // 
             // checkBoxAdmin
@@ -166,7 +166,7 @@ namespace TP2_Grupo4.Views
             this.checkBoxAdmin.Location = new System.Drawing.Point(526, 43);
             this.checkBoxAdmin.Name = "checkBoxAdmin";
             this.checkBoxAdmin.Size = new System.Drawing.Size(62, 19);
-            this.checkBoxAdmin.TabIndex = 5;
+            this.checkBoxAdmin.TabIndex = 4;
             this.checkBoxAdmin.Text = "Admin";
             this.checkBoxAdmin.UseVisualStyleBackColor = true;
             // 
@@ -175,16 +175,16 @@ namespace TP2_Grupo4.Views
             this.txtDni.Location = new System.Drawing.Point(64, 39);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(129, 23);
-            this.txtDni.TabIndex = 0;
+            this.txtDni.TabIndex = 1;
             // 
             // lblUsuarios
             // 
             this.lblUsuarios.AutoSize = true;
             this.lblUsuarios.Font = new System.Drawing.Font("Arial", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblUsuarios.Location = new System.Drawing.Point(410, 24);
+            this.lblUsuarios.Location = new System.Drawing.Point(409, 7);
             this.lblUsuarios.Name = "lblUsuarios";
             this.lblUsuarios.Size = new System.Drawing.Size(182, 45);
-            this.lblUsuarios.TabIndex = 4;
+            this.lblUsuarios.TabIndex = 0;
             this.lblUsuarios.Text = "Usuarios";
             // 
             // labelError

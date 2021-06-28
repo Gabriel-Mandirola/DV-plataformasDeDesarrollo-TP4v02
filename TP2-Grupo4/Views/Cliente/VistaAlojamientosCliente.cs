@@ -15,15 +15,53 @@ namespace TP2_Grupo4.Views
     {
         private AgenciaManager agencia = new AgenciaManager();
 
-        private Agencia alojamientosDelDataGridView;
-        
-        public VistaAlojamientosCliente(AgenciaManager agenciaManager)
+        public VistaAlojamientosCliente(AgenciaManager agenciaManager, string idioma)
         {
             InitializeComponent();
             this.agencia = agenciaManager;
-            this.alojamientosDelDataGridView = agenciaManager.GetAgencia();
 
             this.llenarSelects();
+
+            if (idioma == "Español")
+            {
+                groupBox1.Text = "Filtrar por:";
+                label1.Text = "Tipo:";
+                label4.Text = "Ciudad:";
+                label6.Text = "Barrio:";
+                lblPrecioMin.Text = "Precio Min:";
+                lblPrecioMax.Text = "Precio Max:";
+                label5.Text = "Estrella:";
+                label2.Text = "Personas:";
+                btnFiltrar.Text = "Filtrar";
+
+                groupBox3.Text = "Fechas:";
+                label3.Text = "Fecha de ida:";
+                label7.Text = "Fecha de vuelta:";
+                lblDiasDeReservas.Text = "Dias:";
+
+                groupBox2.Text = "Ordenar por:";
+                label8.Text = "Ordenar por:";
+            }
+            else if (idioma == "English")
+            {
+                groupBox1.Text = "Filter by:";
+                label1.Text = "Type:";
+                label4.Text = "City:";
+                label6.Text = "Neighborhood:";
+                lblPrecioMin.Text = "Min Price:";
+                lblPrecioMax.Text = "Max Price:";
+                label5.Text = "Stars:";
+                label2.Text = "People:";
+                btnFiltrar.Text = "Filter";
+
+                groupBox3.Text = "Dates:";
+                label3.Text = "Departure date:";
+                label7.Text = "Return date:";
+                lblDiasDeReservas.Text = "Days:";
+
+                groupBox2.Text = "Sort by:";
+                label8.Text = "Sort by:";
+            }
         }
 
 
@@ -78,11 +116,9 @@ namespace TP2_Grupo4.Views
         {
             this.dgvAlojamiento.Rows.Clear();
         }
-        private void llenarDataGridView(Agencia datosParaElDGV = null)
+        private void llenarDataGridView(List<List<String>> alojamientos)
         {
-            this.alojamientosDelDataGridView = datosParaElDGV ?? this.agencia.GetAgencia();
-
-            foreach (List<String> alojamiento in this.alojamientosDelDataGridView.DatosDeAlojamientosParaLasVistas("user"))
+            foreach (List<String> alojamiento in alojamientos)
                 this.dgvAlojamiento.Rows.Add(alojamiento.ToArray());
         }
         private void bloquearBotonFiltrar(bool flag)
@@ -92,22 +128,20 @@ namespace TP2_Grupo4.Views
         private void ordenarAlojamientos()
         {
             this.limpiarDataGridView();
-            //System.Diagnostics.Debug.WriteLine(this.selectOrdenamiento.Text);
 
-            String tipoDeOrdenamiento = this.selectOrdenamiento.Text;
-            switch (tipoDeOrdenamiento)
+            switch (this.selectOrdenamiento.Text)
             {
                 case "fecha de creacion":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorCodigo());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorCodigo());
                     break;
                 case "estrellas":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorEstrellas());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorEstrellas());
                     break;
                 case "personas":
-                    this.llenarDataGridView(this.alojamientosDelDataGridView.GetAlojamientoPorPersonas());
+                    this.llenarDataGridView(this.agencia.GetAgencia().GetAlojamientoPorPersonas());
                     break;
                 default:
-                    this.llenarDataGridView(this.alojamientosDelDataGridView);
+                    this.llenarDataGridView(this.agencia.GetAgencia().AlojamientosToLista());
                     break;
             }
         }
@@ -128,22 +162,26 @@ namespace TP2_Grupo4.Views
             };
             btnReservar.DefaultCellStyle.BackColor = Color.Green;
 
+            dgvAlojamiento.Columns.Add("Codigo", "Codigo");
             dgvAlojamiento.Columns.Add("Tipo", "Tipo");
             dgvAlojamiento.Columns.Add("Ciudad", "Ciudad");
             dgvAlojamiento.Columns.Add("Barrio", "Barrio");
             dgvAlojamiento.Columns.Add("Estrellas", "Estrellas");
             dgvAlojamiento.Columns.Add("CantidadDePersonas", "Cantidad de Personas");
             dgvAlojamiento.Columns.Add("Tv", "TV");
-            dgvAlojamiento.Columns.Add("Precio", "Precio por dia");
+            dgvAlojamiento.Columns.Add("Precio", "Precio");
 
+            dgvAlojamiento.Columns["Codigo"].Visible = false; // Oculto la columna de Id
             dgvAlojamiento.Columns.Add(btnReservar);
             dgvAlojamiento.ReadOnly = false;
+            
 
             // Cargar DataGridView
-            this.llenarDataGridView();
+            var agencia = this.agencia.GetAgencia();
+            this.llenarDataGridView(agencia.AlojamientosToLista());
         }
 
-
+        #region On Click
         /* BOTON FILTRAR */
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
@@ -155,14 +193,15 @@ namespace TP2_Grupo4.Views
             String inputEstrellas = this.selectEstrellas.SelectedItem.ToString();
             String inputPersonas = this.selectCantPersonas.SelectedItem.ToString();
 
-            if ( inputPrecioMax < inputPrecioMin )
+            if (inputPrecioMax < inputPrecioMin)
             {
                 MessageBox.Show("El precio maximo no puede ser menor que el precio minimo!");
                 return;
             }
 
-            Agencia alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
-            if (alojamientosFiltrados == null)
+            List<List<String>> alojamientosFiltrados = this.agencia.FiltrarAlojamientos(inputTipoAlojamiento, inputCiudad, inputBarrio, 
+                inputPrecioMin, inputPrecioMax, inputEstrellas, inputPersonas);
+            if (alojamientosFiltrados.Count == 0)
             {
                 MessageBox.Show("No hay alojamientos disponibles para esa busqueda");
                 return;
@@ -173,9 +212,8 @@ namespace TP2_Grupo4.Views
             this.indicarSelectPorDefecto();
             this.limpiarDataGridView();
             this.llenarDataGridView(alojamientosFiltrados);
-            this.ordenarAlojamientos();
+            //this.ordenarAlojamientos();
         }
-        
 
         /* SELECT DE ORDENAMIENTO */
         private void selectOrdenamiento_SelectedIndexChanged(object sender, EventArgs e)
@@ -183,21 +221,18 @@ namespace TP2_Grupo4.Views
             this.ordenarAlojamientos();
         }
 
-
         /* BOTON PARA RESERVAR */
         private void dgvAlojamiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.dgvAlojamiento.CurrentCell.RowIndex > (this.alojamientosDelDataGridView.GetCantidadDeAlojamientos() - 1))
-            {
-                return;
-            }
             // Validacion de las fechas
             int diasTotalesDeLaReserva;
             try
             {
                 diasTotalesDeLaReserva = int.Parse(this.lblTotalDeDias.Text);
-            }catch(Exception)
+            }
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
                 MessageBox.Show("Sus fechas de reservacion no son correctas. Por favor reviselas");
                 return;
             }
@@ -205,44 +240,54 @@ namespace TP2_Grupo4.Views
             // Si hacemos click en Button RESERVAR
             if (dgvAlojamiento.Columns[e.ColumnIndex].Name == "RESERVAR")
             {
-                if (MessageBox.Show("Estas seguro que quieres reservar este alojamiento?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                // Index del Row
+                int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
+                // Codigo del Alojamiento
+                String codigoDelAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Codigo"].Value.ToString(); // PROBAR!!!
+                System.Diagnostics.Debug.WriteLine(codigoDelAlojamiento);
+                // Cantidad de personas
+                int cantidadDePersonas = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["CantidadDePersonas"].Value.ToString());
+                // Precio del alojamiento
+                int precioDelAlojamiento = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["Precio"].Value.ToString());
+                // Tipo de alojamiento
+                String tipoAlojamiento = this.dgvAlojamiento.Rows[rowIndex].Cells["Tipo"].Value.ToString();
+                // Calcular precio total
+                double precioDeLaReserva = tipoAlojamiento == "hotel" ? diasTotalesDeLaReserva * cantidadDePersonas * 
+                    precioDelAlojamiento : diasTotalesDeLaReserva * precioDelAlojamiento;
+
+                // TODO: AGREGAR METODO PARA VER DISPONIBILIDAD DEL ALOJAMIENTO EN LA CLASE AgenciaManager
+                // Validar que el alojamiento este disponible
+                if(!this.agencia.ElAlojamientoEstaDisponible(int.Parse(codigoDelAlojamiento), this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
                 {
-                    // Index del Row
-                    int rowIndex = dgvAlojamiento.CurrentCell.RowIndex;
+                    MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
+                    return;
+                }
 
-                    // Codigo del Alojamiento
-                    int codigoDelAlojamiento = this.alojamientosDelDataGridView.GetAlojamientos()[rowIndex].GetCodigo();
-                    
-                    // Precio del alojamiento
-                    int precioDelAlojamiento = int.Parse(this.dgvAlojamiento.Rows[rowIndex].Cells["Precio"].Value.ToString());
+                // Mensaje
+                String textMessage = $"El precio de la reserva que vas a realizar es de ${precioDeLaReserva}";
+                textMessage += "\nDesea realizar la reserva ?";
 
+                // Confirmacion del usuario
+                if (MessageBox.Show(textMessage , "Confirmacion de la reserva", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    // TODO: AGREGAR METODO EN LA CLASE RESERVA
                     // Agregar reserva
                     this.agencia.AgregarReserva(
                         this.inputDateFechaIda.Value,
                         this.inputDateFechaVuelta.Value,
                         codigoDelAlojamiento,
-                        this.agencia.GetUsuarioLogeado().GetDni(),
-                        (precioDelAlojamiento * diasTotalesDeLaReserva));
-
-                    //foreach(Reserva reserva in this.agencia.GetReservas())
-                    //    System.Diagnostics.Debug.WriteLine(reserva.ToString());
-
-                    // Guardar datos en el txt
-                    if (!this.agencia.GuardarCambiosDeLasReservas())
-                    {
-                        MessageBox.Show("Disculpe. No se pudo guardar la reserva intente de nuevo.");
-                        return;
-                    }
-                    
+                        agencia.GetUsuarioLogeado().Dni, //this.agencia.GetUsuarioLogeado().Dni,
+                        precioDeLaReserva
+                    );
                     MessageBox.Show("Reserva realizada correctamente");
 
                     // llenar DataGridView
                     this.limpiarDataGridView();
-                    this.llenarDataGridView();
+                    this.llenarDataGridView(this.agencia.GetAgencia().AlojamientosToLista());
                 }
             }
         }
-
+        #endregion
 
         /* VALIDAR LOS INPUTS DE PRECIOS */
         private void inputPrecioMin_TextChanged(object sender, EventArgs e)
@@ -264,8 +309,8 @@ namespace TP2_Grupo4.Views
             catch (Exception ex)
             {
                 MessageBox.Show("Solo se permiten numeros");
-                //System.Diagnostics.Debug.WriteLine("Tipo: " + ex.GetType().ToString());
-                //System.Diagnostics.Debug.WriteLine("Mensaje: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Tipo: " + ex.GetType().ToString());
+                System.Diagnostics.Debug.WriteLine("Mensaje: " + ex.Message);
                 this.bloquearBotonFiltrar(true);
             }
         }
@@ -288,12 +333,11 @@ namespace TP2_Grupo4.Views
             catch (Exception ex)
             {
                 MessageBox.Show("Solo se permiten numeros");
-                //System.Diagnostics.Debug.WriteLine("Tipo: " + ex.GetType().ToString());
-                //System.Diagnostics.Debug.WriteLine("Mensaje: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Tipo: " + ex.GetType().ToString());
+                System.Diagnostics.Debug.WriteLine("Mensaje: " + ex.Message);
                 this.bloquearBotonFiltrar(false);
             }
         }
-        
 
         /* MOSTRAR EL TOTAL DE DIAS DE LA RESERVA */
         private void inputDateFechaVuelta_ValueChanged(object sender, EventArgs e)
@@ -318,9 +362,7 @@ namespace TP2_Grupo4.Views
             }
             this.lblTotalDeDias.Text = diasDeDiferencia.ToString();
 
-            System.Diagnostics.Debug.WriteLine("Diferencia de dias: " + diasDeDiferencia);
+            //System.Diagnostics.Debug.WriteLine("Diferencia de dias: " + diasDeDiferencia);
         }
-
-        
     }
 }

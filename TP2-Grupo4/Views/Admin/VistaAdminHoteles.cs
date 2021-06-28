@@ -14,10 +14,37 @@ namespace TP2_Grupo4.Views
     {
         private AgenciaManager agencia;
 
-        public VistaAdminHoteles()
+        public VistaAdminHoteles(string idioma)
         {
             InitializeComponent();
             this.agencia = new AgenciaManager();
+
+            if (idioma == "Español")
+            {
+                lblHoteles.Text = "Hoteles";
+                label10.Text = "Código:";
+                label7.Text = "Ciudad:";
+                label4.Text = "Barrio:";
+                label2.Text = "Cantidad de Personas";
+                label5.Text = "Estrellas";
+                checkBoxTv.Text = "¿Tiene Tv?";
+                label3.Text = "Precio";
+                btnTopModificar.Text = "Modificar";
+                btnTopAgregar.Text = "Agregar";
+            }
+            else if (idioma == "English")
+            {
+                lblHoteles.Text = "Hotels";
+                label10.Text = "Code:";
+                label7.Text = "Town:";
+                label4.Text = "Neighborhood:";
+                label2.Text = "Amount of people";
+                label5.Text = "Stars";
+                checkBoxTv.Text = "Have a TV?";
+                label3.Text = "Price";
+                btnTopModificar.Text = "Modify";
+                btnTopAgregar.Text = "Add";
+            }
         }
 
         private void FormHoteles_Load(object sender, EventArgs e)
@@ -54,7 +81,6 @@ namespace TP2_Grupo4.Views
 
 
             // Tabla
-            // TODO: Cambiar Ciudad, Barrio, Estrellas y Cant. personas por ComboBox
             dgvHoteles.Columns.Add("CODIGO", "Codigo");
             dgvHoteles.Columns.Add("CIUDAD", "Ciudad");
             dgvHoteles.Columns.Add("BARRIO", "Barrio");
@@ -68,22 +94,33 @@ namespace TP2_Grupo4.Views
 
             dgvHoteles.ReadOnly = true;
             btnTopModificar.Visible = false;
-           // comboBoxCantPersonas.SelectedIndex = 0;
-           // comboBoxEstrellas.SelectedIndex = 0;
+            // comboBoxCantPersonas.SelectedIndex = 0;
+            // comboBoxEstrellas.SelectedIndex = 0;
 
-            // Get hoteles de alojamientos.txt
             clearAllControls();
             getHotelesFromTextFile();
         }
 
         private void getHotelesFromTextFile()
         {
+            var alojamientos = this.agencia.GetAgencia().GetAlojamientos();
             // Limpiamos el GridView
             dgvHoteles.Rows.Clear();
 
-            List<List<String>> hoteles = this.agencia.GetAgencia().DatosDeHotelesParaLasVistas();
-            foreach (List<String> hotel in hoteles)
-                this.dgvHoteles.Rows.Add(hotel.ToArray());
+            foreach (Alojamiento alojamiento in alojamientos)
+                if (alojamiento.Tipo == "hotel")
+                {
+                    this.dgvHoteles.Rows.Add(
+                        alojamiento.Codigo,
+                        alojamiento.Ciudad,
+                        alojamiento.Barrio,
+                        alojamiento.Estrellas,
+                        alojamiento.CantidadDePersonas,
+                        alojamiento.Tv,
+                        alojamiento.PrecioPorPersona,
+                        alojamiento.PrecioPorPersona * alojamiento.CantidadDePersonas
+                        );
+                }
 
             // Update y Regresheo de Grid
             dgvHoteles.Update();
@@ -129,6 +166,7 @@ namespace TP2_Grupo4.Views
 
         #endregion
 
+        #region On Click
         // Click en Contenido de la Celda
         private void dgvHoteles_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -144,9 +182,13 @@ namespace TP2_Grupo4.Views
 
                     // Borrado
                     dgvHoteles.Rows.RemoveAt(rowIndex);
-                    if (this.agencia.EliminarAlojamiento(codigo) && this.agencia.GuardarCambiosDeLosAlojamientos() && this.agencia.GuardarCambiosDeLasReservas())
+                    if (this.agencia.GetAgencia().EliminarAlojamiento(codigo))
                     {
                         MessageBox.Show("Hotel eliminado junto con todas sus reservas");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo eliminar el Hotel. Intente nuevamente");
                     }
                     // Actualizar GridView
                     getHotelesFromTextFile();
@@ -165,8 +207,6 @@ namespace TP2_Grupo4.Views
             }
 
         }
-
-        #region Button Click Events
 
         // onClick Boton Modificar
         private void btnTopModificar_Click(object sender, EventArgs e)
@@ -197,13 +237,28 @@ namespace TP2_Grupo4.Views
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
             }
 
-            if (this.agencia.AgregarHotel(codigo, ciudad, barrio, estrellas, cantPersonas, tv, precioPersonas) && this.agencia.GuardarCambiosDeLosAlojamientos())
+            //REVISAR
+            var newAlojamiento = new Alojamiento
             {
-                MessageBox.Show("Hotel agregado correctamente");
+                Codigo = codigo.ToString(),
+                Ciudad = ciudad,
+                Barrio = barrio,
+                Estrellas = estrellas,
+                CantidadDePersonas = cantPersonas,
+                Tipo = "hotel",
+                Tv = tv,
+                PrecioPorPersona = precioPersonas,
+                PrecioPorDia = 0,
+                Habitaciones = 0,
+                Banios = 0
+            };
+            if (this.agencia.GetAgencia().ModificarAlojamiento(newAlojamiento))
+            {
+                MessageBox.Show("Hotel modificado correctamente");
             }
             else
             {
-                MessageBox.Show("No se pudo agregar el hotel, vuelva a intentarlo");
+                MessageBox.Show("No se pudo modificar el hotel, vuelva a intentarlo");
             }
 
             clearAllControls();
@@ -220,12 +275,13 @@ namespace TP2_Grupo4.Views
             try
             {
                 codigo = Int32.Parse(txtCodigo.Text);
-            } catch (FormatException)
+            }
+            catch (FormatException)
             {
                 MessageBox.Show("ingresaste un valor alfabetico en el codigo de alojamiento, ingresa un valor numérico");
                 huboError = true;
             }
-            
+
             string ciudad = txtCiudad.Text;
             string barrio = txtBarrio.Text;
             int estrellas = Int32.Parse(comboBoxEstrellas.Text);
@@ -235,19 +291,32 @@ namespace TP2_Grupo4.Views
             try
             {
                 precioPersonas = double.Parse(txtPrecio.Text);
-            } catch (FormatException)
+            }
+            catch (FormatException)
             {
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
                 huboError = true;
             }
 
-
-            if (this.agencia.GetAgencia().FindAlojamientoForCodigo(codigo) == null)
+            //REVISAR
+            var newAlojamiento = new Alojamiento { 
+                Codigo = codigo.ToString(), 
+                Ciudad = ciudad, 
+                Barrio = barrio, 
+                Estrellas = estrellas, 
+                CantidadDePersonas = cantPersonas, 
+                Tv = tv, 
+                Tipo = "hotel",
+                PrecioPorPersona = precioPersonas, 
+                PrecioPorDia = 0, 
+                Habitaciones = 0, 
+                Banios = 0 
+            };
+            if (!this.agencia.ExisteAlojamiento(codigo) && this.agencia.GetAgencia().AgregarAlojamiento(newAlojamiento))
             {
-                this.agencia.GetAgencia().AgregarAlojamiento(new Hotel(codigo, ciudad, barrio, estrellas, cantPersonas, tv, precioPersonas));
-                this.agencia.GetAgencia().GuardarCambiosEnElArchivo();
+                MessageBox.Show("El Hotel fue agregado correctamente.");
             }
-            else if (!huboError)
+            else if (huboError)
             {
                 MessageBox.Show("Ya existe el código de alojamiento, ingresa un código inexistente");
             }
@@ -258,6 +327,7 @@ namespace TP2_Grupo4.Views
 
         #endregion
 
+        #region Key Pressed
         private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
@@ -277,5 +347,6 @@ namespace TP2_Grupo4.Views
                 return;
             }
         }
+        #endregion
     }
 }

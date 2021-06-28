@@ -29,8 +29,8 @@ namespace TP2_Grupo4.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblReservas = new System.Windows.Forms.Label();
             this.dgvReservas = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,28 +66,28 @@ namespace TP2_Grupo4.Views
             this.dgvReservas.AllowUserToAddRows = false;
             this.dgvReservas.AllowUserToResizeColumns = false;
             this.dgvReservas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvReservas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvReservas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvReservas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvReservas.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvReservas.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvReservas.Location = new System.Drawing.Point(12, 174);
             this.dgvReservas.Name = "dgvReservas";
             this.dgvReservas.RowTemplate.Height = 25;
             this.dgvReservas.Size = new System.Drawing.Size(976, 376);
-            this.dgvReservas.TabIndex = 1;
+            this.dgvReservas.TabIndex = 0;
             this.dgvReservas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReservas_CellContentClick);
             // 
             // groupBox1
@@ -110,7 +110,7 @@ namespace TP2_Grupo4.Views
             this.groupBox1.Location = new System.Drawing.Point(84, 51);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(842, 117);
-            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ordenamiento";
             // 
@@ -119,14 +119,14 @@ namespace TP2_Grupo4.Views
             this.dateTimeHasta.Location = new System.Drawing.Point(269, 74);
             this.dateTimeHasta.Name = "dateTimeHasta";
             this.dateTimeHasta.Size = new System.Drawing.Size(241, 23);
-            this.dateTimeHasta.TabIndex = 12;
+            this.dateTimeHasta.TabIndex = 4;
             // 
             // dateTimeDesde
             // 
             this.dateTimeDesde.Location = new System.Drawing.Point(269, 29);
             this.dateTimeDesde.Name = "dateTimeDesde";
             this.dateTimeDesde.Size = new System.Drawing.Size(241, 23);
-            this.dateTimeDesde.TabIndex = 11;
+            this.dateTimeDesde.TabIndex = 3;
             // 
             // textBoxAloja
             // 
@@ -134,7 +134,7 @@ namespace TP2_Grupo4.Views
             this.textBoxAloja.Location = new System.Drawing.Point(95, 29);
             this.textBoxAloja.Name = "textBoxAloja";
             this.textBoxAloja.Size = new System.Drawing.Size(120, 23);
-            this.textBoxAloja.TabIndex = 8;
+            this.textBoxAloja.TabIndex = 1;
             // 
             // textBoxPrecio
             // 
@@ -142,7 +142,7 @@ namespace TP2_Grupo4.Views
             this.textBoxPrecio.Location = new System.Drawing.Point(605, 29);
             this.textBoxPrecio.Name = "textBoxPrecio";
             this.textBoxPrecio.Size = new System.Drawing.Size(100, 23);
-            this.textBoxPrecio.TabIndex = 3;
+            this.textBoxPrecio.TabIndex = 5;
             // 
             // textBoxID
             // 
@@ -176,7 +176,7 @@ namespace TP2_Grupo4.Views
             this.textBoxUsuario.Location = new System.Drawing.Point(95, 74);
             this.textBoxUsuario.Name = "textBoxUsuario";
             this.textBoxUsuario.Size = new System.Drawing.Size(121, 23);
-            this.textBoxUsuario.TabIndex = 4;
+            this.textBoxUsuario.TabIndex = 2;
             // 
             // TBDesde
             // 
@@ -220,9 +220,9 @@ namespace TP2_Grupo4.Views
             this.Modificar.Enabled = false;
             this.Modificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Modificar.ForeColor = System.Drawing.Color.Black;
-            this.Modificar.Location = new System.Drawing.Point(730, 59);
+            this.Modificar.Location = new System.Drawing.Point(730, 29);
             this.Modificar.Name = "Modificar";
-            this.Modificar.Size = new System.Drawing.Size(106, 51);
+            this.Modificar.Size = new System.Drawing.Size(106, 71);
             this.Modificar.TabIndex = 7;
             this.Modificar.Text = "Modificar";
             this.Modificar.UseVisualStyleBackColor = false;

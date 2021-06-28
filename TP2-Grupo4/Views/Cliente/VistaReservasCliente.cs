@@ -14,11 +14,20 @@ namespace TP2_Grupo4.Views
         AgenciaManager agencia = new AgenciaManager();
         List<Reserva> reservasDelUsuario;
 
-        public VistaReservasCliente(AgenciaManager agenciaManager)
+        public VistaReservasCliente(AgenciaManager agenciaManager, string idioma)
         {
             InitializeComponent();
             this.agencia = agenciaManager;
-            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().GetDni());
+            this.reservasDelUsuario = agenciaManager.GetAllReservasForUsuario(agenciaManager.GetUsuarioLogeado().Dni);
+
+            if (idioma == "Español")
+            {
+                label1.Text = "Reservaciones";
+            }
+            else if (idioma == "English")
+            {
+                label1.Text = "Reservations";
+            }
         }
 
         // CREACION DEL CONTENIDO DEL DATAGRIDVIEW
@@ -42,15 +51,17 @@ namespace TP2_Grupo4.Views
 
             dgvReservaciones.Columns.Add(btnCancelar);
             dgvReservaciones.ReadOnly = false;
+            dgvReservaciones.Rows.Clear();
             llenarDataGridView();
         }
         private void llenarDataGridView()
-        {
+        {       
             List<List<String>> reservas = this.agencia.DatosDeReservasParaLasVistas("user");
             foreach (List<String> reserva in reservas)
-                this.dgvReservaciones.Rows.Add(reserva.ToArray());
+                dgvReservaciones.Rows.Add(reserva.ToArray());
         }
 
+        #region On Click
         // BOTON CANCELAR DEL DATAGRIDVIEW
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -68,13 +79,10 @@ namespace TP2_Grupo4.Views
                     int rowIndex = dgvReservaciones.CurrentCell.RowIndex;
 
                     // Codigo de la reserva
-                    String codigoDeReserva = this.reservasDelUsuario[rowIndex].GetId();
+                    int codigoDeReserva = this.reservasDelUsuario[rowIndex].Id;
 
                     // Eliminar reserva
                     this.agencia.EliminarReserva(codigoDeReserva);
-
-                    // Guardar Datos
-                    this.agencia.GuardarCambiosDeLasReservas();
 
                     // Actualizar GridView
                     this.dgvReservaciones.Rows.Clear();
@@ -82,5 +90,6 @@ namespace TP2_Grupo4.Views
                 }
             }
         }
+        #endregion
     }
 }

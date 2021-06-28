@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,csharp,intellij+all
 
 TP2-Grupo4/Data/*
+TP2-Grupo4/Migrations
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and

@@ -60,6 +60,7 @@ namespace TP2_Grupo4.Views
             this.dgvReservaciones.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvReservaciones.Location = new System.Drawing.Point(67, 105);
             this.dgvReservaciones.Name = "dgvReservaciones";
+            this.dgvReservaciones.RowHeadersVisible = false;
             this.dgvReservaciones.RowTemplate.Height = 25;
             this.dgvReservaciones.Size = new System.Drawing.Size(858, 382);
             this.dgvReservaciones.TabIndex = 0;
