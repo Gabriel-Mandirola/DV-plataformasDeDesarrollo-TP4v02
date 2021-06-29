@@ -96,14 +96,31 @@ namespace TP2_Grupo4
                 return false;
             }
         }
-        public bool ModificarUsuario(int dni, String nombre, String email, String password = "")
+        public bool ModificarUsuario(int dni, String nombre, String email, bool bloqueado)
         {
             try
             {
                 var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
                 usuario.Nombre = nombre;
                 usuario.Email = email;
-                usuario.Password = Utils.Encriptar(password);
+                usuario.Bloqueado = bloqueado;
+                //usuario.Password = Utils.Encriptar(password);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool ModificarContrasenia(int dni, String nombre, String email, String password = "")
+        {
+            try
+            {
+                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+                usuario.Nombre = nombre;
+                usuario.Email = email;
+                //usuario.Password = Utils.Encriptar(password);
                 contexto.SaveChanges();
                 return true;
             }

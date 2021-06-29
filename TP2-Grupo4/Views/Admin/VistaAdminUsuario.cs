@@ -173,7 +173,7 @@ namespace TP2_Grupo4.Views
             string email = txtEmail.Text;
             bool bloqueado = checkBoxBloqueado.Checked;
 
-            if (this.agencia.ModificarUsuario(dni, nombre, email, "")) //, "", bloqueado.ToString()
+            if (this.agencia.ModificarUsuario(dni, nombre, email, bloqueado))
                 MessageBox.Show("El usuario a sido modificado");
 
             clearAllControls();

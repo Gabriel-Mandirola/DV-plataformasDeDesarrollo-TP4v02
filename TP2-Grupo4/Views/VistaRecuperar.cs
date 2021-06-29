@@ -167,7 +167,7 @@ namespace TP2_Grupo4.Views
                 }
                 else
                 {
-                    if (contrasena == repetirContrasena && this.agencia.ModificarUsuario(dni, "", "", contrasena) )
+                    if (contrasena == repetirContrasena && this.agencia.ModificarContrasenia(dni, "", "", contrasena) )
                     {
                         MessageBox.Show("Se ha modificado el usuario de manera exitosa.");
                     }
