@@ -88,7 +88,6 @@ namespace TP2_Grupo4.Views
             List<List<String>> reservas = this.agencia.DatosDeReservasParaLasVistas("admin");
             foreach (List<String> reserva in reservas)
                 this.dgvReservas.Rows.Add(reserva.ToArray());
-
             dgvReservas.Update();
             dgvReservas.Refresh();
         }
@@ -104,7 +103,7 @@ namespace TP2_Grupo4.Views
             int precio = Int32.Parse(textBoxPrecio.Text);
             int idAloja = Int32.Parse(textBoxAloja.Text);
             int dni = Int32.Parse(textBoxUsuario.Text);
-            agencia.ModificarReserva(id, desde, hasta, precio, agencia.GetAgencia().FindAlojamientoForCodigo(idAloja), agencia.FindUserForDNI(dni));
+            agencia.ModificarReserva(id, desde, hasta, precio, idAloja, dni);
             dateTimeDesde.MinDate = DateTime.Now;
             dateTimeHasta.MinDate = DateTime.Now;
 
@@ -127,8 +126,7 @@ namespace TP2_Grupo4.Views
                     // Borrado
                     dgvReservas.Rows.RemoveAt(rowIndex);
 
-
-                    if (this.agencia.EliminarReserva(codigo))
+                    if (this.agencia.EliminarReserva(int.Parse(codigo)))
                     {
                         MessageBox.Show("Reserva eliminada con exito");
                     }

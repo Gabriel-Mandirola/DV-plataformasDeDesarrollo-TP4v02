@@ -20,12 +20,6 @@ namespace TP2_Grupo4
         private Usuario usuarioLogeado;
         public AgenciaManager()
         {
-            this.agencia = new Agencia();
-            this.usuarioLogeado = null;
-            inicializarAtributos();
-        }
-        private void inicializarAtributos()
-        {
             try
             {
                 //creo un contexto
@@ -40,6 +34,9 @@ namespace TP2_Grupo4
 
                 contexto.Alojamientos.Load();
                 this.Alojamientos = contexto.Alojamientos;
+
+                this.usuarioLogeado = null;
+                this.agencia = new Agencia(contexto);
             }
             catch (Exception)
             {
@@ -47,35 +44,6 @@ namespace TP2_Grupo4
         }
 
         #region USUARIO
-        public bool IsUsuarioBloqueado(int dni)
-        {
-            Usuario user = this.Usuarios.ToList().Find(user => user.Dni == dni && user.Bloqueado == true);
-            return user == null ? false : true;
-        }
-
-        public Usuario FindUserForDNI(int dni)
-        {
-            return this.Usuarios.ToList().Find(user => user.Dni == dni);
-        }
-        public bool autenticarUsuario(int dni, String password)
-        {
-            Usuario usuarioEncontrado = this.FindUserForDNI(dni);
-            if (usuarioEncontrado == null) return false; // DNI no encontrado
-            if (usuarioEncontrado.Password != Utils.Encriptar(password)) return false; // Contraseña incorrecta          
-            this.usuarioLogeado = usuarioEncontrado;
-            return true;
-        }
-        public bool ExisteEmail(string email)
-        {
-            try
-            {
-                return this.Usuarios.Where(user => user.Email == email).First() != null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
         public bool AgregarUsuario(int dni, String nombre, String email, String password, bool isAdmin, bool bloqueado)
         {
             try
@@ -98,15 +66,16 @@ namespace TP2_Grupo4
                 return false;
             }
         }
-        public bool ModificarUsuario(int dni, String nombre, String email, String password = "")
+        public bool ModificarUsuario(int dni, String nombre, String email, bool bloqueado)
         {
             try
             {
-                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+                var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
                 usuario.Nombre = nombre;
                 usuario.Email = email;
-                usuario.Password = Utils.Encriptar(password);
-                contexto.SaveChanges();
+                usuario.Bloqueado = bloqueado;
+                this.Usuarios.Update(usuario);
+                this.contexto.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -118,8 +87,10 @@ namespace TP2_Grupo4
         {
             try
             {
+                var reservas = this.Reservas.Where(reserva => reserva.Usuario.Dni == dni).ToList();
+                this.Reservas.RemoveRange(reservas.ToArray());
                 var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
-                contexto.Usuarios.Remove(usuario);
+                this.Usuarios.Remove(usuario);
                 contexto.SaveChanges();
                 return true;
             }
@@ -128,18 +99,223 @@ namespace TP2_Grupo4
                 return false;
             }
         }
-        public bool BloquearUsuario(int dni)
+        public bool IsUsuarioBloqueado(int dni)
         {
-            Usuario usuario = this.Usuarios.AsNoTracking().ToList().Find(u => u.Dni == dni);
-            if (usuario == null) return false;
-            usuario.Bloqueado = true;
+            Usuario user = this.Usuarios.ToList().Find(user => user.Dni == dni && user.Bloqueado == true);
+            return user == null ? false : true;
+        }
+        public Usuario FindUserForDNI(int dni)
+        {
+            return this.Usuarios.ToList().Find(user => user.Dni == dni);
+        }
+        public bool autenticarUsuario(int dni, String password)
+        {
+            Usuario usuarioEncontrado = this.FindUserForDNI(dni);
+            if (usuarioEncontrado == null) return false; // DNI no encontrado
+            if (usuarioEncontrado.Password != Utils.Encriptar(password)) return false; // Contraseña incorrecta          
+            this.usuarioLogeado = usuarioEncontrado;
             return true;
         }
-
-
+        public bool RecuperarPassword(int dni, String password)
+        {
+            var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
+            usuario.Password = Utils.Encriptar(password);
+            this.Usuarios.Update(usuario);
+            this.contexto.SaveChanges();
+            return true;
+        }
+        public bool ExisteEmail(string email)
+        {
+            try
+            {
+                return this.Usuarios.Where(user => user.Email == email).First() != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool BloquearUsuario(int dni)
+        {
+            Usuario usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+            if (usuario == null) return false;
+            usuario.Bloqueado = true;
+            this.Usuarios.Update(usuario);
+            this.contexto.SaveChanges();
+            return true;
+        }
         public void CerrarSession()
         {
             this.usuarioLogeado = null;
+        }
+        #endregion
+
+        #region ALOJAMIENTOS
+        public bool AgregarHotel(String codigo, String ciudad, String barrio, int estrellas, int cantidadDePersonas, bool tv, double precioPorPersona)
+        {
+            var hotel = new Alojamiento
+            {
+                Codigo = codigo,
+                Ciudad = ciudad,
+                Barrio = barrio,
+                Estrellas = estrellas,
+                CantidadDePersonas = cantidadDePersonas,
+                Tv = tv,
+                Tipo = "hotel",
+                PrecioPorPersona = precioPorPersona,
+            };
+            return this.agencia.AgregarAlojamiento(hotel);
+        }
+        public bool ModificarHotel(String codigo, String ciudad, String barrio, int estrellas, int cantidadDePersonas, bool tv, double precioPorPersona)
+        {
+            var hotel = new Alojamiento
+            {
+                Codigo = codigo,
+                Ciudad = ciudad,
+                Barrio = barrio,
+                Estrellas = estrellas,
+                CantidadDePersonas = cantidadDePersonas,
+                Tipo = "hotel",
+                Tv = tv,
+                PrecioPorPersona = precioPorPersona
+            };
+            return this.agencia.ModificarAlojamiento(hotel);
+        }
+        public bool AgregarCabania(String codigo, String ciudad, String barrio, int estrellas, int cantidadDePersonas, bool tv, double precioPorDia, int habitaciones, int banios)
+        {
+            var cabania = new Alojamiento {
+                Codigo = codigo,
+                Ciudad = ciudad,
+                Barrio = barrio,
+                Estrellas = estrellas,
+                CantidadDePersonas = cantidadDePersonas,
+                Tipo = "cabaña",
+                Tv = tv,
+                PrecioPorDia = precioPorDia,
+                Habitaciones = habitaciones,
+                Banios = banios
+            };
+            return this.agencia.AgregarAlojamiento(cabania);
+        }
+        public bool ModificarCabania(String codigo, String ciudad, String barrio, int estrellas, int cantidadDePersonas, bool tv, double precioPorDia, int habitaciones, int banios){
+            var cabania = new Alojamiento
+            {
+                Codigo = codigo,
+                Ciudad = ciudad,
+                Barrio = barrio,
+                Estrellas = estrellas,
+                CantidadDePersonas = cantidadDePersonas,
+                Tipo = "cabaña",
+                Tv = tv,
+                PrecioPorDia = precioPorDia,
+                Habitaciones = habitaciones,
+                Banios = banios
+            };
+            return this.agencia.ModificarAlojamiento(cabania);
+        }
+        public bool EliminarAlojamiento(int codigo)
+        {
+            try
+            {
+                var reservasDelAlojamiento = this.Reservas.Where(r => r.Alojamiento.Codigo == codigo.ToString()).ToList();
+                this.Reservas.RemoveRange(reservasDelAlojamiento.ToArray());
+                this.contexto.SaveChanges();
+                return this.agencia.EliminarAlojamiento(codigo);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private List<Reserva> getAllReservasForAlojamiento(String codigo)
+        {
+            return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo);
+        }
+        public bool ExisteAlojamiento(int codigo)
+        {
+            return this.agencia.FindAlojamientoForCodigo(codigo) != null ? true : false;
+        }
+        #endregion
+
+        #region RESERVAS
+        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, String codigoAlojamiento, int dniUsuario, double precio)
+        {
+            var alojamiento = this.contexto.Alojamientos.Where(a => a.Codigo.Equals(codigoAlojamiento)).FirstOrDefault();
+            var usuario = this.Usuarios.Where(u => u.Dni == dniUsuario).FirstOrDefault();
+            try
+            {
+                var reservas = new Reserva
+                {
+                    FechaDesde = fechaDesde,
+                    FechaHasta = fechaHasta,
+                    Alojamiento = alojamiento,
+                    Usuario = usuario,
+                    Precio = precio
+                };
+
+                this.Reservas.Add(reservas);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int precio, int alojamiento_id, int usuario_dni)
+        {
+            try
+            {
+                var alojamiento = this.Alojamientos.FirstOrDefault( a => a.Codigo == alojamiento_id.ToString());
+                var usuario = this.Usuarios.FirstOrDefault( a => a.Dni == usuario_dni );
+                var reserva = this.Reservas.FirstOrDefault( r => r.Id == int.Parse(id) );
+                reserva.FechaDesde = fechaDesde;
+                reserva.FechaHasta = fechaHasta;
+                reserva.Precio = precio;
+                reserva.Alojamiento = alojamiento;
+                reserva.Usuario = usuario;
+                this.Reservas.Update(reserva);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool EliminarReserva(int id)
+        {
+            try
+            {
+                var reserva = this.Reservas.FirstOrDefault(r => r.Id == id);
+                contexto.Reservas.Remove(reserva);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public List<Reserva> GetAllReservasForUsuario(int dni)
+        {
+            return this.Reservas.ToList().FindAll(reserva => reserva.Usuario.Dni == dni);
+        }
+        private List<Reserva> getAllReservasForAlojamiento(int codigo)
+        {
+            return this.Reservas.Where(reserva => reserva.Alojamiento.Codigo == codigo.ToString()).ToList();
+        }
+        public bool ElAlojamientoEstaDisponible(String codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            bool alojamientoDisponible = true;
+            foreach (Reserva reserva in this.getAllReservasForAlojamiento(codigoDeAlojamiento))
+            {
+                bool validarFechaDesde = DateTime.Compare(reserva.FechaDesde, fechaDesde) == 1 && DateTime.Compare(reserva.FechaDesde, fechaHasta) == 1;
+                bool validarFechaHasta = DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1 && DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1;
+                if (!validarFechaDesde && !validarFechaHasta)
+                    alojamientoDisponible = false;
+            }
+            return alojamientoDisponible;
         }
         #endregion
 
@@ -209,183 +385,20 @@ namespace TP2_Grupo4
 
             return alojamientos;
         }
-        #endregion
-
-        #region FILTRAR
-        public List<List<String>> FiltrarAlojamientos(String tipoAlojamiento, String ciudad, String barrio, double precioMin, double precioMax, String estrellas, String personas)
+        public List<List<String>> GetUsuarios()
         {
-            List<List<String>> alojamientosFiltrados = new List<List<string>>();
-
-            var alojamientos = from alojamiento in this.contexto.Alojamientos
-                               select alojamiento;
-
-            if (tipoAlojamiento != "todos")
-                alojamientos = alojamientos.Where(a => a.Tipo == tipoAlojamiento);
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos 
-                           where alojamiento.Tipo == tipoAlojamiento 
-                           select alojamiento;*/
-
-            if (ciudad != "todas")
-                alojamientos = alojamientos.Where(a => a.Ciudad == ciudad);
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                       where alojamiento.Ciudad == ciudad
-                           select alojamiento;*/
-
-            if (barrio != "todos")
-                alojamientos = alojamientos.Where(a => a.Barrio == barrio);
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                           where alojamiento.Barrio == barrio
-                           select alojamiento;*/
-
-            if (estrellas != "todas")
-                alojamientos = alojamientos.Where(a => a.Estrellas == int.Parse(estrellas));
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                           where alojamiento.Estrellas == int.Parse(estrellas)
-                           select alojamiento;*/
-
-            if (personas != "todas")
-                alojamientos = alojamientos.Where(a => a.CantidadDePersonas == int.Parse(personas));
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                           where alojamiento.CantidadDePersonas == int.Parse(personas)
-                           select alojamiento;*/
-
-            if (precioMin - precioMax != 0)
-                alojamientos = alojamientos.Where(a => (a.Banios == 0 && precioMin < a.PrecioPorPersona && precioMax > a.PrecioPorPersona) ||
-                (a.Banios != 0 && precioMin < a.PrecioPorDia && precioMax > a.PrecioPorDia));
-            /*alojamientos = from alojamiento in this.contexto.Alojamientos
-                            where 
-                            // HOTEL
-                            (alojamiento.Banios == 0 && precioMin < alojamiento.PrecioPorPersona && precioMax > alojamiento.PrecioPorPersona) ||
-                            // CABAÑA
-                            (alojamiento.Banios != 0 && precioMin < alojamiento.PrecioPorDia && precioMax > alojamiento.PrecioPorDia)
-                            select alojamiento;*/
-
-            foreach (var al in alojamientos)
-            {
-                alojamientosFiltrados.Add(new List<string>()
+            var usuarios = new List<List<String>>();
+            foreach (var usuario in this.Usuarios)
+                usuarios.Add(new List<string>()
                 {
-                    al.Codigo,
-                    al.Tipo,
-                    al.Ciudad,
-                    al.Barrio,
-                    al.Estrellas.ToString(),
-                    al.CantidadDePersonas.ToString(),
-                    al.Tv ? "si" : "no",
-                    al.Tipo == "hotel" ? al.PrecioPorPersona.ToString() : al.PrecioPorDia.ToString()
+                    usuario.Dni.ToString(),
+                    usuario.Nombre,
+                    usuario.Email,
+                    usuario.IsAdmin.ToString(),
+                    usuario.Bloqueado.ToString()
                 });
-            }
-
-            return alojamientosFiltrados;
+            return usuarios;
         }
-        #endregion
-
-
-
-        #region Reservas
-        public bool AgregarReserva(DateTime fechaDesde, DateTime fechaHasta, String codigoAlojamiento, int dniUsuario, double precio)
-        {
-            var alojamiento = this.contexto.Alojamientos.Where(a => a.Codigo.Equals(codigoAlojamiento)).FirstOrDefault();
-            var usuario = this.Usuarios.Where(u => u.Dni == dniUsuario).FirstOrDefault();
-            try
-            {
-                var reservas = new Reserva
-                {
-                    FechaDesde = fechaDesde,
-                    FechaHasta = fechaHasta,
-                    Alojamiento = alojamiento,
-                    Usuario = usuario,
-                    Precio = precio
-                };
-
-                this.Reservas.Add(reservas);
-                contexto.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool ModificarReserva(String id, DateTime fechaDesde, DateTime fechaHasta, int precio, Alojamiento alojamiento_id, Usuario usuario_id)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Reserva r in contexto.Reservas)
-                    if (r.Id == int.Parse(id))
-                    {
-                        r.FechaDesde = fechaDesde;
-                        r.FechaHasta = fechaHasta;
-                        r.Precio = precio;
-                        r.Alojamiento = alojamiento_id;
-                        r.Usuario = usuario_id;
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool EliminarReserva(String id)
-        {
-            try
-            {
-                bool salida = false;
-                foreach (Reserva r in contexto.Reservas)
-                    if (r.Id == int.Parse(id))
-                    {
-                        contexto.Reservas.Remove(r);
-                        salida = true;
-                    }
-                if (salida)
-                    contexto.SaveChanges();
-                return salida;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool EliminarReserva(int id)
-        {
-            try
-            {
-                var reserva = this.Reservas.FirstOrDefault(r => r.Id == id);
-                contexto.Reservas.Remove(reserva);
-                contexto.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public List<Reserva> GetAllReservasForUsuario(int dni)
-        {
-            return this.Reservas.ToList().FindAll(reserva => reserva.Usuario.Dni == dni);
-        }
-        private List<Reserva> getAllReservasForAlojamiento(int codigo)
-        {
-            return this.Reservas.Where(reserva => reserva.Alojamiento.Codigo == codigo.ToString()).ToList();
-        }
-        public bool ElAlojamientoEstaDisponible(int codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
-        {
-            bool alojamientoDisponible = true;
-            foreach (Reserva reserva in this.getAllReservasForAlojamiento(codigoDeAlojamiento))
-            {
-                bool validarFechaDesde = DateTime.Compare(reserva.FechaDesde, fechaDesde) == 1 && DateTime.Compare(reserva.FechaDesde, fechaHasta) == 1;
-                bool validarFechaHasta = DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1 && DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1;
-                if (!validarFechaDesde && !validarFechaHasta)
-                    alojamientoDisponible = false;
-            }
-            return alojamientoDisponible;
-        }
-
         public List<List<String>> DatosDeReservasParaLasVistas(String tipoDeUsuario)
         {
             List<List<String>> reservas = new List<List<String>>();
@@ -421,35 +434,57 @@ namespace TP2_Grupo4
             }
             return reservas;
         }
+        #endregion
 
-        public bool ElAlojamientoEstaDisponible(String codigoDeAlojamiento, DateTime fechaDesde, DateTime fechaHasta)
+        #region FILTRAR
+        public List<List<String>> FiltrarAlojamientos(String tipoAlojamiento, String ciudad, String barrio, double precioMin, double precioMax, String estrellas, String personas)
         {
-            bool alojamientoDisponible = true;
-            foreach (Reserva reserva in this.getAllReservasForAlojamiento(codigoDeAlojamiento))
+            List<List<String>> alojamientosFiltrados = new List<List<string>>();
+
+            var alojamientos = from alojamiento in this.contexto.Alojamientos
+                               select alojamiento;
+
+            if (tipoAlojamiento != "todos")
+                alojamientos = alojamientos.Where(a => a.Tipo == tipoAlojamiento);
+
+            if (ciudad != "todas")
+                alojamientos = alojamientos.Where(a => a.Ciudad == ciudad);
+
+            if (barrio != "todos")
+                alojamientos = alojamientos.Where(a => a.Barrio == barrio);
+
+            if (estrellas != "todas")
+                alojamientos = alojamientos.Where(a => a.Estrellas == int.Parse(estrellas));
+
+            if (personas != "todas")
+                alojamientos = alojamientos.Where(a => a.CantidadDePersonas == int.Parse(personas));
+
+            if (precioMin - precioMax != 0)
+                alojamientos = alojamientos.Where(a => (a.Banios == 0 && precioMin < a.PrecioPorPersona && precioMax > a.PrecioPorPersona) ||
+                (a.Banios != 0 && precioMin < a.PrecioPorDia && precioMax > a.PrecioPorDia));
+
+            foreach (var al in alojamientos)
             {
-                bool validarFechaDesde = DateTime.Compare(reserva.FechaDesde, fechaDesde) == 1 && DateTime.Compare(reserva.FechaDesde, fechaHasta) == 1;
-                bool validarFechaHasta = DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1 && DateTime.Compare(reserva.FechaHasta, fechaDesde) == -1;
-                if (!validarFechaDesde && !validarFechaHasta)
-                    alojamientoDisponible = false;
+                alojamientosFiltrados.Add(new List<string>()
+                {
+                    al.Codigo,
+                    al.Tipo,
+                    al.Ciudad,
+                    al.Barrio,
+                    al.Estrellas.ToString(),
+                    al.CantidadDePersonas.ToString(),
+                    al.Tv ? "si" : "no",
+                    al.Tipo == "hotel" ? al.PrecioPorPersona.ToString() : al.PrecioPorDia.ToString()
+                });
             }
-            return alojamientoDisponible;
+
+            return alojamientosFiltrados;
         }
         #endregion
 
-        #region metodos para los alojamientos
-        private List<Reserva> getAllReservasForAlojamiento(String codigo)
-        {
-            return this.Reservas.ToList().FindAll(reserva => reserva.Alojamiento.Codigo == codigo);
-        }
-        public bool ExisteAlojamiento(int codigo)
-        {
-            return this.agencia.FindAlojamientoForCodigo(codigo) != null ? true : false;
-        }
-        #endregion
-
+        
         /* GETTERS */
         public Agencia GetAgencia() { return this.agencia; }
         public Usuario GetUsuarioLogeado() { return this.usuarioLogeado; }
-        public List<Usuario> GetUsuarios() { return this.Usuarios.ToList(); }
     }
 }

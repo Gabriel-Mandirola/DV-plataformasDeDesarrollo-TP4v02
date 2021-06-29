@@ -41,7 +41,7 @@ namespace TP2_Grupo4.Views
 
         }
 
-        #region Key Pressed
+        #region ENTER & LEAVE - DNI & PASSWORD
         private void txtUsuario_Enter(object sender, EventArgs e)
         {
             if (txtUsuario.Text == "DNI")
@@ -50,7 +50,6 @@ namespace TP2_Grupo4.Views
                 txtUsuario.ForeColor = Color.LightGray;
             }
         }
-
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
             if (txtUsuario.Text == "")
@@ -77,7 +76,6 @@ namespace TP2_Grupo4.Views
                 txtContrasena.Text = "NEW PASSWORD";
             }
         }
-
         private void txtContrasenaNueva_Enter(object sender, EventArgs e)
         {
             if (txtRepetirContrasena.Text == "REPETIR CONTRASEÑA" || txtRepetirContrasena.Text == "REPEAT PASSWORD")
@@ -85,7 +83,6 @@ namespace TP2_Grupo4.Views
                 txtRepetirContrasena.Text = "";
             }
         }
-
         private void txtContrasenaNueva_Leave(object sender, EventArgs e)
         {
             if (txtRepetirContrasena.Text == "" && cambiarIdioma.Text == "English")
@@ -97,7 +94,6 @@ namespace TP2_Grupo4.Views
                 txtRepetirContrasena.Text = "REPEAT PASSWORD";
             }
         }
-
         private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
@@ -130,19 +126,16 @@ namespace TP2_Grupo4.Views
             cambiarFormulario.Show();
             this.Hide();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             VistaRegistrar cambiarFormulario = new VistaRegistrar();
             cambiarFormulario.Show();
             this.Hide();
         }
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             try
@@ -153,11 +146,11 @@ namespace TP2_Grupo4.Views
 
                 if (this.agencia.FindUserForDNI(dni) == null)
                 {
-                    MessageBox.Show("El usuario invalido, por favor intentelo nuevamente.");
+                    MessageBox.Show("Usuario no encontrado, por favor intentelo nuevamente.");
                 }
                 else
                 {
-                    if (contrasena == repetirContrasena && this.agencia.ModificarUsuario(dni, "", "", contrasena))
+                    if (contrasena == repetirContrasena && this.agencia.RecuperarPassword(dni,contrasena))
                     {
                         MessageBox.Show("Se ha modificado el usuario de manera exitosa.");
                     }
@@ -169,7 +162,6 @@ namespace TP2_Grupo4.Views
                     txtUsuario.ForeColor = Color.DimGray;
                     txtContrasena.Text = "CONTRASEÑA NUEVA";
 
-
                     if (txtContrasena.Text == "" && cambiarIdioma.Text == "English")
                     {
                         txtContrasena.Text = "CONTRASEÑA NUEVA";
@@ -179,10 +171,7 @@ namespace TP2_Grupo4.Views
                         txtContrasena.Text = "NEW PASSWORD";
                     }
 
-
-
                     txtRepetirContrasena.Text = "REPETIR CONTRASEÑA";
-
                     if (txtRepetirContrasena.Text == "" && cambiarIdioma.Text == "English")
                     {
                         txtRepetirContrasena.Text = "REPETIR CONTRASEÑA";
@@ -198,35 +187,30 @@ namespace TP2_Grupo4.Views
                 MessageBox.Show("El usuario no existe, por favor intentelo nuevamente.");
             }
         }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             pictureBox2.Visible = false;
             pictureBox3.Visible = true;
             txtContrasena.UseSystemPasswordChar = false;
         }
-
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             pictureBox2.Visible = true;
             pictureBox3.Visible = false;
             txtContrasena.UseSystemPasswordChar = true;
         }
-
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             pictureBox5.Visible = false;
             pictureBox4.Visible = true;
             txtRepetirContrasena.UseSystemPasswordChar = false;
         }
-
         private void pictureBox4_Click(object sender, EventArgs e)
         {
             pictureBox5.Visible = true;
             pictureBox4.Visible = false;
             txtRepetirContrasena.UseSystemPasswordChar = true;
         }
-
         private void cambiarIdioma_Click(object sender, EventArgs e)
         {
             if (VistaLogin.idioma == "Español")
@@ -253,5 +237,6 @@ namespace TP2_Grupo4.Views
             }
         }
         #endregion
+    
     }
 }

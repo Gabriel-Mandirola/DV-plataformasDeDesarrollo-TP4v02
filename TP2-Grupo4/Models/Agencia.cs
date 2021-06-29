@@ -15,15 +15,12 @@ namespace TP2_Grupo4.Models
         private Context contexto;
         public DbSet<Alojamiento> Alojamientos { get; set; }
 
-        public Agencia()
+        public Agencia(Context contexto)
         {
             try
             {
                 // Creo Contexto
-                contexto = new Context();
-
-                // Cargo los alojamientos
-                contexto.Alojamientos.Load();
+                this.contexto = contexto;
                 this.Alojamientos = contexto.Alojamientos;
             }
             catch (Exception)
@@ -31,7 +28,7 @@ namespace TP2_Grupo4.Models
             }
         }
 
-        #region ABM
+        #region ABM DE ALOJAMIENTO
         public bool AgregarAlojamiento(Alojamiento alojamiento)
         {
             try
@@ -45,12 +42,11 @@ namespace TP2_Grupo4.Models
                 return false;
             }
         }
-
         public bool ModificarAlojamiento(Alojamiento alojamiento)
         {
             try
             {
-                var alojamientoEncontrado = this.Alojamientos.ToList().Find(a => a.Codigo == alojamiento.Codigo);
+                var alojamientoEncontrado = this.Alojamientos.FirstOrDefault(a => a.Codigo == alojamiento.Codigo);
                 alojamientoEncontrado.Ciudad = alojamiento.Ciudad;
                 alojamientoEncontrado.Barrio = alojamiento.Barrio;
                 alojamientoEncontrado.Estrellas = alojamiento.Estrellas;
@@ -60,6 +56,7 @@ namespace TP2_Grupo4.Models
                 alojamientoEncontrado.PrecioPorDia = alojamiento.PrecioPorDia;
                 alojamientoEncontrado.Habitaciones = alojamiento.Habitaciones;
                 alojamientoEncontrado.Banios = alojamiento.Banios;
+                this.Alojamientos.Update(alojamientoEncontrado);
                 contexto.SaveChanges();
                 return true;
             }
@@ -72,7 +69,7 @@ namespace TP2_Grupo4.Models
         {
             try
             {
-                var alojamiento = this.Alojamientos.ToList().Find(a => a.Codigo == codigoDelAlojamiento.ToString());
+                var alojamiento = this.Alojamientos.FirstOrDefault(a => a.Codigo == codigoDelAlojamiento.ToString());
                 this.Alojamientos.Remove(alojamiento);
                 contexto.SaveChanges();
                 return true;
@@ -83,31 +80,8 @@ namespace TP2_Grupo4.Models
             }
         }
         #endregion
-        public Alojamiento FindAlojamientoForCodigo(int codigoAlojamiento)
-        {
-            return this.Alojamientos.ToList().Find(al => al.Codigo == codigoAlojamiento.ToString());
-        }
-
-
+        
         #region METODOS COMPLEMENTARIOS
-        public List<List<String>> DatosDeAlojamientosParaLasVistasCliente()
-        {
-            List<List<String>> alojamientos = new List<List<string>>();
-            foreach (Alojamiento alojamiento in this.Alojamientos)
-            {
-                double precio = alojamiento.Tipo == "hotel" ? alojamiento.PrecioPorPersona : alojamiento.PrecioPorDia;
-                alojamientos.Add(new List<String>(){
-                        //alojamiento is Hotel ? "hotel" : "cabaña", // Tipo de alojamiento
-                        alojamiento.Ciudad,
-                        alojamiento.Barrio,
-                        alojamiento.Estrellas.ToString(),
-                        alojamiento.CantidadDePersonas.ToString(),
-                        alojamiento.Tv ? "si" : "no",
-                        precio.ToString()
-                    });
-            }
-            return alojamientos;
-        }
         public List<List<String>> DatosDeAlojamientosParaLasVistasAdmin(String tipoAloj)
         {
             List<List<String>> alojamientos = new List<List<string>>();
@@ -182,13 +156,55 @@ namespace TP2_Grupo4.Models
             }
             return listaDeAlojamientos;
         }
-
-        public List<Alojamiento> GetAlojamientos()
+        public List<List<String>> GetCabania()
         {
-            return this.Alojamientos.ToList();
-
+            List<List<String>> cabanias = new List<List<String>>();
+            this.Alojamientos.ToList().ForEach(alojamiento =>
+            {
+                if (alojamiento.Tipo != "hotel")
+                {
+                    cabanias.Add(new List<string>() {
+                        alojamiento.Codigo,
+                        alojamiento.Ciudad,
+                        alojamiento.Barrio,
+                        alojamiento.Estrellas.ToString(),
+                        alojamiento.CantidadDePersonas.ToString(),
+                        alojamiento.Tv.ToString(),
+                        alojamiento.PrecioPorDia.ToString(),
+                        alojamiento.Habitaciones.ToString(),
+                        alojamiento.Banios.ToString(),
+                        (alojamiento.PrecioPorDia * alojamiento.CantidadDePersonas).ToString()
+                    });
+                }
+            });
+            return cabanias;
         }
-
+        public List<List<String>> GetHoteles()
+        {
+            List<List<String>> hoteles = new List<List<String>>();
+            this.Alojamientos.ToList().ForEach( alojamiento =>
+            {
+                if (alojamiento.Tipo == "hotel")
+                {
+                    hoteles.Add(new List<string>() {
+                        alojamiento.Codigo,
+                        alojamiento.Ciudad,
+                        alojamiento.Barrio,
+                        alojamiento.Estrellas.ToString(),
+                        alojamiento.CantidadDePersonas.ToString(),
+                        alojamiento.Tv.ToString(),
+                        alojamiento.PrecioPorPersona.ToString(),
+                        (alojamiento.PrecioPorPersona* alojamiento.CantidadDePersonas).ToString()
+                    });
+                }
+            });
+            return hoteles;
+        }
+        public Alojamiento FindAlojamientoForCodigo(int codigoAlojamiento)
+        {
+            return this.Alojamientos.ToList().Find(al => al.Codigo == codigoAlojamiento.ToString());
+        }
         #endregion
+
     }
 }

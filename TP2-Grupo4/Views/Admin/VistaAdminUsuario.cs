@@ -94,24 +94,14 @@ namespace TP2_Grupo4.Views
         private void getUsuariosFromTextFile()
         {
             // Limpiamos el GridView
-            dgvUsuarios.Rows.Clear();
+            this.dgvUsuarios.Rows.Clear();
 
-            List<Usuario> usuarios = this.agencia.GetUsuarios();
-
-            foreach (Usuario usuario in usuarios)
-            {
-                this.dgvUsuarios.Rows.Add(
-                    usuario.Dni,
-                    usuario.Nombre,
-                    usuario.Email,
-                    usuario.IsAdmin,
-                    usuario.Bloqueado
-                );
-            }
+            foreach (var usuario in this.agencia.GetUsuarios())
+                this.dgvUsuarios.Rows.Add(usuario.ToArray());
 
             // Update y Regresheo de Grid
-            dgvUsuarios.Update();
-            dgvUsuarios.Refresh();
+            this.dgvUsuarios.Update();
+            this.dgvUsuarios.Refresh();
         }
 
         #region On Click
@@ -156,7 +146,7 @@ namespace TP2_Grupo4.Views
                 }
             }
         }
-
+        // MODIFICAR USUARIO
         private void btnTopModificar_Click(object sender, EventArgs e)
         {
             btnTopModificar.Visible = false;
@@ -167,13 +157,14 @@ namespace TP2_Grupo4.Views
             } catch (FormatException)
             {
                 labelError.Text = "Ingresaste un valor alfabetico en el DNI";
+                return;
             }
             
             string nombre = txtNombre.Text;
             string email = txtEmail.Text;
             bool bloqueado = checkBoxBloqueado.Checked;
 
-            if (this.agencia.ModificarUsuario(dni, nombre, email, "")) //, "", bloqueado.ToString()
+            if (this.agencia.ModificarUsuario(dni, nombre, email,bloqueado))
                 MessageBox.Show("El usuario a sido modificado");
 
             clearAllControls();

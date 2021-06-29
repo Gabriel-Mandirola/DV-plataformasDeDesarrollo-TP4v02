@@ -42,7 +42,7 @@ namespace TP2_Grupo4.Views.Cliente
         }
 
         #region On Click
-        // BOTTON BUSCAR
+        // BOTTON BUSCADOR
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             String inputCiudad = this.inputBuscador.Text.Trim();
@@ -110,6 +110,11 @@ namespace TP2_Grupo4.Views.Cliente
         }
         private void llenarDataGridView(List<List<String>> alojamientos)
         {
+            if(alojamientos.Count == 0)
+            {
+                MessageBox.Show("No hay alojamientos disponibles");
+                return;
+            }
             this.limpiarDataGridView();
 
             foreach (List<String> alojamiento in alojamientos)

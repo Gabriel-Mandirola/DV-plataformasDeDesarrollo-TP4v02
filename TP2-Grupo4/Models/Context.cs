@@ -6,7 +6,7 @@ using TP2_Grupo4.Helpers;
 
 namespace TP2_Grupo4.Models
 {
-    class Context : DbContext
+    public class Context : DbContext
     {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
@@ -34,49 +34,64 @@ namespace TP2_Grupo4.Models
                 alojamiento.HasIndex(a => a.Codigo).IsUnique();
                 alojamiento.Property(a => a.Ciudad).HasColumnType("varchar(50)").IsRequired(true);
                 alojamiento.Property(a => a.Barrio).HasColumnType("varchar(50)").IsRequired(true);
-                //alojamiento.Property(a => a.CantidadDePersonas).HasColumnType("int").IsRequired(true);
-                //alojamiento.Property(a => a.Tv).HasColumnType("tinyint").IsRequired(true);
                 alojamiento.Property(a => a.Tipo).HasColumnType("varchar(10)").IsRequired(true);
-                /*alojamiento.Property(a => a.PrecioPorPersona).HasColumnType("double");
-                alojamiento.Property(a => a.PrecioPorDia).HasColumnType("double");
-                alojamiento.Property(a => a.Habitaciones).HasColumnType("int");
-                alojamiento.Property(a => a.Banios).HasColumnType("int");*/
             });
-            modelBuilder.Entity<Reserva>(reserva =>
-            {
-                reserva.Property(r => r.FechaDesde).HasColumnType("date").IsRequired(true);
-                reserva.Property(r => r.FechaHasta).HasColumnType("date").IsRequired(true);
-            });
+            
 
             modelBuilder.Entity<Usuario>().HasData(new Usuario[]{
-                new Usuario{Id=1, Dni = 11111111, Nombre = "admin", Email = "admin@admin.com", Password = Utils.Encriptar("1234"), IsAdmin=true, Bloqueado=false},
+                new Usuario{Id=1, Dni = 1234, Nombre = "admin", Email = "admin@admin.com", Password = Utils.Encriptar("1234"), IsAdmin=true, Bloqueado=false},
                 new Usuario{Id=2, Dni = 12312312, Nombre = "prueba1", Email = "prueba1@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
+                new Usuario{Id=3, Dni = 23423423, Nombre = "prueba2", Email = "prueba2@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=true},
+                new Usuario{Id=4, Dni = 34534534, Nombre = "prueba3", Email = "prueba3@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
             }); ;
             modelBuilder.Entity<Alojamiento>().HasData(new Alojamiento[] {
                 new Alojamiento{
                     Id=1,
-                    Codigo="123456",
+                    Codigo="352234",
                     Ciudad="Buenos Aires",
                     Barrio="Recoleta",
                     Estrellas=3,
+                    CantidadDePersonas=2,
                     Tv = true,
                     Tipo="hotel" ,
-                    CantidadDePersonas=2,
                     PrecioPorPersona=2400
                 },
                 new Alojamiento{
                     Id=2,
-                    Codigo="111111",
+                    Codigo="934120",
                     Ciudad="Neuquen",
                     Barrio="Sur",
                     Estrellas=4,
+                    CantidadDePersonas=2,
                     Tv = true,
                     Tipo="cabaña" ,
-                    CantidadDePersonas=2,
-                    PrecioPorPersona=2400,
                     PrecioPorDia = 1200,
                     Habitaciones = 4,
                     Banios = 2
+                },
+                new Alojamiento{
+                    Id=3,
+                    Codigo="846445",
+                    Ciudad="Buenos Aires",
+                    Barrio="Puerto Madero",
+                    Estrellas=2,
+                    CantidadDePersonas=2,
+                    Tv = true,
+                    Tipo="hotel" ,
+                    PrecioPorPersona=6400
+                },
+                new Alojamiento{
+                    Id=4,
+                    Codigo="321632",
+                    Ciudad="Carlos Paz",
+                    Barrio="Centro",
+                    Estrellas=1,
+                    CantidadDePersonas=5,
+                    Tv = true,
+                    Tipo="cabaña" ,
+                    PrecioPorDia = 2800,
+                    Habitaciones = 1,
+                    Banios = 1
                 },
             });
 

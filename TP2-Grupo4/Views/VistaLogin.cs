@@ -126,7 +126,7 @@ namespace TP2_Grupo4.Views
                 this.dniIngresado = dni;
                 this.contadorDeIntentos = 1;
             }
-            else if (this.dniIngresado == dni)
+            else
             {
                 this.contadorDeIntentos++;
             }

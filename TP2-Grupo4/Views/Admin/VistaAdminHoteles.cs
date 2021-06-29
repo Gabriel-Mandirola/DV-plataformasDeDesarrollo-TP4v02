@@ -46,7 +46,6 @@ namespace TP2_Grupo4.Views
                 btnTopAgregar.Text = "Add";
             }
         }
-
         private void FormHoteles_Load(object sender, EventArgs e)
         {
             // Boton borrar
@@ -103,24 +102,11 @@ namespace TP2_Grupo4.Views
 
         private void getHotelesFromTextFile()
         {
-            var alojamientos = this.agencia.GetAgencia().GetAlojamientos();
             // Limpiamos el GridView
             dgvHoteles.Rows.Clear();
 
-            foreach (Alojamiento alojamiento in alojamientos)
-                if (alojamiento.Tipo == "hotel")
-                {
-                    this.dgvHoteles.Rows.Add(
-                        alojamiento.Codigo,
-                        alojamiento.Ciudad,
-                        alojamiento.Barrio,
-                        alojamiento.Estrellas,
-                        alojamiento.CantidadDePersonas,
-                        alojamiento.Tv,
-                        alojamiento.PrecioPorPersona,
-                        alojamiento.PrecioPorPersona * alojamiento.CantidadDePersonas
-                        );
-                }
+            foreach (var alojamiento in this.agencia.GetAgencia().GetHoteles())
+                this.dgvHoteles.Rows.Add(alojamiento.ToArray());
 
             // Update y Regresheo de Grid
             dgvHoteles.Update();
@@ -139,7 +125,6 @@ namespace TP2_Grupo4.Views
             checkBoxTv.Checked = bool.Parse(dgvHoteles.CurrentRow.Cells[5].Value.ToString());
             txtPrecio.Text = dgvHoteles.CurrentRow.Cells[6].Value.ToString();
         }
-
         // Resetear campos
         private void clearAllControls()
         {
@@ -167,7 +152,7 @@ namespace TP2_Grupo4.Views
         #endregion
 
         #region On Click
-        // Click en Contenido de la Celda
+        // ELIMINAR HOTEL
         private void dgvHoteles_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Si hacemos click en Button BORRAR
@@ -181,9 +166,9 @@ namespace TP2_Grupo4.Views
                     int codigo = Int32.Parse(dgvHoteles.Rows[rowIndex].Cells["CODIGO"].Value.ToString());
 
                     // Borrado
-                    dgvHoteles.Rows.RemoveAt(rowIndex);
-                    if (this.agencia.GetAgencia().EliminarAlojamiento(codigo))
+                    if (this.agencia.EliminarAlojamiento(codigo))
                     {
+                        dgvHoteles.Rows.RemoveAt(rowIndex);
                         MessageBox.Show("Hotel eliminado junto con todas sus reservas");
                     }
                     else
@@ -207,8 +192,7 @@ namespace TP2_Grupo4.Views
             }
 
         }
-
-        // onClick Boton Modificar
+        // MODIFICAR HOTEL
         private void btnTopModificar_Click(object sender, EventArgs e)
         {
             btnTopAgregar.Visible = true;
@@ -222,6 +206,7 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("ingresaste un valor alfabetico en el codigo de alojamiento, ingresa un valor numérico");
+                return;
             }
             string ciudad = txtCiudad.Text;
             string barrio = txtBarrio.Text;
@@ -235,24 +220,10 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
+                return;
             }
 
-            //REVISAR
-            var newAlojamiento = new Alojamiento
-            {
-                Codigo = codigo.ToString(),
-                Ciudad = ciudad,
-                Barrio = barrio,
-                Estrellas = estrellas,
-                CantidadDePersonas = cantPersonas,
-                Tipo = "hotel",
-                Tv = tv,
-                PrecioPorPersona = precioPersonas,
-                PrecioPorDia = 0,
-                Habitaciones = 0,
-                Banios = 0
-            };
-            if (this.agencia.GetAgencia().ModificarAlojamiento(newAlojamiento))
+            if (this.agencia.ModificarHotel(codigo.ToString(),ciudad,barrio,estrellas,cantPersonas,tv,precioPersonas))
             {
                 MessageBox.Show("Hotel modificado correctamente");
             }
@@ -265,13 +236,11 @@ namespace TP2_Grupo4.Views
             getHotelesFromTextFile();
             txtCodigo.Enabled = true;
         }
-
-        // onClick Boton Agregar
+        // AGREGAR HOTEL
         private void btnTopAgregar_Click(object sender, EventArgs e)
         {
             int codigo = 0;
             double precioPersonas = 0;
-            bool huboError = false;
             try
             {
                 codigo = Int32.Parse(txtCodigo.Text);
@@ -279,7 +248,7 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("ingresaste un valor alfabetico en el codigo de alojamiento, ingresa un valor numérico");
-                huboError = true;
+                return;
             }
 
             string ciudad = txtCiudad.Text;
@@ -295,30 +264,22 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
-                huboError = true;
+                return;
             }
 
-            //REVISAR
-            var newAlojamiento = new Alojamiento { 
-                Codigo = codigo.ToString(), 
-                Ciudad = ciudad, 
-                Barrio = barrio, 
-                Estrellas = estrellas, 
-                CantidadDePersonas = cantPersonas, 
-                Tv = tv, 
-                Tipo = "hotel",
-                PrecioPorPersona = precioPersonas, 
-                PrecioPorDia = 0, 
-                Habitaciones = 0, 
-                Banios = 0 
-            };
-            if (!this.agencia.ExisteAlojamiento(codigo) && this.agencia.GetAgencia().AgregarAlojamiento(newAlojamiento))
+            // VALIDAR HOTEL 
+            if (!this.agencia.ExisteAlojamiento(codigo))
             {
-                MessageBox.Show("El Hotel fue agregado correctamente.");
+                // AGREGAR HOTEL
+                if(this.agencia.AgregarHotel(codigo.ToString(),ciudad,barrio,estrellas,cantPersonas,tv,precioPersonas))
+                    MessageBox.Show("El Hotel fue agregado correctamente.");
+                else
+                    MessageBox.Show("No se pudo agregar el alojamiento, intente nuevamente.");
             }
-            else if (huboError)
+            else
             {
                 MessageBox.Show("Ya existe el código de alojamiento, ingresa un código inexistente");
+                return;
             }
 
             clearAllControls();
@@ -348,5 +309,6 @@ namespace TP2_Grupo4.Views
             }
         }
         #endregion
+    
     }
 }

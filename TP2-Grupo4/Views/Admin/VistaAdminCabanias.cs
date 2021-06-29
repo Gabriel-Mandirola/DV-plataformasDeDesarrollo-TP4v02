@@ -100,33 +100,16 @@ namespace TP2_Grupo4.Views
             clearAllControls();
             getCabaniasFromTextFile();
         }
-
         private void getCabaniasFromTextFile()
         {
             // Limpiamos el GridView
             dgvCabanias.Rows.Clear();
-            var alojamientos = this.agencia.GetAgencia().GetAlojamientos();
 
             // Limpiamos el GridView
             dgvCabanias.Rows.Clear();
 
-            foreach (Alojamiento alojamiento in alojamientos)
-                if (alojamiento.Tipo == "cabaña")
-                {
-                    this.dgvCabanias.Rows.Add(
-                    alojamiento.Codigo,
-                    alojamiento.Ciudad,
-                    alojamiento.Barrio,
-                    alojamiento.Estrellas,
-                    alojamiento.CantidadDePersonas,
-                    alojamiento.Tv,
-                    alojamiento.PrecioPorDia,
-                    alojamiento.Habitaciones,
-                    alojamiento.Banios,
-                    alojamiento.PrecioPorDia * alojamiento.CantidadDePersonas
-                    ); ;
-
-                }
+            foreach (var alojamiento in this.agencia.GetAgencia().GetCabania())
+                this.dgvCabanias.Rows.Add(alojamiento.ToArray());
 
             // Update y Regresheo de Grid
             dgvCabanias.Update();
@@ -174,9 +157,8 @@ namespace TP2_Grupo4.Views
         }
         #endregion
 
-
         #region On Click
-        // BORRAR CABANIA
+        // BORRAR CABAÑA
         private void dgvCabanias_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -192,7 +174,7 @@ namespace TP2_Grupo4.Views
 
                     // Borrado
                     dgvCabanias.Rows.RemoveAt(rowIndex);
-                    if (this.agencia.GetAgencia().EliminarAlojamiento(codigo))
+                    if (this.agencia.EliminarAlojamiento(codigo))
                     {
                         MessageBox.Show("Cabaña elimina junto con todas sus reservas");
                     }
@@ -217,12 +199,11 @@ namespace TP2_Grupo4.Views
                 }
             }
         }
-
+        // AGREGAR CABAÑA
         private void btnTopAgregar_Click(object sender, EventArgs e)
         {
             double precioPorDia = 0;
             int codigo = 0;
-            bool huboError = false;
             try
             {
                 codigo = Int32.Parse(txtCodigo.Text);
@@ -230,7 +211,7 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("ingresaste un valor alfabetico en el codigo de alojamiento, ingresa un valor numérico");
-                huboError = true;
+                return;
             }
             string ciudad = txtCiudad.Text;
             string barrio = txtBarrio.Text;
@@ -244,29 +225,14 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
-                huboError = true;
+                return;
             }
 
             int habitaciones = Int32.Parse(comboBoxHabitaciones.Text);
             int banios = Int32.Parse(comboBoxBanios.Text);
             if (!this.agencia.ExisteAlojamiento(codigo))
             {
-                // REVISAR
-                var newAlojamiento = new Alojamiento
-                {
-                    Codigo = codigo.ToString(),
-                    Ciudad = ciudad,
-                    Barrio = barrio,
-                    Estrellas = estrellas,
-                    CantidadDePersonas = cantPersonas,
-                    Tipo = "cabaña",
-                    Tv = tv,
-                    PrecioPorPersona = 0,
-                    PrecioPorDia = precioPorDia,
-                    Habitaciones = habitaciones,
-                    Banios = banios
-                };
-                if (this.agencia.GetAgencia().AgregarAlojamiento(newAlojamiento))
+                if (this.agencia.AgregarCabania(codigo.ToString(),ciudad,barrio,estrellas,cantPersonas,tv,precioPorDia,habitaciones,banios))
                 {
                     MessageBox.Show("Cabaña agregada correctamente");
                 }
@@ -275,15 +241,16 @@ namespace TP2_Grupo4.Views
                     MessageBox.Show("No se pudo agregar la cabaña, vuelva a intentarlo");
                 }
             }
-            else if (!huboError)
+            else
             {
                 MessageBox.Show("Ya existe el código de alojamiento, ingresa un código inexistente");
+                return;
             }
 
             clearAllControls();
             getCabaniasFromTextFile();
         }
-
+        // MODIFICAR BABAÑA
         private void btnTopModificar_Click(object sender, EventArgs e)
         {
             btnTopAgregar.Visible = true;
@@ -298,6 +265,7 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("ingresaste un valor alfabetico en el codigo de alojamiento, ingresa un valor numérico");
+                return;
             }
             string ciudad = txtCiudad.Text;
             string barrio = txtBarrio.Text;
@@ -311,18 +279,19 @@ namespace TP2_Grupo4.Views
             catch (FormatException)
             {
                 MessageBox.Show("Ingresaste un valor alfabetico en el precio, ingresa un valor numérico");
+                return;
             }
             int habitaciones = Int32.Parse(comboBoxHabitaciones.Text);
             int banios = Int32.Parse(comboBoxBanios.Text);
 
-            var asd = new Alojamiento { Codigo = codigo.ToString(), Ciudad = ciudad, Barrio = barrio, Estrellas = estrellas, CantidadDePersonas = cantPersonas, Tv = tv, PrecioPorPersona = 0, PrecioPorDia = precioDia, Habitaciones = habitaciones, Banios = banios };
-            if (this.agencia.GetAgencia().ModificarAlojamiento(asd))
+            if (this.agencia.ModificarCabania(codigo.ToString(),ciudad,barrio,estrellas,cantPersonas,tv,precioDia,habitaciones,banios))
             {
                 MessageBox.Show("Cabaña modificada correctamente");
             }
             else
             {
                 MessageBox.Show("No se pudo modificar la cabaña, vuelva a intentarlo");
+                return;
             }
 
             clearAllControls();

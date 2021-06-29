@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using TP2_Grupo4.Models;
-using TP2_Grupo4;
 
 namespace TP2_Grupo4.Views
 {
@@ -20,6 +15,7 @@ namespace TP2_Grupo4.Views
             InitializeComponent();
             this.agencia = agenciaManager;
 
+            this.configuracionDeLosInputsDeFechas();
             this.llenarSelects();
 
             if (idioma == "Español")
@@ -66,6 +62,17 @@ namespace TP2_Grupo4.Views
 
 
         #region METODOS COMPLEMENTARIOS
+        private void configuracionDeLosInputsDeFechas()
+        {
+            // Fecha actual
+            DateTime fechaActual = DateTime.Now;
+            // Input DateTime Desde
+            this.inputDateFechaIda.MinDate = fechaActual;
+            this.inputDateFechaIda.MaxDate = fechaActual.AddMonths(3);
+            // Input DateTime Hasta
+            this.inputDateFechaVuelta.MinDate = fechaActual.AddDays(1);
+            this.inputDateFechaVuelta.MaxDate = fechaActual.AddMonths(3);
+        }
         private void indicarSelectPorDefecto()
         {
             this.selectTipoAlojamiento.SelectedIndex = 0;
@@ -177,8 +184,7 @@ namespace TP2_Grupo4.Views
             
 
             // Cargar DataGridView
-            var agencia = this.agencia.GetAgencia();
-            this.llenarDataGridView(agencia.AlojamientosToLista());
+            this.llenarDataGridView(this.agencia.GetAgencia().AlojamientosToLista());
         }
 
         #region On Click
@@ -256,7 +262,7 @@ namespace TP2_Grupo4.Views
 
                 // TODO: AGREGAR METODO PARA VER DISPONIBILIDAD DEL ALOJAMIENTO EN LA CLASE AgenciaManager
                 // Validar que el alojamiento este disponible
-                if(!this.agencia.ElAlojamientoEstaDisponible(int.Parse(codigoDelAlojamiento), this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
+                if(!this.agencia.ElAlojamientoEstaDisponible(codigoDelAlojamiento, this.inputDateFechaIda.Value, this.inputDateFechaVuelta.Value))
                 {
                     MessageBox.Show("El alojamiento no esta disponible en esas fechas, intente con otras fechas");
                     return;
