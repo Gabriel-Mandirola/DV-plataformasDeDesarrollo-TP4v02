@@ -70,12 +70,28 @@ namespace TP2_Grupo4
         {
             try
             {
-                var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
+                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
                 usuario.Nombre = nombre;
                 usuario.Email = email;
                 usuario.Bloqueado = bloqueado;
-                this.Usuarios.Update(usuario);
-                this.contexto.SaveChanges();
+                //usuario.Password = Utils.Encriptar(password);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool ModificarContrasenia(int dni, String nombre, String email, String password = "")
+        {
+            try
+            {
+                var usuario = this.Usuarios.ToList().Find(u => u.Dni == dni);
+                usuario.Nombre = nombre;
+                usuario.Email = email;
+                //usuario.Password = Utils.Encriptar(password);
+                contexto.SaveChanges();
                 return true;
             }
             catch (Exception)
