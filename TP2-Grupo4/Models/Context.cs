@@ -16,7 +16,6 @@ namespace TP2_Grupo4.Models
         {
             optionsBuilder.UseMySql(Credenciales.GetConnectionString(), new MySqlServerVersion(new Version(8, 0, 11)));
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>(usuario =>
@@ -27,6 +26,7 @@ namespace TP2_Grupo4.Models
                 usuario.Property(u => u.Email).HasColumnType("varchar(30)").IsRequired(true);
                 usuario.HasIndex(u => u.Email).IsUnique();
                 usuario.Property(u => u.Password).HasColumnType("varchar(200)").IsRequired(true);
+                usuario.Property(u => u.Intentos).HasColumnType("int");
             });
             modelBuilder.Entity<Alojamiento>(alojamiento =>
             {
@@ -35,14 +35,12 @@ namespace TP2_Grupo4.Models
                 alojamiento.Property(a => a.Ciudad).HasColumnType("varchar(50)").IsRequired(true);
                 alojamiento.Property(a => a.Barrio).HasColumnType("varchar(50)").IsRequired(true);
                 alojamiento.Property(a => a.Tipo).HasColumnType("varchar(10)").IsRequired(true);
-            });
-            
-
+            });           
             modelBuilder.Entity<Usuario>().HasData(new Usuario[]{
-                new Usuario{Id=1, Dni = 1234, Nombre = "admin", Email = "admin@admin.com", Password = Utils.Encriptar("1234"), IsAdmin=true, Bloqueado=false},
-                new Usuario{Id=2, Dni = 12312312, Nombre = "prueba1", Email = "prueba1@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
-                new Usuario{Id=3, Dni = 23423423, Nombre = "prueba2", Email = "prueba2@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=true},
-                new Usuario{Id=4, Dni = 34534534, Nombre = "prueba3", Email = "prueba3@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false},
+                new Usuario{Id=1, Dni = 1234, Nombre = "admin", Email = "admin@admin.com", Password = Utils.Encriptar("1234"), IsAdmin=true, Bloqueado=false, Intentos=0},
+                new Usuario{Id=2, Dni = 12312312, Nombre = "prueba1", Email = "prueba1@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false, Intentos=0},
+                new Usuario{Id=3, Dni = 23423423, Nombre = "prueba2", Email = "prueba2@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=true, Intentos=0},
+                new Usuario{Id=4, Dni = 34534534, Nombre = "prueba3", Email = "prueba3@gmail.com", Password = Utils.Encriptar("1234"), IsAdmin=false, Bloqueado=false, Intentos=0},
             }); ;
             modelBuilder.Entity<Alojamiento>().HasData(new Alojamiento[] {
                 new Alojamiento{
@@ -94,8 +92,6 @@ namespace TP2_Grupo4.Models
                     Banios = 1
                 },
             });
-
         }
-
     }
 }

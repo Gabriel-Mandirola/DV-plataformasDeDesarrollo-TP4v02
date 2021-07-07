@@ -11,6 +11,7 @@ namespace TP2_Grupo4.Models
         public String Password { get; set; }
         public bool IsAdmin { get; set; }
         public bool Bloqueado { get; set; }
+        public int Intentos { get; set; }
     }
 
 }
