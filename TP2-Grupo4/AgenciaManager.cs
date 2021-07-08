@@ -66,6 +66,56 @@ namespace TP2_Grupo4
                 return false;
             }
         }
+        public bool BloquearUsuarioBD(int dni)
+        {
+            {
+                try
+                {
+                    var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
+                    if(usuario.Intentos >= 3)
+                    {
+                        usuario.Bloqueado = true;
+                    }
+                    this.Usuarios.Update(usuario);
+                    this.contexto.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool ReiniciarIntentos(int dni)
+        {
+            try
+            {
+                var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
+                usuario.Intentos = 0;
+                this.Usuarios.Update(usuario);
+                this.contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool IntentosLogueo(int dni)
+        {
+            try
+            {
+                var usuario = this.Usuarios.FirstOrDefault(u => u.Dni == dni);
+                usuario.Intentos = usuario.Intentos + 1;
+                this.Usuarios.Update(usuario);
+                this.contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         public bool ModificarUsuario(int dni, String nombre, String email, bool bloqueado)
         {
             try

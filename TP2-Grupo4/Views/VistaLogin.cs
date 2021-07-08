@@ -119,7 +119,7 @@ namespace TP2_Grupo4.Views
         }
         #endregion
 
-        private bool bloquearUsuarioPorIntentos(int dni)
+       /* private bool bloquearUsuarioPorIntentos(int dni)
         {
             if (this.dniIngresado != dni)
             {
@@ -142,7 +142,7 @@ namespace TP2_Grupo4.Views
                 }
             }
             return false;
-        }
+        }*/
 
         #region On Click
         /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -159,11 +159,14 @@ namespace TP2_Grupo4.Views
                 return;
             }
 
+            
+            this.agencia.BloquearUsuarioBD(dni);
             // Al bloquear al usuario salgo del metodo con el return
-            if (this.bloquearUsuarioPorIntentos(dni)) return;
+            //if (this.bloquearUsuarioPorIntentos(dni)) return;
 
             if (this.agencia.autenticarUsuario(dni, password))
             {
+                this.agencia.ReiniciarIntentos(dni);
                 if (this.agencia.GetUsuarioLogeado().IsAdmin)
                 {
                     // ADMIN
@@ -181,6 +184,7 @@ namespace TP2_Grupo4.Views
             }
             else
             {
+                this.agencia.IntentosLogueo(dni);
                 MessageBox.Show("Contraseña incorrecta");
             }
         }
